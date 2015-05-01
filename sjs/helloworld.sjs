@@ -4,6 +4,8 @@ function helloWorld(name) {
     console.log("Hello " + name + "!");
   }
 
+  swap x, y;
+
   var myFunc = x => x;
 
   assert x > 0: "x is not greater than 0";
