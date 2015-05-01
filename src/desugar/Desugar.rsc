@@ -1,6 +1,10 @@
 module desugar::Desugar
 
 extend javascript::Syntax;
+extend desugar::Ex1Unless;
+extend desugar::Ex2Repeat;
+extend desugar::Ex3Assert;
+extend desugar::Ex4ArrowFuncs;
 
 default Statement desugar(Statement stat) = stat;
 default Expression desugar(Expression expr) = expr;
