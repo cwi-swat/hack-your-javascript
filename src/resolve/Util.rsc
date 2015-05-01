@@ -22,9 +22,9 @@ tuple[Lookup, GetRenaming] makeResolver() {
     for (env <- sc, name in env) {
       def = env[name];
 
-      println("Looking for <name> (<use>)");       
+      //println("Looking for <name> (<use>)");       
       if (!isCapture(use, def)) {
-        println("Found it: <def>");
+        //println("Found it: <def>");
         return {def};
       }
       // captures are renamed until a non-capturing decl is found

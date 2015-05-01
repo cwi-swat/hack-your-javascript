@@ -5,15 +5,22 @@ function helloWorld(name) {
     console.log("Hello " + name + "!");
   }
 
-  var xs = [1, 2, 3, 4];
-  
+  var myList = [
+            {FirstName:"Chris",LastName:"Pearson"},
+            {FirstName:"Kate",LastName:"Johnson"},
+            {FirstName:"Josh",LastName:"Sutherland"},
+            {FirstName:"John",LastName:"Ronald"},
+            {FirstName:"Steve",LastName:"Pinkerton"}
+            ];
   var item = 18;
-  q = JSLINQ(xs).Where(function(item$0) { return item$0.age > item; }).Select(function (item) { return {name: item.name, age: item.age}; });
+  q = JSLINQ(myList).Where(function(item) { return item.FirstName === "Chris"; }).Select(function (item) { return {FirstName: item.FirstName, LastName: item.LastName}; });
 
   var me = @tvdstorm(10);
 
+
   var y, tmp;
   (function() { var tmp$0 = y; y = tmp; tmp = tmp$0; })();
+
 
   var myFunc = (function (_this) { return (function (_this$0) {return _this$0;}); })(this) + this ;
 

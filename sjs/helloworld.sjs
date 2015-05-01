@@ -5,15 +5,22 @@ function helloWorld(name) {
     console.log("Hello " + name + "!");
   }
 
-  var xs = [1, 2, 3, 4];
-  
+  var myList = [
+            {FirstName:"Chris",LastName:"Pearson"},
+            {FirstName:"Kate",LastName:"Johnson"},
+            {FirstName:"Josh",LastName:"Sutherland"},
+            {FirstName:"John",LastName:"Ronald"},
+            {FirstName:"Steve",LastName:"Pinkerton"}
+            ];
   var item = 18;
-  q = select name, age from xs where age > item;
+  q = select FirstName, LastName from myList where FirstName === "Chris";
 
   var me = @tvdstorm(10);
 
+
   var y, tmp;
   swap y, tmp;
+
 
   var myFunc = _this => _this + this ;
 

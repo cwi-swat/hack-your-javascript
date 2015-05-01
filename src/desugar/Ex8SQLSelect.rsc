@@ -39,10 +39,3 @@ Expression ids2object((Fields)`<Id id>, <{Id ","}* ids>`, Id obj)
   (Expression)`{<{PropertyAssignment ","}* props>}` := 
     ids2object((Fields)`<{Id ","}* ids>`, obj);  
   
-
-/* JSLINQ(myList)
-                   .Where(function(item){ return item.FirstName == "Chris"; })
-                   .OrderBy(function(item) { return item.FirstName; })
-                   .Select(function(item){ return item.FirstName; });
-
-  */

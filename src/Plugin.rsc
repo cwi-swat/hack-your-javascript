@@ -24,23 +24,39 @@ void main() {
         <lookup, getRenaming> = makeResolver();
         xref = resolve(js.top, lookup);
         renaming = getRenaming(xref);
-        iprintln(renaming);
-        iprintln(xref);
+        //iprintln(renaming);
+        //iprintln(xref);
         s = visit (s) {
           case Statement stm: {
             stm2 = top-down visit (desugar(stm)) {
               case Id x: {
                 u = x@\loc;
                 if (u in renaming) {
+                  // todo: readd doc if it is there.
                   insert parse(#Id, renaming[u]);
                 }
               }
             }
             if (stm2 != stm) {
-              println("Inserting doc <stm2>");
+              //println("Inserting doc <stm2>");
               insert stm[@doc="<stm2>"];
             }
           }
+          //case Expression exp: {
+          //  exp2 = top-down visit (desugar(exp)) {
+          //    case Id x: {
+          //      u = x@\loc;
+          //      if (u in renaming) {
+          //        // todo: readd doc if it is there.
+          //        insert parse(#Id, renaming[u]);
+          //      }
+          //    }
+          //  }
+          //  if (exp2 != exp) {
+          //    //println("Inserting doc <stm2>");
+          //    insert exp[@doc="<exp2>"];
+          //  }
+          //}
           case Id x: {
              u = x@\loc;
              if (u in renaming) {
@@ -63,14 +79,14 @@ void main() {
         <lookup, getRenaming> = makeResolver();
         xref = resolve(js.top, lookup);
         renaming = getRenaming(xref);
-        iprintln(renaming);
-        iprintln(xref);
+        //iprintln(renaming);
+        //iprintln(xref);
         js = top-down visit (js) {
           case Id x: {
             u = x@\loc;
-            println("****** u = <u>");
+            //println("****** u = <u>");
             if (u in renaming) {
-              println("-----\> <u>");
+              //println("-----\> <u>");
               insert parse(#Id, renaming[u]);
             }
           }

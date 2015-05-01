@@ -49,7 +49,7 @@ Refs resolve(Statement* body, Scope sc, Lookup lookup) {
     case (Expression)`<Id x>`: {
       name = "<x>";
       use = x@\loc;
-      refs += { <use, def, name> | loc def <- lookup(name, use, sc), bprintln("Def = <def>") };
+      refs += { <use, def, name> | loc def <- lookup(name, use, sc) };
     }
   }
   return refs;
