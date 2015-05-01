@@ -4,7 +4,9 @@ function helloWorld(name) {
     console.log("Hello " + name + "!");
   }
 
-  (function() { var tmp = x; x = y; y = tmp; })();
+
+  var y, tmp;
+  (function() { var tmp$0 = y; y = tmp; tmp = tmp$0; })();
 
   var myFunc = (function (x) {return x;}).bind(this);
 

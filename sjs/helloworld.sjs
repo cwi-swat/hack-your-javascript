@@ -4,7 +4,9 @@ function helloWorld(name) {
     console.log("Hello " + name + "!");
   }
 
-  swap x, y;
+
+  var y, tmp;
+  swap y, tmp;
 
   var myFunc = x => x;
 
