@@ -2,6 +2,15 @@ module desugar::Ex1Unless
 
 extend javascript::Syntax;
 
+/*
+Optional: add a todo statement like `todo String;`
+which prints to the console that there is a todo item.
+
+Optional 2: add a comment statement `comment Statement` which
+eliminates the argument statement.
+*/
+
+
 syntax Statement
   = "unless" "(" Expression ")" Statement
   ;
