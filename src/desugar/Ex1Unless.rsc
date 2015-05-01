@@ -6,7 +6,7 @@ extend javascript::Syntax;
 Optional: add a todo statement like `todo String;`
 which prints to the console that there is a todo item.
 
-Optional 2: add a comment statement `comment Statement` which
+Optional 2: add a comment statement `dont Statement` which
 eliminates the argument statement.
 */
 
