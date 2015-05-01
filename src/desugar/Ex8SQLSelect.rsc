@@ -17,7 +17,7 @@ Expression desugar((Expression)`select <Fields flds> from <Expression from> wher
   when 
   item := (Id)`item`,
   where2 := vars2fields(where, flds, item),
-  obj := ids2object(flds, item);  
+  obj := ids2object(flds, (Id)`item`);  
 
 
 Expression vars2fields(Expression exp, Fields flds, Id obj) {

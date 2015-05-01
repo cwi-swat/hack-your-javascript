@@ -20,7 +20,7 @@ start[Source] uniqueify(start[Source] s) {
     
   return visit (s) {
     case Id x => x[@\loc=uniq(x@\loc)]
-      when x@\loc.scheme == "rascal"
+      when x@\loc.extension == "rsc"
   }
 }
 

@@ -8,8 +8,7 @@ function helloWorld(name) {
   var xs = [1, 2, 3, 4];
   
   var item = 18;
-  
-  q = JSLINQ(xs).Where(function(item$0) { return item$0.age > item; }).Select(function (item) { return {name: item$0.name, age: item$0.age}; });
+  q = JSLINQ(xs).Where(function(item$0) { return item$0.age > item; }).Select(function (item) { return {name: item.name, age: item.age}; });
 
   var me = @tvdstorm(10);
 

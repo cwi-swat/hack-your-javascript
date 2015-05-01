@@ -8,7 +8,6 @@ function helloWorld(name) {
   var xs = [1, 2, 3, 4];
   
   var item = 18;
-  
   q = select name, age from xs where age > item;
 
   var me = @tvdstorm(10);
