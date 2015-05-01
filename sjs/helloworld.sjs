@@ -1,9 +1,9 @@
 
+
 function helloWorld(name) {
   unless (name === "Jouke") {
     console.log("Hello " + name + "!");
   }
-
 
   var y, tmp;
   swap y, tmp;
@@ -14,5 +14,5 @@ function helloWorld(name) {
   
   repeat {
     println("Bla");
-  } until (x > 10);
+  } until (y > 10);
 }

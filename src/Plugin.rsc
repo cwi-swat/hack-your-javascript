@@ -26,7 +26,7 @@ void main() {
         renaming = getRenaming(xref);
         iprintln(renaming);
         iprintln(xref);
-        s = top-down-break visit (s) {
+        s = visit (s) {
           case Statement stm: {
             stm2 = top-down visit (desugar(stm)) {
               case Id x: {
@@ -37,6 +37,7 @@ void main() {
               }
             }
             if (stm2 != stm) {
+              println("Inserting doc <stm2>");
               insert stm[@doc="<stm2>"];
             }
           }

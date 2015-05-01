@@ -1,9 +1,9 @@
 
+
 function helloWorld(name) {
   if (!(name === "Jouke")) {
     console.log("Hello " + name + "!");
   }
-
 
   var y, tmp;
   (function() { var tmp$0 = y; y = tmp; tmp = tmp$0; })();
@@ -12,5 +12,5 @@ function helloWorld(name) {
 
   if (!(x > 0)) throw "x > 0" + ": " + "x is not greater than 0";
   
-  do {println("Bla");} while (!(x > 10));
+  do {println("Bla");} while (!(y > 10));
 }
