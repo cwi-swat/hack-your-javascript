@@ -46,11 +46,15 @@ Refs resolve(Statement* body, Scope sc, Lookup lookup) {
       refs += resolve(t, sc, lookup)
            +  resolve(c, [("<e>": e@\loc), *sc], lookup);
     
+    case (Statement)`auxlet <{Id ","}+ xs> {<Statement* body>}`:
+      refs += resolve(body, [ ( "<x>": (x@\loc)[fragment="unique"] | x <- xs ) , *sc], lookup);
+
     case (Expression)`<Id x>`: {
       name = "<x>";
       use = x@\loc;
       refs += { <use, def, name> | loc def <- lookup(name, use, sc) };
     }
+    
   }
   return refs;
 }
@@ -76,6 +80,7 @@ Env definitions(Statement* body) {
       
     case (Statement)`for (var <Id x> in <Expression _>) <Statement _>`:
       define(x);
+
 
     // todo: labels
     

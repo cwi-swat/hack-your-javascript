@@ -15,20 +15,32 @@ alias GetRenaming = map[loc,str](Refs refs);
 // need compare of extensions, rascal files are not rascal:// anymore.
 bool isCapture(loc u, loc d) = u.extension != d.extension;
 
+bool isUnique(loc d) = d.fragment == "unique";
+
 tuple[Lookup, GetRenaming] makeResolver() {
   map[loc, str] toRename = ();
   
   set[loc] lookup(str name, loc use, Scope sc) {
+    i = 0;
     for (env <- sc, name in env) {
       def = env[name];
 
       //println("Looking for <name> (<use>)");       
-      if (!isCapture(use, def)) {
+      if (!isCapture(use, def) && !isUnique(def)) {
         //println("Found it: <def>");
         return {def};
       }
+      
+      if (!isCapture(use, def) && isUnique(def)) {
+        if (env2 <- sc[i+1..], name in env2) {
+          toRename[def] = name; 
+        }
+        return {def};
+      }
+      
       // captures are renamed until a non-capturing decl is found
       toRename[def] = name;
+      i += 1;
     }
     return {};
   }

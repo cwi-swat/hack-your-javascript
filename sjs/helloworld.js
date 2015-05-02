@@ -21,6 +21,13 @@ function helloWorld(name) {
   var y, tmp;
   (function() { var tmp$0 = y; y = tmp; tmp = tmp$0; })();
 
+  var i;
+  var l;
+
+  auxlet i, l {l$0 = myList; for (i$0 = 0; i$0 < l$0.length; i$0++) { var x = l$0[i$0]; {
+    console.log(x);
+  }}}
+
 
   var myFunc = (function (_this) { return (function (_this$0) {return _this$0;}); })(this) + this ;
 

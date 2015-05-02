@@ -21,6 +21,13 @@ function helloWorld(name) {
   var y, tmp;
   swap y, tmp;
 
+  var i;
+  var l;
+
+  foreach (x in myList) {
+    console.log(x);
+  }
+
 
   var myFunc = _this => _this + this ;
 

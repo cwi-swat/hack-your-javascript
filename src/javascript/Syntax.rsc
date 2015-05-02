@@ -31,6 +31,8 @@ syntax Statement
   | forIn: "for" "(" Expression var "in" Expression obj ")" Statement
   | forInDeclaration: "for" "(" "var" Id "in" Expression obj ")" Statement
   | with: "with" "(" Expression scope ")" Statement
+  
+  | auxLet: "auxlet" {Id ","}+ Statement
 
   // Non local control flow
   | returnExp: "return"  Expression exp ";"
