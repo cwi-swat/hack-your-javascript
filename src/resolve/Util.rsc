@@ -32,8 +32,8 @@ tuple[Lookup, GetRenaming] makeResolver() {
       }
       
       if (!isCapture(use, def) && isUnique(def)) {
-        if (env2 <- sc[i+1..], name in env2) {
-          toRename[def] = name; 
+        if (env2 <- sc[i+1..], name in env2) { // is it shadowing?
+          toRename[def] = name;  // then make unique
         }
         return {def};
       }

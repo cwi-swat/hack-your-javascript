@@ -46,8 +46,8 @@ Refs resolve(Statement* body, Scope sc, Lookup lookup) {
       refs += resolve(t, sc, lookup)
            +  resolve(c, [("<e>": e@\loc), *sc], lookup);
     
-    case (Statement)`auxlet <{Id ","}+ xs> {<Statement* body>}`:
-      refs += resolve(body, [ ( "<x>": (x@\loc)[fragment="unique"] | x <- xs ) , *sc], lookup);
+    case (Statement)`auxlet <{VariableDeclaration ","}+ xs> {<Statement* body>}`:
+      refs += resolve(body, [ ( "<x.id>": (x.id@\loc)[fragment="unique"] | x <- xs ) , *sc], lookup);
 
     case (Expression)`<Id x>`: {
       name = "<x>";

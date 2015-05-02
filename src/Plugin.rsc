@@ -82,11 +82,17 @@ void main() {
         //iprintln(renaming);
         //iprintln(xref);
         js = top-down visit (js) {
+          case (Statement)`auxlet <{VariableDeclaration ","}+ xs> <Statement body>` 
+             => (Statement)`{var <{VariableDeclaration ","}+ xs>; <Statement body>}`
+        
           case Id x: {
             u = x@\loc;
-            //println("****** u = <u>");
+            println("****** u = <u>");
+            if (u[fragment="unique"] in renaming) {
+              u.fragment = "unique";
+            }
             if (u in renaming) {
-              //println("-----\> <u>");
+              println("-----\> <u>");
               insert parse(#Id, renaming[u]);
             }
           }
@@ -100,3 +106,9 @@ void main() {
     })
   });
 }
+
+
+
+
+
+  

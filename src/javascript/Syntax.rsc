@@ -32,7 +32,7 @@ syntax Statement
   | forInDeclaration: "for" "(" "var" Id "in" Expression obj ")" Statement
   | with: "with" "(" Expression scope ")" Statement
   
-  | auxLet: "auxlet" {Id ","}+ Statement
+  | auxLet: "auxlet" {VariableDeclaration ","}+ Statement
 
   // Non local control flow
   | returnExp: "return"  Expression exp ";"

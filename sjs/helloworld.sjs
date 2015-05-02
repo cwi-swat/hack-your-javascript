@@ -21,10 +21,11 @@ function helloWorld(name) {
   var y, tmp;
   swap y, tmp;
 
-  var i;
-  var l;
-
+  
   foreach (x in myList) {
+    var i;
+    var l;
+    
     console.log(x);
   }
 
