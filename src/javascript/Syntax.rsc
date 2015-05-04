@@ -32,8 +32,6 @@ syntax Statement
   | forInDeclaration: "for" "(" "var" Id "in" Expression obj ")" Statement
   | with: "with" "(" Expression scope ")" Statement
   
-  | auxLet: "auxlet" {VariableDeclaration ","}+ Statement
-
   // Non local control flow
   | returnExp: "return"  Expression exp ";"
   | returnNoExp: "return" ";"
@@ -69,8 +67,8 @@ syntax CaseClause
   ;
    
 syntax Function
-  = "function" Id name "(" {Id ","}* parameters ")" "{" Statement* "}"
-  | "function" "(" {Id ","}* parameters ")" "{" Statement* "}"
+  = "function" Id name "(" {Id ","}* parameters ")" "{" Statement* body "}"
+  | "function" "(" {Id ","}* parameters ")" "{" Statement* body "}"
   ;
 
 // Todo: Check associativity https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
@@ -156,6 +154,7 @@ syntax Expression
   
 syntax VarDecl
   = "var" {VariableDeclaration ","}+ declarations ";"
+  | "let" {VariableDeclaration ","}+ declarations ";" // es6
   ;
   
 

@@ -8,5 +8,5 @@ syntax Statement
   ;
   
 Statement desugar((Statement)`foreach (<Id x> in <Expression e>) <Statement s>`)
-  = (Statement)`auxlet i, l {l = <Expression e>; for (i = 0; i \< l.length; i++) { var <Id x> = l[i]; <Statement s>}}`;
+  = (Statement)`{let l = <Expression e>, i; for (i = 0; i \< l.length; i++) { var <Id x> = l[i]; <Statement s>}}`;
   

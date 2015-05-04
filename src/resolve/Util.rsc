@@ -31,8 +31,8 @@ tuple[Lookup, GetRenaming] makeResolver() {
         return {def};
       }
       
-      if (!isCapture(use, def) && isUnique(def)) {
-        if (env2 <- sc[i+1..], name in env2) { // is it shadowing?
+      if (!isCapture(use, def), isUnique(def)) {
+        if (env2 <- sc[i+1..], name in env2, env2[name].extension != "rsc") { // is it shadowing user name?
           toRename[def] = name;  // then make unique
         }
         return {def};

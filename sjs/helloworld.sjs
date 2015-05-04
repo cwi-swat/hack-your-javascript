@@ -5,7 +5,7 @@ function helloWorld(name) {
     console.log("Hello " + name + "!");
   }
 
-  var myList = [
+  var myList = [ 
             {FirstName:"Chris",LastName:"Pearson"},
             {FirstName:"Kate",LastName:"Johnson"},
             {FirstName:"Josh",LastName:"Sutherland"},
@@ -13,6 +13,9 @@ function helloWorld(name) {
             {FirstName:"Steve",LastName:"Pinkerton"}
             ];
   var item = 18;
+  
+  var JSLINQ;
+  
   q = select FirstName, LastName from myList where FirstName === "Chris";
 
   var me = @tvdstorm(10);
@@ -21,14 +24,13 @@ function helloWorld(name) {
   var y, tmp;
   swap y, tmp;
 
-  
-  foreach (x in myList) {
-    var i;
-    var l;
-    
-    console.log(x);
-  }
-
+  var i = 0;
+      
+  function () {
+    foreach (x in myList) {
+      console.log(x + i);
+    }
+  };
 
   var myFunc = _this => _this + this ;
 
