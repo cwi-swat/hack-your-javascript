@@ -5,6 +5,7 @@ function helloWorld(name) {
     console.log("Hello " + name + "!");
   }
 
+
   var myList = [ 
             {FirstName:"Chris",LastName:"Pearson"},
             {FirstName:"Kate",LastName:"Johnson"},
@@ -16,7 +17,7 @@ function helloWorld(name) {
   
   var JSLINQ;
   
-  q = select FirstName, LastName from myList where FirstName === "Chris";
+  q = select FirstName, LastName from myList where FirstName === "Chris" + JSLINQ;
 
   var me = @tvdstorm(10);
 
@@ -28,11 +29,13 @@ function helloWorld(name) {
       
   function () {
     foreach (x in myList) {
-      console.log(x + i);
+      foreach (y in myList) {
+        console.log(x + i + l);
+      }
     }
   };
 
-  var myFunc = _this => _this + this ;
+  var myFunc = _this => _this + (_this => this) ;
 
   assert myFunc(y) > 0: "x is not greater than 0";
   

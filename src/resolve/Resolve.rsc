@@ -77,9 +77,7 @@ Env varDefs(Statement* body) {
       if (f has name) define(f.name);
     
     case (VarDecl)`var <{VariableDeclaration ","}+ vds>;`:
-      for (vd <- vds) { 
-        define(vd.id);
-      }
+      for (vd <- vds) define(vd.id);
     
     case VariableDeclarationNoIn vd: 
       define(vd.id);

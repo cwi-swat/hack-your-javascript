@@ -5,6 +5,7 @@ function helloWorld(name) {
     console.log("Hello " + name + "!");
   }
 
+
   var myList = [ 
             {FirstName:"Chris",LastName:"Pearson"},
             {FirstName:"Kate",LastName:"Johnson"},
@@ -16,7 +17,7 @@ function helloWorld(name) {
   
   var JSLINQ$0;
   
-  q = JSLINQ(myList).Where(function(item) { return item.FirstName === "Chris"; }).Select(function (item) { return {FirstName: item.FirstName, LastName: item.LastName}; });
+  q = JSLINQ(myList).Where(function(item) { return item.FirstName === "Chris" + JSLINQ$0; }).Select(function (item) { return {FirstName: item.FirstName, LastName: item.LastName}; });
 
   var me = @tvdstorm(10);
 
@@ -27,12 +28,14 @@ function helloWorld(name) {
   var i = 0;
       
   function () {
-    {let l = myList, i$0; for (i$0 = 0; i$0 < l.length; i$0++) { var x = l[i$0]; {
-      console.log(x + i);
+    {let l$0 = myList, i$0; for (i$0 = 0; i$0 < l$0.length; i$0++) { var x = l$0[i$0]; {
+      {let l$1 = myList, i$1; for (i$1 = 0; i$1 < l$1.length; i$1++) { var y = l$1[i$1]; {
+        console.log(x + i + l);
+      }}}
     }}}
   };
 
-  var myFunc = (function (_this) { return (function (_this$0) {return _this$0;}); })(this) + this ;
+  var myFunc = (function (_this) { return (function (_this$0) {return _this$0 + ((function (_this) { return (function (_this$1) {return _this;}); })(_this));}); })(this) ;
 
   if (!(myFunc(y) > 0)) throw "myFunc(y) > 0" + ": " + "x is not greater than 0";
   
