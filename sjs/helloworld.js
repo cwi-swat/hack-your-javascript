@@ -3,6 +3,7 @@
 function helloWorld(name) {
   if (!(name === "Jouke")) {
     console.log("Hello " + name + "!");
+    console.log("Goodbye " + name + "!");
   }
 
 
@@ -21,16 +22,17 @@ function helloWorld(name) {
 
   var me = @tvdstorm(10);
 
-
   var y, tmp;
   (function() { var tmp$0 = y; y = tmp; tmp = tmp$0; })();
 
   var i = 0;
       
   function () {
+    var l$1;
     {let l$0 = myList, i$0; for (i$0 = 0; i$0 < l$0.length; i$0++) { var x = l$0[i$0]; {
-      {let l$1 = myList, i$1; for (i$1 = 0; i$1 < l$1.length; i$1++) { var y = l$1[i$1]; {
-        console.log(x + i + l);
+      {let l$2 = myList, i$1; for (i$1 = 0; i$1 < l$2.length; i$1++) { var y = l$2[i$1]; {
+      
+        console.log(x + i + l + l$1);
       }}}
     }}}
   };

@@ -3,6 +3,7 @@
 function helloWorld(name) {
   unless (name === "Jouke") {
     console.log("Hello " + name + "!");
+    console.log("Goodbye " + name + "!");
   }
 
 
@@ -21,16 +22,16 @@ function helloWorld(name) {
 
   var me = @tvdstorm(10);
 
-
   var y, tmp;
   swap y, tmp;
 
   var i = 0;
       
   function () {
+    var l$1;
     foreach (x in myList) {
       foreach (y in myList) {
-        console.log(x + i + l);
+        console.log(x + i + l + l$1);
       }
     }
   };

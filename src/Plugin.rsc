@@ -52,12 +52,15 @@ void() makeRegistrar(str lang, str ext) {
 start[Source] addHoverDocs(start[Source] s, map[loc, str] renaming) {
   return visit (s) {
     case Statement stm: {
-      stm2 = top-down visit (desugar(stm)) {
-        case Id x => parse(#Id, renaming[x@\loc])
-          when x@\loc in renaming
-      }
+      stm2 = desugar(stm);
       if (stm2 != stm) {
         insert stm[@doc="<stm2>"];
+      }
+    }
+    case Expression exp: {
+      exp2 = desugar(exp);
+      if (exp2 != exp) {
+        insert exp[@doc="<exp2>"];
       }
     }
     case Id x =>x[@doc=renaming[x@\loc]]
@@ -74,7 +77,7 @@ tuple[start[Source], Refs, map[loc, str]] desugarAndResolve(start[Source] src) {
 }
 
 start[Source] rename(start[Source] src, map[loc, str] renaming) {
-  return top-down visit (src) {
+  return visit (src) {
     case Id x => parse(#Id, renaming[x@\loc])
       when x@\loc in renaming
   }
