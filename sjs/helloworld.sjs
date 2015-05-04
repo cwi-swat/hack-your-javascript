@@ -15,7 +15,6 @@ function helloWorld(name) {
             {FirstName:"Steve",LastName:"Pinkerton"}
             ];
   var item = 18;
-  
   var JSLINQ;
   
   q = select FirstName, LastName from myList where FirstName === "Chris" + JSLINQ;
@@ -26,6 +25,13 @@ function helloWorld(name) {
   swap y, tmp;
 
   var i = 0;
+      
+  times (10) {
+     console.log(i * it);
+     times (10) {
+       console.log(it / i);
+     }
+  }    
       
   function () {
     var l$1;

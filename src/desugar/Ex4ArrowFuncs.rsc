@@ -14,7 +14,7 @@ Expression desugar((Expression)`<Id param> =\> <Expression body>`)
   
 Expression replaceThis(Expression e) {
   return top-down-break visit (e) {
-    case Function _ : ;
+    case Function _ : ; // break on arrow as well?
     case (Expression)`this` => (Expression)`_this`
   }
 }
