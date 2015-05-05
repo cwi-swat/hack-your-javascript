@@ -16,4 +16,6 @@ syntax Statement
 
 Statement desugar((Statement)`assert <Expression e>: <String msg>;`)
   = (Statement)`if (!(<Expression e>)) throw <String esrc> + ": " + <String msg>;`
-  when esrc := parse(#String, "\"<e>\""); 
+  when esrc := makeString(e); 
+  
+String makeString(value v) = parse(#String, "\"<v>\"");

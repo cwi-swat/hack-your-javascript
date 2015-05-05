@@ -28,22 +28,3 @@ Statement gen2block(Statement inner, (Generator)`<Id x>: <Expression coll>`)
   = (Statement)`{let x = <Expression coll>; for (var <Id i>=0; i\<x.length;i++) { let <Id x> = x[<Id i>]; <Statement inner> }}`
   when 
     Id i := parse(#Id, "<x>_idx"); 
-  
-/*
-
-var result = [];
-{let x = Exp;
-for (var i0 = 0; i < x.length; i++) {
-  let Id = x[i0];
-  ...
-  if (Exp) {
-     ....
-     
-     result.push(Exp)
-  }
-}
-}
-return result;
-  
-
-*/
