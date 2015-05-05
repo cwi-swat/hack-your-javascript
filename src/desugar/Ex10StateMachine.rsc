@@ -20,7 +20,7 @@ syntax States = State* lst;
 
 
 Expression desugar((Expression)`statemachine {<States ss>}`)
-  = (Expression)`(function() { <Statement* consts> var state = 0; return function(event) {<Statement* body>}; })()`
+  = (Expression)`(function() { <Statement consts> {let state = 0; return function(event) {<Statement body>}; }})()`
   when
     consts := states2consts(ss, 0),
     body := states2ifs(ss, entryCode(ss)); 

@@ -34,7 +34,7 @@ function helloWorld(name) {
   }}     
   
   
-  var doors = (function() { {var closed = 0; var opened = 1; var state = 2; var event = 3;} var state$0 = 0; return function(event$0) {if (state$0 == event) {if (event$0 === "event") { state$0 = state; } else ;} else if (state$0 == state) {if (event$0 === "foo") { state$0 = event; } else if (event$0 === "blerk") { state$0 = opened; console$0.log("Door is opened"); } else ;} else if (state$0 == opened) {if (event$0 === "gazonk") { state$0 = state; } else if (event$0 === "close") { state$0 = closed; console$0.log("Door is closed and state = " + state); } else ;} else if (state$0 == closed) {if (event$0 === "open") { state$0 = opened; console$0.log("Door is opened"); } else ;} else ;}; })();
+  var doors = (function() { {var closed = 0; var opened = 1; var event = 2; var state = 3;} {let state$0 = 0; return function(event$0) {if (state$0 == state) {if (event$0 === "foo") { state$0 = event; } else if (event$0 === "blerk") { state$0 = opened; console$0.log("Door is opened"); } else ;} else if (state$0 == event) {if (event$0 === "event") { state$0 = state; } else ;} else if (state$0 == opened) {if (event$0 === "gazonk") { state$0 = state; } else if (event$0 === "close") { state$0 = closed; console$0.log("Door is closed and state = "); } else ;} else if (state$0 == closed) {if (event$0 === "open") { state$0 = opened; console$0.log("Door is opened"); } else ;} else ;}; }})();
   
   
   doors("open");

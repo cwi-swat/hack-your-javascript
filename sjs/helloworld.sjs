@@ -36,7 +36,7 @@ function helloWorld(name) {
   
   var doors = statemachine { 
     state closed {
-       console.log("Door is closed and state = " + state);
+       console.log("Door is closed and state = ");
        on open goto opened;
     }
     state opened {
@@ -44,13 +44,14 @@ function helloWorld(name) {
       on close goto closed;
       on gazonk goto state;
     }
-    state state {
+    state event { 
+      on event goto state;
+    }
+    state state {  
       on blerk goto opened;
       on foo goto event;
     }
-    state event {
-      on event goto state;
-    }
+    
   };
   
   
