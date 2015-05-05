@@ -5,9 +5,6 @@ import javascript::Syntax;
 import ParseTree;
 import IO;
 
-anno bool Statement@scope;
-anno bool Tree@scope;
-
 Refs resolve((Source)`<Statement* stats>`, Lookup lookup) 
   = resolve(stats, [varDefs(stats)], lookup);
 
@@ -43,8 +40,7 @@ Refs resolve(Statement stat, Scope sc, Lookup lookup) {
     case (Statement)`{<Statement* stats>}`:
       refs += resolve(stats, sc, lookup);  
     case (Statement)`try {<Statement* t>} catch (<Id e>) {<Statement* c>}`: 
-      refs += resolve(t, sc, lookup)
-           +  resolve(c, [("<e>": e@\loc), *sc], lookup);
+      refs += resolve(t, sc, lookup) + resolve(c, [("<e>": e@\loc), *sc], lookup);
     case Expression e:
       refs += resolve(e, sc, lookup);
    }
@@ -92,38 +88,8 @@ Env varDefs(Statement* body) {
 }
 
 
-Refs resolve__(Statement* body, Scope sc, Lookup lookup) {
-  Refs refs = {}; 
-  top-down-break visit (body) {
-    case (Function)`function <Id name>(<{Id ","}* formals>) { <Statement* body> }`:
-      refs += resolve(body, [ //( "<name>": name@\loc)
-                   ( "<x>": x@\loc | x <- formals ) 
-                   + varDefs(body)
-                  , *sc], lookup);
-    
-    case (Function)`function (<{Id ","}* formals>) { <Statement* body> }`:
-      refs += resolve(body, [ ( "<x>": x@\loc | x <- formals ) + varDefs(body)
-                            , *sc], lookup);
-    
-    case (Statement)`try {<Statement* t>} catch (<Id e>) {<Statement* c>}`: 
-      refs += resolve(t, sc, lookup)
-           +  resolve(c, [("<e>": e@\loc), *sc], lookup);
-    
-    case (Expression)`<Id x>`: {
-      name = "<x>";
-      use = x@\loc;
-      refs += { <use, def, name> | loc def <- lookup(name, use, sc) };
-    }
-    
-  }
-  return refs;
-}
-
-
-
-
-
 // until we can make this generic...
+// and maybe merg with resolve to prevent another traversal.
 start[Source] uniqueify(start[Source] s) {
   int count = 0;
 

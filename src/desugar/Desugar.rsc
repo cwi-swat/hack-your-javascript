@@ -10,6 +10,7 @@ extend desugar::Ex6ForEach;
 extend desugar::Ex7Classes;
 extend desugar::Ex8SQLSelect;
 extend desugar::Ex9Twitter;
+extend desugar::Ex10StateMachine;
 
 default Statement desugar(Statement stat) = stat;
 default Expression desugar(Expression expr) = expr;

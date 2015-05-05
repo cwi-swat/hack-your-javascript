@@ -19,20 +19,18 @@ tuple[Lookup, GetRenaming] makeResolver() {
   map[loc, str] toRename = ();
   
   set[loc] lookup(str name, loc use, Scope sc) {
-    i = 0;
     for (env <- sc, name in env) {
       def = env[name];
-
-      //println("Looking for <name> (<use>)");       
+      
       if (!isCapture(use, def)) {
-        //println("Found it: <def>");
         return {def};
       }
       
       // captures are renamed until a non-capturing decl is found
       toRename[def] = name;
-      i += 1;
     }
+    
+    // not found
     return {};
   }
   

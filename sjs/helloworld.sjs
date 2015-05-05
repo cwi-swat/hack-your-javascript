@@ -31,7 +31,26 @@ function helloWorld(name) {
      times (10) {
        console.log(it / i);
      }
-  }    
+  }     
+  
+  
+  var state = 123;
+  var doors = statemachine { 
+    state closed {
+       console.log("Door is closed and state = " + state);
+       on open goto opened;
+    }
+    state opened {
+      console.log("Door is opened");
+      on close goto closed;
+    }
+  };
+  
+  doors("open");
+  doors("close");
+  
+  var console;
+  todo "This is a todo.";
       
   function () {
     var l$1;

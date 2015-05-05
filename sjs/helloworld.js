@@ -2,8 +2,8 @@
 
 function helloWorld(name) {
   if (!(name === "Jouke")) {
-    console.log("Hello " + name + "!");
-    console.log("Goodbye " + name + "!");
+    console$0.log("Hello " + name + "!");
+    console$0.log("Goodbye " + name + "!");
   }
 
 
@@ -27,17 +27,27 @@ function helloWorld(name) {
   var i = 0;
       
   {let i$2 = 0; for (; i$2 < 10; i$2++) {
-     console.log(i * i$2);
+     console$0.log(i * i$2);
      {let i$3 = 0; for (; i$3 < 10; i$3++) {
-       console.log(i$3 / i);
+       console$0.log(i$3 / i);
      }}
-  }}    
+  }}     
+  
+  
+  var state = 123;
+  var doors = (function() { {var closed = 0; var opened = 1;} var state$0 = 0; return function(event) {if (state$0 == opened) {if (event === "close") { state$0 = closed; console$0.log("Door is closed and state = " + state); } else ;} else if (state$0 == closed) {if (event === "open") { state$0 = opened; console$0.log("Door is opened"); } else ;} else ;}; })();
+  
+  doors("open");
+  doors("close");
+  
+  var console$0;
+  console.log("TODO: " + "This is a todo.");
       
   function () {
     var l$1;
     {let l$2 = myList, i$1; for (i$1 = 0; i$1 < l$2.length; i$1++) { var x = l$2[i$1]; {
       {let l$0 = myList, i$0; for (i$0 = 0; i$0 < l$0.length; i$0++) { var y = l$0[i$0]; {
-        console.log(x + i + l + l$1);
+        console$0.log(x + i + l + l$1);
       }}}
     }}}
   };
