@@ -60,21 +60,3 @@ Statement trans2if(Trans tr, Statement els, map[Id, Statement*] entryCode) {
 // Ugh
 Statement* emptyStats() = ss
   when (Statement)`{<Statement* ss>}` := (Statement)`{}`;
-  
-/*
-
-function() {
-  var currentState // first one is init
-  state consts
-  return function (event) {
-    switch (currentState) {
-      case Id: 
-        if (event === "...") { 
-          currentState = target;
-          // init code for target
-        }
-      }
-    }
-  }
-
-*/

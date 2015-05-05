@@ -23,7 +23,6 @@ function helloWorld(name) {
 
   var y, tmp;
   swap y, tmp;
-
   var i = 0;
       
   times (10) {
@@ -33,6 +32,13 @@ function helloWorld(name) {
      }
   }     
   
+  var l = [1,2,3,4];
+  var r = [5,6,7,8];
+  
+  var dotprod = l · r;
+  
+  var prod = √√∏ l;
+  var sum = Σ r;
   
   var doors = statemachine { 
     state closed {
@@ -54,6 +60,8 @@ function helloWorld(name) {
     
   };
   
+  // do not terminate:
+  helloWorld("Somebody");
   
   doors("open");
   doors("close");
