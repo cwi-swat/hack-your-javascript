@@ -35,10 +35,9 @@ function helloWorld(name) {
   var l = [1,2,3,4];
   var r = [5,6,7,8];
   
-  var dotprod = l · r;
-  
-  var prod = √√∏ l;
-  var sum = Σ r;
+  var dotprod = l .* r;
+
+  var my1stComp = [ i * j | i: l, j: r, j / 2 >= i ];  
   
   var doors = statemachine { 
     state closed {
