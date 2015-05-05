@@ -52,11 +52,14 @@ Statement trans2ifs(Transitions trs, map[Id, Statement*] entryCode)
 
 Statement trans2if(Trans tr, Statement els, map[Id, Statement*] entryCode) {
   event = parse(#String, "\"<tr.event>\"");
-  entry = entryCode[tr.target];
+  entry = entryCode[tr.target] ? emptyStats();
   target = tr.target;
   return (Statement)`if (event === <String event>) { state = <Id target>; <Statement* entry> } else <Statement els>`;
 }
 
+// Ugh
+Statement* emptyStats() = ss
+  when (Statement)`{<Statement* ss>}` := (Statement)`{}`;
   
 /*
 
