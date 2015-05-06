@@ -1,4 +1,4 @@
-module desugar::Ex9Twitter
+module series2::Ex9Twitter
 
 extend javascript::Syntax;
 

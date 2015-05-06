@@ -1,4 +1,4 @@
-module desugar::Ex11DotProduct
+module series2::Ex11DotProduct
 
 extend javascript::Syntax;
 

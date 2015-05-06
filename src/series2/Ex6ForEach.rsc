@@ -1,4 +1,4 @@
-module desugar::Ex6ForEach
+module series2::Ex6ForEach
 
 extend javascript::Syntax;
 

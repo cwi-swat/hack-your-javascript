@@ -1,4 +1,4 @@
-module desugar::Ex5Swap
+module series2::Ex5Swap
 
 import javascript::Syntax;
 

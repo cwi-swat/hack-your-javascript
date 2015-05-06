@@ -1,4 +1,4 @@
-module desugar::Ex1Unless
+module series1::Ex1Unless
 
 extend javascript::Syntax;
 

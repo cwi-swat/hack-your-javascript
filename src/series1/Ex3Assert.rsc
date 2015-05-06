@@ -1,4 +1,4 @@
-module desugar::Ex3Assert
+module series1::Ex3Assert
 
 import javascript::Syntax;
 import ParseTree;

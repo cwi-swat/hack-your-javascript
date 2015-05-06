@@ -1,4 +1,4 @@
-module desugar::Ex4ArrowFuncs
+module series2::Ex4ArrowFuncs
 
 extend javascript::Syntax;
 

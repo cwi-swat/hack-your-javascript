@@ -1,4 +1,4 @@
-module desugar::Ex2Repeat
+module series1::Ex2Repeat
 
 extend javascript::Syntax;
 
