@@ -5,9 +5,9 @@ import javascript::Syntax;
 import ParseTree;
 import Message;
 import IO;
-import desugar::Desugar;
-import resolve::Resolve;
-import resolve::Util;
+import javascript::Desugar;
+import javascript::Resolve;
+import javascript::Util;
 
 anno rel[loc,loc,str] Tree@hyperlinks;
 

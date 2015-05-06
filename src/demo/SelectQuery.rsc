@@ -1,4 +1,4 @@
-module desugar::Ex8SQLSelect
+module demo::SelectQuery
 
 extend javascript::Syntax;
 

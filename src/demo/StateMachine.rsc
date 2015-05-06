@@ -1,4 +1,4 @@
-module desugar::Ex10StateMachine
+module demo::StateMachine
 
 extend javascript::Syntax;
 import ParseTree;

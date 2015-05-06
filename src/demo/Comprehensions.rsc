@@ -1,4 +1,4 @@
-module desugar::Comprehensions
+module demo::Comprehensions
 
 extend javascript::Syntax;
 import List;

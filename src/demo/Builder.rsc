@@ -1,4 +1,4 @@
-module desugar::Builder
+module demo::Builder
 
 extend javascript::Syntax;
 
