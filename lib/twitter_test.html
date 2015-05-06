@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Example JS Twitter Search client</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css"/>
+	<script type="text/javascript" src="codebird.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style type="text/css">
+		.message {
+			font-style: italic;
+		}
+
+		.author {
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="page-header">
+        	<h1>JS Twitter Search Client</h1>
+        	<p class="lead">Use the search textfield below to search through twitter feeds</p>
+      	</div>
+  		<div class="row">
+			<div class="col-md-8">
+			<form onsubmit="search(); return false;">
+  				<div class="form-group">
+					<label for="query">What do you want to search?</label>
+					<input type="text" id="query" class="form-control">
+  				</div>
+  				<button type="submit" class="btn btn-default">Search!</button>
+			</div>
+		</div>
+		<hr>
+  		<div class="row">
+			<div class="col-md-8" id="result">
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var cb = new Codebird;
+		cb.setBearerToken("AAAAAAAAAAAAAAAAAAAAAGI8fgAAAAAAGC6z0wrc2gLIHj%2F0Yb%2FBp4QAXko%3DJARELmzovFtHBB30i1PntWWV86QQRwvDiQzISwprUrDMCBtdEQ");	
+		
+		var search = function() {
+			var queryParams = "q=" + document.getElementById("query").value;
+			cb.__call(
+    			"search_tweets",
+    			queryParams,
+				showResult,
+    			true
+    		);
+		}
+
+		var showResult = function(results) {
+			var result = document.getElementById("result");
+			while (result.firstChild) {
+				result.removeChild(result.firstChild);
+			}
+			
+			function createElem(elemType, className, innerText) {
+				var elem = document.createElement(elemType);
+				if (className !== undefined) {
+					elem.className = className;
+				}
+
+				if (innerText !== undefined) {
+					elem.innerText = innerText;
+				}
+
+				return elem;
+			}
+
+			for (var i = 0; i < results.statuses.length; i++) {
+				var message = createElem("div", "message", results.statuses[i].text);
+				var author = createElem("span", "author", results.statuses[i].user.screen_name);
+				var date = createElem("span", "date", " tweeted on " + results.statuses[i].created_at);
+
+				var metadata = createElem("div", "metadata");
+				metadata.appendChild(author);
+				metadata.appendChild(date);
+
+				var tweet = createElem("div", "tweet");
+				tweet.appendChild(message);
+				tweet.appendChild(metadata);
+				tweet.appendChild(createElem("hr"))
+				
+				result.appendChild(tweet);
+			}
+		}
+	</script>
+</body>
+</html>

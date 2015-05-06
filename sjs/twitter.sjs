@@ -1,0 +1,2 @@
+
+#rascal.then(showResult);
