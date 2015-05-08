@@ -1,2 +1,0 @@
-
-search("#rascal").then(showResult);
