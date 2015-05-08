@@ -4,14 +4,14 @@ import List;
 
 extend javascript::Syntax;
 
-syntax Expression
-  = TwitterSearchExpression+   
-  ;
- 
-syntax TwitterSearchExpression 
-  = @category="TwitterConstant" "@" Id
-  | @category="TwitterConstant" "#" Id
+syntax Expression 
+  = @category="TwitterConstant" "@(" {Expression ","}* ")"
+  | @category="TwitterConstant" "#(" {Expression ","}* ")"
   ;
 
-Expression desugar((Expression)`<TwitterSearchExpression+ query>`) 
-  = parse(#Expression, "search(\"" + intercalate(" ", [q | q <- query]) + "\")");  
+Expression desugar((Expression)`@(<{Expression ","}* es>)`) 
+  = (Expression)`searchAt(<{Expression ","}* es>)`;  
+
+Expression desugar((Expression)`#(<{Expression ","}* es>)`)
+  = (Expression)`searchHash(<{Expression ","}* es>)`;  
+
