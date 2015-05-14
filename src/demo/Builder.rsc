@@ -1,3 +1,4 @@
+@cachedParser{javascript.cached.SweeterJSCachedParser}
 module demo::Builder
 
 extend javascript::Syntax;

@@ -1,3 +1,4 @@
+@cachedParser{javascript.cached.SweeterJSCachedParser}
 @contributor{
 Tijs van der Storm - CWI (storm@cwi.nl)
 }

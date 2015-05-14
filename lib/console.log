@@ -1,0 +1,31 @@
+var logger = document.getElementById('log');
+
+var createElem = function(elemType, className, innerText) {
+	var elem = document.createElement(elemType);
+	if (className !== undefined) {
+		elem.className = className;
+	}
+
+	if (innerText !== undefined) {
+		elem.innerText = innerText;
+	}
+	
+	return elem;
+}
+
+console.log = function (message) {
+    if (typeof message == 'object') {
+        logger.appendChild(createElem("p", "info", JSON && JSON.stringify ? JSON.stringify(message) : message));
+    } else {
+        logger.appendChild(createElem("p", "info", message));
+    }       
+}
+
+console.error = function (message) {
+    if (typeof message == 'object') {
+        logger.appendChild(createElem("p", "error", JSON && JSON.stringify ? JSON.stringify(message) : message));
+        
+    } else {
+        logger.appendChild(createElem("p", "error", message));
+    }       
+}    

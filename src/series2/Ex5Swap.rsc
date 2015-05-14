@@ -1,3 +1,4 @@
+@cachedParser{javascript.cached.SweeterJSCachedParser}
 module series2::Ex5Swap
 
 import javascript::Syntax;

@@ -7,6 +7,7 @@ import Message;
 import IO;
 import javascript::Desugar;
 import javascript::Resolve;
+import javascript::HtmlTemplateMerger;
 import vis::Figure;
 
 anno rel[loc,loc,str] Tree@hyperlinks;
@@ -41,8 +42,9 @@ void() makeRegistrar(str lang, str ext) {
       builder(set[Message](Tree tree) {
         // use the caches here
         fixed = rename(js, renaming);
-        out = tree@\loc.top[extension="js"];
-        writeFile(out, unparse(fixed));
+        //out = tree@\loc.top[extension="js"];
+        
+        generateFiles(tree, fixed);
         return {};
       }),
       
@@ -51,6 +53,22 @@ void() makeRegistrar(str lang, str ext) {
       )
     });
   };
+}
+
+void generateFiles(start[Source] orig, start[Source] desugared) {
+	str wrapDesugared(str des) {
+		return "
+			'function desugared() {
+			'	<des>
+			'}
+			";
+	}
+	
+	jsOut = orig@\loc.top[extension="js"];
+	str desugaredStr = unparse(desugared);
+ 	
+ 	writeFile(jsOut, wrapDesugared(desugaredStr));
+ 	generateHtmlFile(orig, desugared);
 }
 
 start[Source] addHoverDocs(start[Source] s, map[loc, str] renaming) {

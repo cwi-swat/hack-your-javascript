@@ -19,7 +19,7 @@ function helloWorld(name) {
   
   q = select FirstName, LastName from myList where FirstName === "Chris" + JSLINQ;
 
-  var me = @tvdstorm(10);
+  var me = @tvdstorm;
 
   var y, tmp;
   swap y, tmp;
