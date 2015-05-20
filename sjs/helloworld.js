@@ -31,7 +31,7 @@ function desugared() {
 	     console$0.log(i$5 * i$4);
 	     {let i$0 = 0; for (; i$0 < 10; i$0++) {
 	       console$0.log(i$0 / i$5);
-	     }}
+	     }} 
 	  }}     
 	  
 	  var l = [1,2,3,4];

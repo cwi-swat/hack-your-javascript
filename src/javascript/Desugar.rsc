@@ -15,6 +15,7 @@ extend demo::StateMachine;
 extend demo::SelectQuery;
 extend demo::Comprehensions;
 extend demo::Builder;
+extend demo::Debug;
 
 default Statement desugar(Statement stat) = stat;
 default Expression desugar(Expression expr) = expr;

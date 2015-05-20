@@ -8,5 +8,5 @@ import javascript::Desugar;
   
 void saveParser() {
     p = newGenerate("javascript.cached", "SweeterJSCachedParser", grammar(#start[Source]));
-    writeFile(|project://hyj/src/javascript/cached/SweeterJSCachedParser.java|, p);
+    writeFile(|project://hack-your-javascript/src/javascript/cached/SweeterJSCachedParser.java|, p);
 }

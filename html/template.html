@@ -2,12 +2,12 @@
 <html>
 <head>
 	<title>{{title}}</title>
-	<link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css"/>
-	<link rel="stylesheet" href="../lib/codemirror.css">
+	<link rel="stylesheet" type="text/css" href="../../lib/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../lib/codemirror.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<script type="text/javascript" src="../lib/codemirror.js"></script>
-	<script type="text/javascript" src="../lib/mode/javascript.js"></script>
+	<script type="text/javascript" src="../../lib/codemirror.js"></script>
+	<script type="text/javascript" src="../../lib/mode/javascript.js"></script>
 	
 	<style>
 		.code {
@@ -45,12 +45,12 @@
 <body>
 	<div class="container">
 		<div class="row page-header">
-     	<div class="col-md-10">
+     	<div class="col-md-10 col-xs-10">
      		<h1>{{title}}</h1>
-     		<p class="lead">This page shows the result of exercise {{nr}}.</p>
+     		<p class="lead">This page shows the result of {{nr}}.</p>
      	</div>
-     	<div class="col-md-2"> 	
-	   		<img src="../lib/logo.png" class="totheright"/>
+     	<div class="col-md-2  col-xs-2"> 	
+	   		<h1><img src="../../lib/logo.png"/></h1>
 	   	</div>
 		</div>
 
@@ -98,11 +98,11 @@
 
 	</script>
 	
-	<script type="text/javascript" src="../lib/console.log"></script>
-	<script type="text/javascript" src="../lib/codebird.js"></script>
-	<script type="text/javascript" src="../lib/hyj_twitter.js"></script>
+	<script type="text/javascript" src="../../lib/console.log"></script>
+	<script type="text/javascript" src="../../lib/codebird.js"></script>
+	<script type="text/javascript" src="../../lib/hyj_twitter.js"></script>
 	
-	<script type="text/javascript" src="../sjs/{{filename}}"></script>
+	<script type="text/javascript" src="{{filename}}"></script>
 	<script>
 		try {
 			desugared();

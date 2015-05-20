@@ -14,29 +14,32 @@ void generateHtmlFile(start[Source] origAst, start[Source] desugaredAst) {
 		return code;
 	}
 	
+	tuple[str, str] extractTitleAndNr(/^ex<nr:[1-9]+>[_]<name:.*>[.]sjs$/) =
+		<"Excercise <nr>: <capitalize(name)>", "exercise <nr>">;
+
+	tuple[str, str] extractTitleAndNr(/^dem<nr:[1-9]+>[_]<name:.*>[.]sjs$/) =
+		<"Demo <nr>: <capitalize(name)>", "demo <nr>">;
+	
+	default tuple[str, str] extractTitleAndNr(str s) = <"Unkown excersise or demo", "?">;		
+	
 	loc sjsFile = origAst@\loc.top;
 	loc jsFile = sjsFile[extension = "js"];
 	
 	str orig = unparse(origAst);
 	str desugared = unparse(desugaredAst);		
 	
-	str title = "Unkown exercise";
-	str nr = "?";
-	if (/^ex<n:[1-9]+>[_]<name:.*>[.]sjs$/ := sjsFile.file) {
-		nr = n;
-		title = "Excercise <n>: <capitalize(name)>";
-	}
-
+	tuple[str title, str nr] titleAndNr = extractTitleAndNr(sjsFile.file);
+	
 	str merge(str template) {
-		template = replaceAll(template, "{{title}}", title);
-		template = replaceAll(template, "{{nr}}", nr);
+		template = replaceAll(template, "{{title}}", titleAndNr.title);
+		template = replaceAll(template, "{{nr}}", titleAndNr.nr);
 		template = replaceAll(template, "{{original}}", toJsStr(orig));
 		template = replaceAll(template, "{{desugared}}", toJsStr(desugared));
 		template = replaceAll(template, "{{filename}}", jsFile.file);
 		return template;
 	}
 
-	str htmlTemplate = readFile(sjsFile.parent.parent + "html/template.html");
+	str htmlTemplate = readFile(sjsFile.parent.parent.parent + "html/template.html");
 	str mergedTemplate = merge(htmlTemplate);
 	
 	writeFile(sjsFile[extension = "html"], mergedTemplate);

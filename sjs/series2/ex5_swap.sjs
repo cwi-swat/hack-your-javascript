@@ -7,4 +7,4 @@ swap x, y;
 
 console.log('Swapped: x = ' + x + ' & y = ' + y);
 
-throw new Error("Error in red");
+throw "Error in red";
