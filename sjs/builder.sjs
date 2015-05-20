@@ -1,3 +1,4 @@
+var html = document.getElementById('body');
 
 var doc = html build {
    h2("Hello world");

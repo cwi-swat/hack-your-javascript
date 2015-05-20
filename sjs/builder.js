@@ -1,5 +1,6 @@
 
 function desugared() {
+	var html = document.getElementById('body');
 	
 	var doc = (function (builder) {var result; result = builder.h2("Hello world");
 	   result = builder.ul((function (builder) {var result; result = builder.li("Item 1");

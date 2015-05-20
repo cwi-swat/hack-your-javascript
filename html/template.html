@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+	<title>{{title}}</title>
 	<link rel="stylesheet" type="text/css" href="../lib/bootstrap.min.css"/>
 	<link rel="stylesheet" href="../lib/codemirror.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,8 +46,8 @@
 	<div class="container">
 		<div class="row page-header">
      	<div class="col-md-10">
-     		<h1>=title=</h1>
-     		<p class="lead">This page shows the result of exercise =nr=.</p>
+     		<h1>{{title}}</h1>
+     		<p class="lead">This page shows the result of exercise {{nr}}.</p>
      	</div>
      	<div class="col-md-2"> 	
 	   		<img src="../lib/logo.png" class="totheright"/>
@@ -78,7 +79,7 @@
 		CodeMirror(document.getElementById("original"), {
 			value: 
 " \
-=original= \
+{{original}} \
 ",
 			mode: "javascript",
 			lineNumbers: true,
@@ -88,7 +89,7 @@
 		CodeMirror(document.getElementById("transformed"), {
 			value: 
 " \
-=desugared= \
+{{desugared}} \
 ",
 			mode: "javascript",
 			lineNumbers: true,
@@ -101,12 +102,16 @@
 	<script type="text/javascript" src="../lib/codebird.js"></script>
 	<script type="text/javascript" src="../lib/hyj_twitter.js"></script>
 	
-	<script type="text/javascript" src="../sjs/=filename="></script>
+	<script type="text/javascript" src="../sjs/{{filename}}"></script>
 	<script>
 		try {
 			desugared();
 		} catch (e) {
-			console.error(e.message);
+			if (e instanceof Error) {
+				console.error(e.message);
+			} else {
+				console.error(e);
+			}
 		}
 	</script>
 </body>

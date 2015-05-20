@@ -28,11 +28,11 @@ void generateHtmlFile(start[Source] origAst, start[Source] desugaredAst) {
 	}
 
 	str merge(str template) {
-		template = replaceAll(template, "=title=", title);
-		template = replaceAll(template, "=nr=", nr);
-		template = replaceAll(template, "=original=", toJsStr(orig));
-		template = replaceAll(template, "=desugared=", toJsStr(desugared));
-		template = replaceAll(template, "=filename=", jsFile.file);
+		template = replaceAll(template, "{{title}}", title);
+		template = replaceAll(template, "{{nr}}", nr);
+		template = replaceAll(template, "{{original}}", toJsStr(orig));
+		template = replaceAll(template, "{{desugared}}", toJsStr(desugared));
+		template = replaceAll(template, "{{filename}}", jsFile.file);
 		return template;
 	}
 

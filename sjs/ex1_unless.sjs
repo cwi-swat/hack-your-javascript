@@ -1,9 +1,13 @@
 
 function sayHello(name) {
-	unless (name === "Jouke") {
-  		console.log("Hello " + name + "!");
-  		console.log("Goodbye " + name + "!");
+	unless (name == "World") {
+		console.log("Finally, something original to greet!");
 	}
+
+	console.log("Hello " + name + "!");
+	console.log("Goodbye " + name + "!");
 }
 
-sayHello("World");
+throw new Error("Hullo error");
+
+sayHello("Earth");

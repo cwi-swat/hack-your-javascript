@@ -19,7 +19,7 @@ function helloWorld(name) {
   
   q = select FirstName, LastName from myList where FirstName === "Chris" + JSLINQ;
 
-  var me = @tvdstorm;
+  var me = @("tvdstorm");
 
   var y, tmp;
   swap y, tmp;
@@ -35,7 +35,7 @@ function helloWorld(name) {
   var l = [1,2,3,4];
   var r = [5,6,7,8];
   
-  var dotprod = l .* r;
+  //var dotprod = l .* r;
 
   var my1stComp = [ i * j | i: l, j: r, j / 2 >= i ];  
   
