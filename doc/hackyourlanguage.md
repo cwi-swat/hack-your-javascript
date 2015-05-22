@@ -46,7 +46,9 @@ Some notes:
 <pre><code>Statement desugar((Statement)`debug &lt;String s&gt;`) = (Statement)`if (DEBUG_FLAG) console.log(&lt;String s&gt;);`;
 </code></pre>
 
-- As of yet, holes used in construction patterns (e.g., the returned value of the `debug` desugaring) only admit interpolation of variables. If you want to put in complex expressions, first make a variable. 
+- Concrete syntax matching works "modulo layout". This means that the patterns will match source terms regardless of the whitespace and/or comments used in either the pattern or the source term. For instance, the desugaring above will match statements like `debug /* a comment */ "debug!"`, or statements with newlines or extra spacing in them. 
+
+- As of yet, holes used in construction patterns (e.g., the returned value of the `debug` desugaring) only admit interpolation of variables. If you want to put in complex expressions, first make a variable and assign the complex expression to it.
 
 - Patterns should comply to the grammar. If you make a mistake, you'll get a parse error in your Rascal program!
 
