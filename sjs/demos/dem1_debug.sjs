@@ -1,2 +1,2 @@
-
+var console;
 debug "Hello";
