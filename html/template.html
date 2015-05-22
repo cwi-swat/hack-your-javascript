@@ -67,7 +67,7 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<h4>Console output of running the desuggared version</h4>
+				<h4>Console output of running the desugared version</h4>
 				<div id="log">
 				</div>
 			</div>
@@ -102,10 +102,9 @@
 	<script type="text/javascript" src="../../lib/codebird.js"></script>
 	<script type="text/javascript" src="../../lib/hyj_twitter.js"></script>
 	
-	<script type="text/javascript" src="{{filename}}"></script>
 	<script>
 		try {
-			desugared();
+			{{desugaredSrc}}
 		} catch (e) {
 			if (e instanceof Error) {
 				console.error(e.message);

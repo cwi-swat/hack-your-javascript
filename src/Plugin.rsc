@@ -56,18 +56,9 @@ void() makeRegistrar(str lang, str ext) {
 }
 
 void generateFiles(start[Source] orig, start[Source] desugared) {
-	str wrapDesugared(str des) {
-		return "
-			'function desugared() {
-			'	<des>
-			'}
-			";
-	}
-	
 	jsOut = orig@\loc.top[extension="js"];
-	str desugaredStr = unparse(desugared);
  	
- 	writeFile(jsOut, wrapDesugared(desugaredStr));
+ 	writeFile(jsOut, unparse(desugared));
  	generateHtmlFile(orig, desugared);
 }
 

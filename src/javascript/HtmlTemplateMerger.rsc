@@ -35,7 +35,7 @@ void generateHtmlFile(start[Source] origAst, start[Source] desugaredAst) {
 		template = replaceAll(template, "{{nr}}", titleAndNr.nr);
 		template = replaceAll(template, "{{original}}", toJsStr(orig));
 		template = replaceAll(template, "{{desugared}}", toJsStr(desugared));
-		template = replaceAll(template, "{{filename}}", jsFile.file);
+		template = replaceAll(template, "{{desugaredSrc}}", desugared);
 		return template;
 	}
 

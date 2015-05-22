@@ -10,3 +10,6 @@ function sayHello(name) {
 
 sayHello("World");
 sayHello("Earth");
+
+//throw "This should be red";
+throw new Error("This should also be red");
