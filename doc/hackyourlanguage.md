@@ -140,7 +140,7 @@ Check that our desugaring framework avoids [inadvertent name capture](http://en.
 
 _Quiz_: why do we need the [Immediately Invoked Function Expression](http://en.wikipedia.org/wiki/Immediately-invoked_function_expression)?
 
-#### 7 Foreach
+##### 7 Foreach
 
 Javascript has a `for (x in array) ...` statement, but its semantics are [not always wat you expect](http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea). In this assignment, we'll add an explicit `foreach` construct that works intuitively on arrays. The syntax is `foreach (X: E) S`, where `X` is an identifier, `E` an expression and `S` a statement. The `foreach` statement should be desugared to something like:
 
@@ -148,10 +148,28 @@ Javascript has a `for (x in array) ...` statement, but its semantics are [not al
 { let array = E, i; for (i = 0; i < array.length; i++) S }
 ```
 
-
 _Quiz_: why can't we use the Immediately Invoked Function Expression here, but instead have to rely on ECMAScript 6 `let` to introduce a variable?
 
 _Quiz_: why do we need to assign the expression `E` to a local variable (`array`) first?
+
+##### 8 Fat arrow functions
+
+ECMACScript 6 introduced [fat arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions). Arrow functions are a short-hand notation for anonymous functions (closures). In their simplest form the syntax is `X => E`, where `X` is an identifier and `E` some expression. 
+
+At first sight the desugaring seems to be simple, just map it to `function(X) { return E; }`. Unfortunately, functions in Javascript introduce a new context for the `this` variable but arrow functions are explicitly designed not to do this; instead the value of `this` in the body expression of an arrow function is lexically determined. IOW: it is inherited from its lexically enclosing function. 
+
+A solution is to introduce a special variable (e.g., `_this`) in the scope of the arrow function and replace all uses of `this` by `_this` in its body. This gives us something like:
+
+```
+(function (_this) { return function (X) { return E'; }; })(this)
+```
+
+In this snippet, the variable `E'` is the original `E` with all occurrences of `this` replaced by `_this`. You can use the provided helper function `replaceThis` to realize this. 
+
+
+_Tip_: see what happens if you desugar an arrow function `_this => _this + this.x`. 
+
+_Optional_: Add an extension for the second kind of arrow functions which accept any number of arguments enclosed in parentheses (`{Id ","}*`), and where the part after the arrow is a list of statements (`Statement*`) enclosed in curly braces.
 
 
 
