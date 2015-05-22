@@ -26,6 +26,12 @@ Statement gen2block(Statement inner, (Generator)`<Expression cond>`)
   = (Statement)`if (<Expression cond>) <Statement inner>`;
   
 Statement gen2block(Statement inner, (Generator)`<Id x>: <Expression coll>`)
-  = (Statement)`{let x = <Expression coll>; for (var <Id i>=0; i\<x.length;i++) { let <Id x> = x[<Id i>]; <Statement inner> }}`
+  = (Statement)`{
+               '  let x = <Expression coll>; 
+               '  for (var <Id i>=0; i \< x.length; i++) { 
+               '    let <Id x> = x[<Id i>]; 
+               '    <Statement inner>
+               '  }
+               '}`
   when 
     Id i := parse(#Id, "<x>_idx"); 

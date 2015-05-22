@@ -71,10 +71,10 @@ Refs resolve(Statement* stats, Scope sc, Lookup lookup) {
     switch (s) {
       case (Statement)`let <{VariableDeclaration ","}+ vds>;`:
         for (vd <- vds) {
+          sc = [ ("<vd.id>": vd.id@\loc) ] + sc;
           if (vd has exp) {
             refs += resolve(vd.exp, sc, lookup);
           } 
-          sc = [ ("<vd.id>": vd.id@\loc) ] + sc;
         }
       default:
         refs += resolve(s, sc, lookup);

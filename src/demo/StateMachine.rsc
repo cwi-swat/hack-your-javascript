@@ -21,7 +21,15 @@ syntax States = State* lst;
 
 
 Expression desugar((Expression)`statemachine {<States ss>}`)
-  = (Expression)`(function() { <Statement consts> {let state = 0; return function(event) {<Statement body>}; }})()`
+  = (Expression)`(function() { 
+                '   <Statement consts>
+                '   {
+                '     let state = 0;
+                '     return function(event) {
+                '        <Statement body>
+                '     };  
+                '   } 
+                '})()`
   when
     consts := states2consts(ss, 0),
     body := states2ifs(ss, entryCode(ss)); 
@@ -44,7 +52,10 @@ Statement states2ifs(States ss,  map[Id, Statement*] entryCode)
 Statement state2if(State s, Statement els, map[Id, Statement*] entryCode) {
   stateVar = s.id;
   code = trans2ifs(s.transitions, entryCode);
-  return (Statement)`if (state == <Id stateVar>) {<Statement* code>} else <Statement els>`; 
+  return (Statement)`if (state == <Id stateVar>) {
+                    '  <Statement* code>
+                    '} else 
+                    '  <Statement els>`; 
 }
 
 Statement trans2ifs(Transitions trs, map[Id, Statement*] entryCode) 
@@ -55,7 +66,11 @@ Statement trans2if(Trans tr, Statement els, map[Id, Statement*] entryCode) {
   event = parse(#String, "\"<tr.event>\"");
   entry = entryCode[tr.target] ? emptyStats();
   target = tr.target;
-  return (Statement)`if (event === <String event>) { state = <Id target>; <Statement* entry> } else <Statement els>`;
+  return (Statement)`if (event === <String event>) { 
+                    '  state = <Id target>; 
+                    '  <Statement* entry> 
+                    '} else
+                    '  <Statement els>`;
 }
 
 // Ugh
