@@ -17,6 +17,51 @@ Interactive documentation on Rascal can be found online at [http://tutor.rascal-
 
 Check out the `src/demo` directory to see examples of simple and more advanced language extensions.
 
+### Desugaring in Rascal
+
+We're going write "desugarings", which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions ("syntactic sugar") to the base Javascript language (ECMAScript 5 + `let`). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main `desugar` function. The framework will call all of them that are in the project. 
+
+The `desugar` function is extended by writing a case for the extension you want to desugar using concrete syntax matching. Let's dissect an example to see what that means:
+
+<pre><code>Statement desugar((Statement)`debug &lt;String s&gt;`) {
+  return (Statement)`if (DEBUG_FLAG) console.log(&lt;String s&gt;);`;
+}
+</code></pre>
+
+This Rascal function definition _matches_ on the `debug` statement using concrete syntax. This means that the pattern is written using the language you are actually defining (in this case Javascript + `debug`). The pattern in this case is: 
+
+    (Statement)`debug <String s>`
+
+The first part in parentheses indicates the type of the values this pattern matches, -- in this case values of type `Statement`. The second part, enclosed in backticks (\`) is the actual pattern: first the keyword `debug` and then some `String`. The string part (enclosed in `<` and `>`) represents a typed _hole_, which will match anything of type `String`. If the match is successful the variable `s` is bound to the matched sub-value. 
+
+The pattern used in the `return` statement is not used for matching, but for _construction_. In this case, the bound value of `s` is inserted into the argument of  `console.log`. 
+
+
+Some notes:
+
+- `desugar` cases need to return the type they are consuming. For instance, if you desugar a `Statement` the return type should be 
+`Statement`. 
+
+- For simple desugarings as the one above, there is a short-hand notation: 
+<pre><code>Statement desugar((Statement)`debug &lt;String s&gt;`) = (Statement)`if (DEBUG_FLAG) console.log(&lt;String s&gt;);`;
+</code></pre>
+
+- As of yet, holes used in construction patterns (e.g., the returned value of the `debug` desugaring) only admit interpolation of variables. If you want to put in complex expressions, first make a variable. 
+
+- Patterns should comply to the grammar. If you make a mistake, you'll get a parse error in your Rascal program!
+
+- If you need to use literal `<`, `>` or \` in patterns, escape them using `\` (backslash). 
+
+- If you need multiple lines start every line except the first with `'` (single quote). For instance, as follows:
+<pre><code>Statement desugar((Statement)`debug &lt;String s&gt;`) 
+  = (Statement)`if (DEBUG_FLAG) 
+               '  console.log(&lt;String s&gt;);`;
+</code></pre>
+ 
+
+
+
+
 #### Notes on the Javascript grammar
 
 - Expressions are captured by the `Expression` non-terminal
