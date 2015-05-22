@@ -62,14 +62,21 @@ Some notes:
  
 
 
-
-
 #### Notes on the Javascript grammar
+
+Grammars are first-class data types in Rascal. A production rule `syntax S = p_1 | ... | p_n` introduces a type `S` with data (syntax) constructors `p_1`...`p_n`. You can check out the Javascript grammar in `src/javascript/Syntax.rsc`. 
+
+The Javascript grammar used in the project closely follows the ECMAScript 5 syntax, except that the `;` is required after statement expressions, and there is no comma-expression.
+
+While writing your desugarings, keep in mind that: 
 
 - Expressions are captured by the `Expression` non-terminal
 - Statements  are captured by the `Statement` non-terminal
 - String literals are captured by the `String` non-terminal
 - Identifiers (variables, field names, etc.) are captured by the `Id` non-terminal.
+
+For most assignments we provide the necessary syntax extensions up front, so that you can focus on the source-to-source transformations. 
+
 
 ## Exercises
 
