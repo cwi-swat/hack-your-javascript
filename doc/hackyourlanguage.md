@@ -77,6 +77,12 @@ While writing your desugarings, keep in mind that:
 
 For most assignments we provide the necessary syntax extensions up front, so that you can focus on the source-to-source transformations. 
 
+#### Executing desugarings
+
+Save
+Hover doc
+See output in js file
+Open html file where see output + input + execution.
 
 ## Exercises
 
@@ -91,7 +97,8 @@ Write a desugaring that transforms `@X` (where `X` can be an `Id`) to `this.X`.
 
 ##### 2 Pairs
 
-Javascript has structured literals for objects and arrays, but not pairs (or tuples). Write a transformation that desugars pairs written in between `<` and `>` to object literals with fields `_1` and `_2`. IOW: `<E1, E2>` desugars to `{_1: E1, _2: E2}`.
+Javascript has structured literals for objects and arrays, but not for pairs (tuples). Write a transformation that desugars pairs written in between `<` and `>` to object literals with fields `_1` and `_2`. IOW: `<E1, E2>` desugars to `{_1: E1, _2: E2}`.
+
 
 ##### 3 Todo statement
 
@@ -111,11 +118,53 @@ _Optional_: write a desugaring for `repeat Body until "(" Cond ")"` which transf
 
 Assert statements are used to document your assumptions. If an assertion fails you get an exception listing showing the expression that failed and (optionally) a textual message. The `assert` we're defining here has the following syntax: `assert Expression: Message;` (where `Message` is a `String`). It should be translated to code that throws an exception if the expression evaluates to a falsy value. For instance, `assert E: S` desugars to: `if (!(E)) throw new Error("Assertion failed: " + msg);`
 
-Use Rascal string interpolation to _unparse_ the argument expression into a (Rascal) string, and then parse it as a Javascript string literal (`String`) as follows: `msg = parse(#String, "\"<e>\"")` (assuming `e` is the expression). Now you can use `msg` in the constructed pattern. 
+Use Rascal string interpolation (using `<` and `>`) to _unparse_ the argument expression into a Rascal string, and then parse it as a Javascript string literal (`String`) as follows: `msg = parse(#String, "\"<e>\"")` (assuming `e` is the expression). Now you can use `msg` in the constructed pattern. 
 
 _Optional_: Write a similar desugaring for a `test` statement. In this case the syntax could be: `test Expression should be Expression;`
 Instead of throwing an exception it evaluates both expressions, tests if they are equal, and prints out a message with expected and actual value if the test failed.
 
 ### Series 2: introducing bindings
+
+Names are an important language feature. They allow us to create abstractions, store intermediate values for reuse, and create sharing in values. In this series, we'll define language extensions that require the introduction of name bindings. 
+
+##### 6 Swap
+
+A swap statement allows you to swap the value of two variables in a single statement. Its syntax is `swap X, Y;`, where `X` and `Y` represent variables. Write a transormation which transforms this to:
+
+```
+(function() { var tmp = X; X = Y; Y = tmp; })();
+```
+
+Check that our desugaring framework avoids [inadvertent name capture](http://en.wikipedia.org/wiki/Hygienic_macro) by trying swapping a variable `tmp` with another variable. 
+
+
+_Quiz_: why do we need the [Immediately Invoked Function Expression](http://en.wikipedia.org/wiki/Immediately-invoked_function_expression)?
+
+#### 7 Foreach
+
+Javascript has a `for (x in array) ...` statement, but its semantics are [not always wat you expect](http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea). In this assignment, we'll add an explicit `foreach` construct that works intuitively on arrays. The syntax is `foreach (X: E) S`, where `X` is an identifier, `E` an expression and `S` a statement. The `foreach` statement should be desugared to something like:
+
+```
+{ let array = E, i; for (i = 0; i < array.length; i++) S }
+```
+
+
+_Quiz_: why can't we use the Immediately Invoked Function Expression here, but instead have to rely on ECMAScript 6 `let` to introduce a variable?
+
+_Quiz_: why do we need to assign the expression `E` to a local variable (`array`) first?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
