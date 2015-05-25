@@ -1,4 +1,3 @@
-@cachedParser{javascript.cached.SweeterJSCachedParser}
 module series2::Ex6ForEach
 
 extend javascript::Syntax;

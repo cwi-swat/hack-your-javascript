@@ -1,4 +1,3 @@
-@cachedParser{javascript.cached.SweeterJSCachedParser}
 module javascript::Desugar
 
 extend javascript::Syntax;
@@ -10,7 +9,7 @@ extend series2::Ex5Swap;
 extend series2::Ex6ForEach;
 extend series2::Ex7Classes;
 extend series2::Ex9Twitter;
-extend series2::Ex9Twitter;
+extend demo::HAML;
 extend demo::StateMachine;
 extend demo::SelectQuery;
 extend demo::Comprehensions;

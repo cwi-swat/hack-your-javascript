@@ -1,4 +1,3 @@
-@cachedParser{javascript.cached.SweeterJSCachedParser}
 module demo::SelectQuery
 
 extend javascript::Syntax;
