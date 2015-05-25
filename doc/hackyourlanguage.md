@@ -70,29 +70,35 @@ Statement desugar((Statement)`debug <Expression s>;`)
 
 ### Notes on the Javascript grammar
 
-Grammars are first-class data types in Rascal. A production rule `syntax S = p_1 | ... | p_n` introduces a type `S` with data (syntax) constructors `p_1`...`p_n`. You can check out the Javascript grammar in `src/javascript/Syntax.rsc`. 
+Grammars define first-class data types in Rascal. A production rule `syntax S = p_1 | ... | p_n` introduces a (non-terminal) type `S` with data (syntax) constructors `p_1`...`p_n`. You can check out the Javascript grammar in `src/javascript/Syntax.rsc`. 
 
 The Javascript grammar used in the project closely follows the ECMAScript 5 syntax, except that the `;` is required after statement expressions, and there is no comma-expression.
 
 While writing your desugarings, keep in mind that: 
 
-- Expressions are captured by the `Expression` non-terminal
-- Statements  are captured by the `Statement` non-terminal
-- String literals are captured by the `String` non-terminal
-- Identifiers (variables, field names, etc.) are captured by the `Id` non-terminal.
+- Expressions are captured by the `Expression` type
+- Statements  are captured by the `Statement` type
+- String literals are captured by the `String` type
+- Identifiers (variables, field names, etc.) are captured by the `Id` type.
 
 For most assignments we provide the necessary syntax extensions up front, so that you can focus on the source-to-source transformations. 
 
 ### Executing desugarings
+
+SJS file
 
 Save
 Hover doc
 See output in js file
 Open html file where see output + input + execution.
 
+**NB**: the files should be one level below the `sjs` directory; i.e., in `sjs/somedir`.
+
+How to enable ECMAScript 6 in Eclipse Browser
+
 ## Exercises
 
-Below we use upper-case identifiers in snippets to indicate meta-variables. Lower-case identifiers either represent keywords (e.g. `unless`) or object-langugae identifiers (e.g. `this`, `console`).
+Below we use upper-case identifiers in snippets to indicate meta-variables. Lower-case identifiers either represent keywords (e.g. `unless`) or object-language identifiers (e.g. `this`, `console`).
 
 ### Series 1: basic desugaring
 
