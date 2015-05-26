@@ -250,6 +250,16 @@ _Tip_: iterate through the generators in reverse using the `reverse` function of
 
 _Optional_: implement comprehensions without `let`, but only using IFFEs.
 
+_Optional_: Rascal has builtin notation for reducers. For instance, to sum a list of integers, you can write:
+
+```
+( 0 | it + x | x <- [1..10] )
+```
+
+Use this construct to desugar comprehensions. Think about what the "zero" element should be. 
+
+
+
 ##### Domain-Specific Languages
 
 The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete [Domain-Specific Languages](http://en.wikipedia.org/wiki/Domain-specific_language) on top of the host language! For an elaborate example, check out the [state machine](http://en.wikipedia.org/wiki/Finite-state_machine) language in the `src/demo` directory.
