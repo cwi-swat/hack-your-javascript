@@ -32,7 +32,8 @@ Statement desugar((Statement)`times (<Expression e>) <Statement s>`)
   when s2 := replaceIt(s, (Id)`i`);
   
 Statement replaceIt(Statement s, Id x) {
-  return visit (s) {
+  return top-down-break visit (s) {
+     case Function _ : ; // don't enter functions
      case (Expression)`it` => (Expression)`<Id x>`   
   }
 } 

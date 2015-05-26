@@ -56,7 +56,7 @@ function helloWorld(name) {
       on blerk goto opened;
       on foo goto event;
     }
-    
+     
   };
   
   // do not terminate:
