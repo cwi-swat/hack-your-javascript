@@ -39,7 +39,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><p>Define a function <code>myFizzbuzz()</code> returning <code>void</code>. You may want to look <a href="http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html">here</a> for example implementations.</p></li>
 <li><p>Right-click on the editor and select <code>Start Console</code>. You should see a Rascal prompt <code>rascal&gt;</code> in the console area of Eclipse.</p></li>
 <li><p>Import your newly created module <code>import FizzBuzz;</code>.</p></li>
+<li><p>Type in: <code>myFizzbuzz()</code> and see the result.</p></li>
 </ul>
+<p><em>Optional</em>: implement FizzBuzz using a different implementation strategy for instance, like listed on <a href="http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html">the Rascal tutor</a>, and try to understand the code.</p>
 <h3 id="desugaring-in-rascal">Desugaring in Rascal</h3>
 <p>We're going write &quot;desugarings&quot;, which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions (&quot;syntactic sugar&quot;) to the base Javascript language (ECMAScript 5 + <code>let</code>). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main <code>desugar</code> function. The framework will call all of them that are in the project.</p>
 <p>The <code>desugar</code> function is extended by writing a case for the extension you want to desugar using concrete syntax matching. Let's dissect an example to see what that means:</p>
