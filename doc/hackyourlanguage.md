@@ -29,6 +29,12 @@ To get to know Rascal a little bit (Rascal is a BIG language!), let's implement 
 
 - Import your newly created module `import FizzBuzz;`.
 
+- Type in: `myFizzbuzz()` and see the result.
+
+_Optional_: implement FizzBuzz using a different implementation strategy for instance, like listed on [the Rascal tutor](http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html), and try to understand the code.
+
+
+
 ### Desugaring in Rascal
 
 We're going write "desugarings", which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions ("syntactic sugar") to the base Javascript language (ECMAScript 5 + `let`). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main `desugar` function. The framework will call all of them that are in the project. 

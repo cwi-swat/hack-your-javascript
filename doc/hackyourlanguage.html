@@ -32,6 +32,14 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>Instructions on how to setup Eclipse and Rascal can be found in the repository in <code>doc/joc-prerequisites.pdf</code>.</p>
 <p>Interactive documentation on Rascal can be found online at <a href="http://tutor.rascal-mpl.org" class="uri">http://tutor.rascal-mpl.org</a>. This can also be started from within Eclipse from the Rascal menu under &quot;Show Tutor&quot;.</p>
 <p>Check out the <code>src/demo</code> directory to see examples of simple and more advanced language extensions.</p>
+<h3 id="getting-to-know-rascal">Getting to know Rascal</h3>
+<p>To get to know Rascal a little bit (Rascal is a BIG language!), let's implement <a href="http://www.codinghorror.com/blog/2007/02/why-cant-programmers-program.html">FizzBuzz</a>.</p>
+<ul>
+<li><p>Create a new Rascal module in the <code>src</code> directory of the project via <code>File/New...</code>. You may call it &quot;FizzBuzz&quot;.</p></li>
+<li><p>Define a function <code>myFizzbuzz()</code> returning <code>void</code>. You may want to look <a href="http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html">here</a> for example implementations.</p></li>
+<li><p>Right-click on the editor and select <code>Start Console</code>. You should see a Rascal prompt <code>rascal&gt;</code> in the console area of Eclipse.</p></li>
+<li><p>Import your newly created module <code>import FizzBuzz;</code>.</p></li>
+</ul>
 <h3 id="desugaring-in-rascal">Desugaring in Rascal</h3>
 <p>We're going write &quot;desugarings&quot;, which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions (&quot;syntactic sugar&quot;) to the base Javascript language (ECMAScript 5 + <code>let</code>). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main <code>desugar</code> function. The framework will call all of them that are in the project.</p>
 <p>The <code>desugar</code> function is extended by writing a case for the extension you want to desugar using concrete syntax matching. Let's dissect an example to see what that means:</p>
@@ -60,20 +68,23 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
   = (Statement)`if (DEBUG_FLAG) 
                &#39;  console.log(&lt;Expression s&gt;);`;</code></pre>
 <h3 id="notes-on-the-javascript-grammar">Notes on the Javascript grammar</h3>
-<p>Grammars are first-class data types in Rascal. A production rule <code>syntax S = p_1 | ... | p_n</code> introduces a type <code>S</code> with data (syntax) constructors <code>p_1</code>...<code>p_n</code>. You can check out the Javascript grammar in <code>src/javascript/Syntax.rsc</code>.</p>
+<p>Grammars define first-class data types in Rascal. A production rule <code>syntax S = p_1 | ... | p_n</code> introduces a (non-terminal) type <code>S</code> with data (syntax) constructors <code>p_1</code>...<code>p_n</code>. You can check out the Javascript grammar in <code>src/javascript/Syntax.rsc</code>.</p>
 <p>The Javascript grammar used in the project closely follows the ECMAScript 5 syntax, except that the <code>;</code> is required after statement expressions, and there is no comma-expression.</p>
 <p>While writing your desugarings, keep in mind that:</p>
 <ul>
-<li>Expressions are captured by the <code>Expression</code> non-terminal</li>
-<li>Statements are captured by the <code>Statement</code> non-terminal</li>
-<li>String literals are captured by the <code>String</code> non-terminal</li>
-<li>Identifiers (variables, field names, etc.) are captured by the <code>Id</code> non-terminal.</li>
+<li>Expressions are captured by the <code>Expression</code> type</li>
+<li>Statements are captured by the <code>Statement</code> type</li>
+<li>String literals are captured by the <code>String</code> type</li>
+<li>Identifiers (variables, field names, etc.) are captured by the <code>Id</code> type.</li>
 </ul>
 <p>For most assignments we provide the necessary syntax extensions up front, so that you can focus on the source-to-source transformations.</p>
 <h3 id="executing-desugarings">Executing desugarings</h3>
+<p>SJS file</p>
 <p>Save Hover doc See output in js file Open html file where see output + input + execution.</p>
+<p><strong>NB</strong>: the files should be one level below the <code>sjs</code> directory; i.e., in <code>sjs/somedir</code>.</p>
+<p>How to enable ECMAScript 6 in Eclipse Browser</p>
 <h2 id="exercises">Exercises</h2>
-<p>Below we use upper-case identifiers in snippets to indicate meta-variables. Lower-case identifiers either represent keywords (e.g. <code>unless</code>) or object-langugae identifiers (e.g. <code>this</code>, <code>console</code>).</p>
+<p>Below we use upper-case identifiers in snippets to indicate meta-variables. Lower-case identifiers either represent keywords (e.g. <code>unless</code>) or object-language identifiers (e.g. <code>this</code>, <code>console</code>).</p>
 <h3 id="series-1-basic-desugaring">Series 1: basic desugaring</h3>
 <h5 id="ruby-style-instance-variables">1 Ruby-style instance variables</h5>
 <p>In Ruby instance variables (fields) are prefixed with an <code>@</code>-sign. Write a desugaring that transforms <code>@X</code> (where <code>X</code> can be an <code>Id</code>) to <code>this.X</code>.</p>
@@ -98,11 +109,12 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p><em>Quiz</em>: why do we need the <a href="http://en.wikipedia.org/wiki/Immediately-invoked_function_expression">Immediately Invoked Function Expression</a> (IIFE)?</p>
 <h5 id="test">7 Test</h5>
 <p>Write a desugaring for a <code>test</code> statement, similar to the <code>assert</code> desugaring above. In this case the syntax could be: <code>test Expression should be Expression;</code>. Note that <code>should</code> and <code>be</code> are two keywords! Instead of throwing an exception it evaluates both expressions, tests if they are equal, and prints out a message with expected and actual value if the test failed.</p>
-<p><em>Tip</em>: pass the the two expression as parameters to an IFFE, like so <code>(function (actual, expected) { ... })(E1, E2)</code>.</p>
+<p><em>Tip</em>: pass the two expressions as parameters to an IFFE, like so <code>(function (actual, expected) { ... })(E1, E2)</code>.</p>
 <h5 id="foreach">8 Foreach</h5>
 <p>Javascript has a <code>for (x in array) ...</code> statement, but its semantics are <a href="http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea">not always wat you expect</a>. In this assignment, we'll add an explicit <code>foreach</code> construct that works intuitively on arrays. The syntax is <code>foreach (X: E) S</code>, where <code>X</code> is an identifier, <code>E</code> an expression and <code>S</code> a statement. The <code>foreach</code> statement should be desugared to something like:</p>
 <pre><code>{ let array = E, i; for (i = 0; i &lt; array.length; i++) { let X = array[i]; S } }</code></pre>
-<p><em>Quiz</em>: why can't we use the Immediately Invoked Function Expression here, but instead have to rely on ECMAScript 6 <code>let</code> to introduce a variable?</p>
+<p>Note the use of <code>let</code>; this is actually an ECMAScript 6 extension we need here. <code>let</code> works like <code>var</code>, except that the variables are block-scoped, instead of function scoped.</p>
+<p><em>Quiz</em>: why can't we use the IIFE here, but instead have to rely on ECMAScript 6 <code>let</code> to introduce a variable?</p>
 <p><em>Quiz</em>: why do we need to assign the expression <code>E</code> to a local variable (<code>array</code>) first?</p>
 <h5 id="fat-arrow-functions">9 Fat arrow functions</h5>
 <p>ECMACScript 6 introduced <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">fat arrow functions</a>. Arrow functions are a short-hand notation for anonymous functions (closures). In their simplest form the syntax is <code>X =&gt; E</code>, where <code>X</code> is an identifier and <code>E</code> some expression.</p>
@@ -110,7 +122,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>A solution is to introduce a special variable (e.g., <code>_this</code>) in the scope of the arrow function and replace all uses of <code>this</code> by <code>_this</code> in its body. This gives us something like:</p>
 <pre><code>(function (_this) { return function (X) { return E&#39;; }; })(this)</code></pre>
 <p>In this snippet, the variable <code>E'</code> is the original <code>E</code> with all occurrences of <code>this</code> replaced by <code>_this</code>. You can use the provided helper function <code>replaceThis</code> to realize this.</p>
-<p><em>Tip</em>: see what happens if you desugar an arrow function <code>_this =&gt; _this + this.x</code>.</p>
+<p><em>Tip</em>: see what happens if you desugar the arrow function <code>_this =&gt; _this + this.x</code>.</p>
 <p><em>Optional</em>: Add an extension for the second kind of arrow functions which accept any number of arguments enclosed in parentheses (<code>{Id &quot;,&quot;}*</code>), and where the part after the arrow is a list of statements (<code>Statement*</code>) enclosed in curly braces.</p>
+<h3 id="bonus-domain-specific-languages">Bonus: Domain-specific languages</h3>
+<p>The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete <a href="http://en.wikipedia.org/wiki/Domain-specific_language">Domain-Specific Languages</a> on top of the host language! For an elaborate example, check out the <a href="http://en.wikipedia.org/wiki/Finite-state_machine">state machine</a> language in the <code>src/demo</code> directory.</p>
 </body>
 </html>
