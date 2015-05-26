@@ -1,6 +1,6 @@
 module series2::Ex5Swap
 
-import javascript::Syntax;
+extend javascript::Syntax;
 
 syntax Statement
   = "swap" Id "," Id ";"

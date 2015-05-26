@@ -26,9 +26,9 @@ Statement gen2block(Statement inner, (Generator)`<Expression cond>`)
   
 Statement gen2block(Statement inner, (Generator)`<Id x>: <Expression coll>`)
   = (Statement)`{
-               '  let x = <Expression coll>; 
-               '  for (var <Id i>=0; i \< x.length; i++) { 
-               '    let <Id x> = x[<Id i>]; 
+               '  let coll = <Expression coll>, i; 
+               '  for (i =0; i \< x.length; i++) { 
+               '    let <Id x> = coll[i]; 
                '    <Statement inner>
                '  }
                '}`

@@ -208,7 +208,49 @@ _Tip_: see what happens if you desugar the arrow function `_this => _this + this
 
 _Optional_: Add an extension for the second kind of arrow functions which accept any number of arguments enclosed in parentheses (`{Id ","}*`), and where the part after the arrow is a list of statements (`Statement*`) enclosed in curly braces.
 
-### Bonus: Domain-specific languages
+### Advanced extensions
+
+
+#### Array comprehensions
+
+[Comprehensions](http://en.wikipedia.org/wiki/List_comprehension) are convenient short-hand notation for building collections like lists, sets, or, in Javascript, arrays. They often have the following syntax:
+
+```
+syntax Expression = "[" Expression "|" {Generator ","}+ "]"
+```
+
+Generators come in two forms:
+
+- Conditions: `Expression`
+
+- Enumerators: `Id "in" Expression`
+
+Write a desugaring that transforms comprehensions to an IFFE which contains a local accumulator array. A condition generator maps to an `if`-statement, and enumerators map to `for`-loops. The sequence of generators leads to nested `if`- and `for`-statements. Only at the innermost position is an element added to the accumulator array.
+
+An example:
+
+```
+[ x | x in array, x % 2 === 0]
+===>
+(function() {
+  var result = [];
+  {
+     let coll = array, i;
+     for (i = 0; i < coll.length; i++) {
+       let x = coll[i];
+       if (x % 2) {
+         result.push(x);
+       }
+     }
+  }
+  return result;
+})()
+```
+_Tip_: iterate through the generators in reverse using the `reverse` function of the Rascal standard library module `List`. Convert the syntactic sequence of generators (`{Generator ","}+`) to a list as follows: `[ g | g <- gens ]`. Now it's easy to start with the innermost statement, and wrap it successively with the `if`- and `for`-statements.
+
+_Optional_: implement comprehensions without `let`, but only using IFFEs.
+
+##### Domain-Specific Languages
 
 The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete [Domain-Specific Languages](http://en.wikipedia.org/wiki/Domain-specific_language) on top of the host language! For an elaborate example, check out the [state machine](http://en.wikipedia.org/wiki/Finite-state_machine) language in the `src/demo` directory.
 

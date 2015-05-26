@@ -13,11 +13,13 @@ syntax Fields = {Id ","}* lst;
 
 
 Expression desugar((Expression)`select <Fields flds> from <Expression from> where <Expression where>`)
-  = (Expression)`JSLINQ(<Expression from>).Where(function(item) { return <Expression where2>; }).Select(function (item) { return <Expression obj>; })`
+  = (Expression)`JSLINQ(<Expression from>)
+                '  .Where(function(item) { return <Expression where2>; })
+                '  .Select(function (item) { return <Expression obj>; })`
   when 
-  item := (Id)`item`,
-  where2 := vars2fields(where, flds, item),
-  obj := ids2object(flds, (Id)`item`);  
+    item := (Id)`item`,
+    where2 := vars2fields(where, flds, item),
+    obj := ids2object(flds, (Id)`item`);  
 
 
 Expression vars2fields(Expression exp, Fields flds, Id obj) {
