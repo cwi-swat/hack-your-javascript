@@ -17,6 +17,18 @@ Interactive documentation on Rascal can be found online at [http://tutor.rascal-
 
 Check out the `src/demo` directory to see examples of simple and more advanced language extensions.
 
+### Getting to know Rascal
+
+To get to know Rascal a little bit (Rascal is a BIG language!), let's implement [FizzBuzz](http://www.codinghorror.com/blog/2007/02/why-cant-programmers-program.html).
+
+- Create a new Rascal module in the `src` directory of the project via `File/New...`. You may call it "FizzBuzz".
+
+- Define a function `myFizzbuzz()` returning `void`. You may want to look [here](http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html)  for example implementations.
+
+- Right-click on the editor and select `Start Console`. You should see a Rascal prompt `rascal>` in the console area of Eclipse.
+
+- Import your newly created module `import FizzBuzz;`.
+
 ### Desugaring in Rascal
 
 We're going write "desugarings", which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions ("syntactic sugar") to the base Javascript language (ECMAScript 5 + `let`). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main `desugar` function. The framework will call all of them that are in the project. 
@@ -155,7 +167,7 @@ _Quiz_: why do we need the [Immediately Invoked Function Expression](http://en.w
 Write a desugaring for a `test` statement, similar to the `assert` desugaring above. In this case the syntax could be: `test Expression should be Expression;`. Note that `should` and `be` are two keywords!
 Instead of throwing an exception it evaluates both expressions, tests if they are equal, and prints out a message with expected and actual value if the test failed.
 
-_Tip_: pass the the two expression as parameters to an IFFE, like so `(function (actual, expected) { ... })(E1, E2)`.
+_Tip_: pass the two expressions as parameters to an IFFE, like so `(function (actual, expected) { ... })(E1, E2)`.
 
 
 ##### 8 Foreach
@@ -165,8 +177,9 @@ Javascript has a `for (x in array) ...` statement, but its semantics are [not al
 ```
 { let array = E, i; for (i = 0; i < array.length; i++) { let X = array[i]; S } }
 ```
+Note the use of `let`; this is actually an ECMAScript 6 extension we need here. `let` works like `var`, except that the variables are block-scoped, instead of function scoped. 
 
-_Quiz_: why can't we use the Immediately Invoked Function Expression here, but instead have to rely on ECMAScript 6 `let` to introduce a variable?
+_Quiz_: why can't we use the IIFE here, but instead have to rely on ECMAScript 6 `let` to introduce a variable?
 
 _Quiz_: why do we need to assign the expression `E` to a local variable (`array`) first?
 
@@ -185,9 +198,13 @@ A solution is to introduce a special variable (e.g., `_this`) in the scope of th
 In this snippet, the variable `E'` is the original `E` with all occurrences of `this` replaced by `_this`. You can use the provided helper function `replaceThis` to realize this. 
 
 
-_Tip_: see what happens if you desugar an arrow function `_this => _this + this.x`. 
+_Tip_: see what happens if you desugar the arrow function `_this => _this + this.x`. 
 
 _Optional_: Add an extension for the second kind of arrow functions which accept any number of arguments enclosed in parentheses (`{Id ","}*`), and where the part after the arrow is a list of statements (`Statement*`) enclosed in curly braces.
+
+### Bonus: Domain-specific languages
+
+The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete [Domain-Specific Languages](http://en.wikipedia.org/wiki/Domain-specific_language) on top of the host language! For an elaborate example, check out the [state machine](http://en.wikipedia.org/wiki/Finite-state_machine) language in the `src/demo` directory.
 
 
 
