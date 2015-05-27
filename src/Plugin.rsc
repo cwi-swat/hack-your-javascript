@@ -13,17 +13,6 @@ import String;
 anno rel[loc,loc,str] Tree@hyperlinks;
 
 void main() {
-  makeRegistrar("Sweeter JS", "sjs")();  
-}
-
-
-void() makeRegistrar(str lang, str ext) {
-   // caches
-  start[Source] js;
-  Refs xrefs;
-  map[loc, str] renaming;
-   
-  return void() {
     registerLanguage(lang, ext, Tree(str src, loc l) {
       return parse(#start[Source], src, l);
     });
@@ -40,24 +29,22 @@ void() makeRegistrar(str lang, str ext) {
       }),
   
       builder(set[Message](Tree tree) {
-        // use the caches here
-        fixed = rename(js, renaming);
-        //out = tree@\loc.top[extension="js"];
-        
-        generateFiles(tree, fixed);
-        return {};
+        if (start[Source] s := pt) {
+          <js, xref, renaming> = desugarAndResolve(s);
+          fixed = rename(js, renaming);
+          generateFiles(tree, fixed);  
+        }
+        return pt[@messages={error("BUG: not JS", pt@\loc)}];
       }),
       
       categories(
       	("TwitterConstant":{foregroundColor(color("white")), backgroundColor(rgb(64,153,255))})
       )
     });
-  };
 }
 
 void generateFiles(start[Source] orig, start[Source] desugared) {
 	jsOut = orig@\loc.top[extension="js"];
- 	
  	writeFile(jsOut, unparse(desugared));
  	generateHtmlFile(orig, desugared);
 }

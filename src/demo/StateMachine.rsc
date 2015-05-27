@@ -23,7 +23,7 @@ Expression desugar((Expression)`statemachine {<States ss>}`)
   = (Expression)`(function() { 
                 '   <Statement consts>
                 '   {
-                '     let state = 0;
+                '     var state = 0;
                 '     return function(event) {
                 '        <Statement body>
                 '     };  
