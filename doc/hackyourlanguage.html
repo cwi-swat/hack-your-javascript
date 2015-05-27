@@ -36,7 +36,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>To get to know Rascal a little bit (Rascal is a BIG language!), let's implement <a href="http://www.codinghorror.com/blog/2007/02/why-cant-programmers-program.html">FizzBuzz</a>.</p>
 <ul>
 <li><p>Create a new Rascal module in the <code>src</code> directory of the project via <code>File/New...</code>. You may call it &quot;FizzBuzz&quot;.</p></li>
-<li><p>Define a function <code>myFizzbuzz()</code> returning <code>void</code>. You may want to look <a href="http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html">here</a> for example implementations.</p></li>
+<li><p>Define a function <code>myFizzbuzz()</code> returning <code>void</code>. You may want to look <a href="http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html">here</a> for example implementations. Add <code>import IO;</code> at the top to obtain access to the <code>println(x)</code> function.</p></li>
 <li><p>Right-click on the editor and select <code>Start Console</code>. You should see a Rascal prompt <code>rascal&gt;</code> in the console area of Eclipse.</p></li>
 <li><p>Import your newly created module <code>import FizzBuzz;</code>.</p></li>
 <li><p>Type in: <code>myFizzbuzz()</code> and see the result.</p></li>
@@ -88,37 +88,38 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <h2 id="exercises">Exercises</h2>
 <p>Below we use upper-case identifiers in snippets to indicate meta-variables. Lower-case identifiers either represent keywords (e.g. <code>unless</code>) or object-language identifiers (e.g. <code>this</code>, <code>console</code>).</p>
 <h3 id="series-1-basic-desugaring">Series 1: basic desugaring</h3>
-<h5 id="ruby-style-instance-variables">1 Ruby-style instance variables</h5>
+<h5 id="at-fields">1 At Fields</h5>
 <p>In Ruby instance variables (fields) are prefixed with an <code>@</code>-sign. Write a desugaring that transforms <code>@X</code> (where <code>X</code> can be an <code>Id</code>) to <code>this.X</code>.</p>
-<h5 id="pairs">2 Pairs</h5>
-<p>Javascript has structured literals for objects and arrays, but not for pairs (tuples). Write a transformation that desugars pairs written in between <code>&lt;</code> and <code>&gt;</code> to object literals with fields <code>_1</code> and <code>_2</code>. IOW: <code>&lt;E1, E2&gt;</code> desugars to <code>{_1: E1, _2: E2}</code>.</p>
-<h5 id="todo-statement">3 Todo statement</h5>
+<h5 id="twitter-search">2 Twitter Search</h5>
+<h5 id="dont-statement">3 Dont statement</h5>
+<p>Write a desugaring &quot;dont&quot; statement with syntax <code>dont Statement</code>. It should desugar to code where the argument statement is eliminated. For instance, <code>dont S</code> would rewrite to the empty statement <code>;</code>.</p>
+<h5 id="todo-statement">4 Todo statement</h5>
 <p>Comments are often used to mark todo items in code. But why not use an explicit statement that nags your by writing the todo item to the <code>console</code>? In this case the desugaring transforms <code>todo X;</code> (where X represents a <code>String</code>) to <code>console.log(&quot;TODO: &quot; + X);</code>.</p>
-<p><em>Optional</em>: write the syntax for a &quot;dont&quot; statement (similar to <code>todo</code>) with syntax <code>dont Statement</code>. It should desugar to code where the argument statement is eliminated. For instance, <code>dont S</code> would rewrite to the empty statement <code>;</code>.</p>
-<h5 id="unless-statement">4 Unless statement</h5>
+<h5 id="unless-statement">5 Unless statement</h5>
 <p>Some languages include a statement for negated conditional. For instance, Ruby has <code>unless</code>. In this assignment we're adding such a statement to Javascript. The syntax is <code>unless &quot;(&quot; Cond &quot;)&quot; Body</code> (where <code>Cond</code> is an <code>Expression</code> and <code>Body</code> a <code>Statement</code>), and it should rewrite to <code>if (!(Cond)) Body</code>.</p>
 <p><em>Quiz</em>: why are the extra parentheses around <code>cond</code> needed?</p>
-<p><em>Optional</em>: write a desugaring for <code>repeat Body until &quot;(&quot; Cond &quot;)&quot;</code> which transforms to a <code>do-while</code> loop.</p>
-<h5 id="assert-statement">5 Assert statement</h5>
+<h5 id="repeat-until">6 Repeat-until</h5>
+<p>Write a desugaring for <code>repeat Body until &quot;(&quot; Cond &quot;)&quot;</code> which transforms to a <code>do-while</code> loop.</p>
+<h5 id="assert-statement">7 Assert statement</h5>
 <p>Assert statements are used to document your assumptions. If an assertion fails you get an exception listing showing the expression that failed and (optionally) a textual message. The <code>assert</code> we're defining here has the following syntax: <code>assert Expression: Message;</code> (where <code>Message</code> is a <code>String</code>). It should be translated to code that throws an exception if the expression evaluates to a falsy value. For instance, <code>assert E: S</code> desugars to: <code>if (!(E)) throw new Error(&quot;Assertion failed: &quot; + msg);</code></p>
 <p>Use Rascal string interpolation (using <code>&lt;</code> and <code>&gt;</code>) to <em>unparse</em> the argument expression into a Rascal string, and then parse it as a Javascript string literal (<code>String</code>) as follows: <code>msg = parse(#String, &quot;\&quot;&lt;e&gt;\&quot;&quot;)</code> (assuming <code>e</code> is the expression). Now you can use <code>msg</code> in the constructed pattern.</p>
 <h3 id="series-2-introducing-bindings">Series 2: introducing bindings</h3>
 <p>Names are an important language feature. They allow us to create abstractions, store intermediate values for reuse, and create sharing in values. In this series, we'll define language extensions that require the introduction of name bindings.</p>
-<h5 id="swap">6 Swap</h5>
+<h5 id="swap">1 Swap</h5>
 <p>A swap statement allows you to swap the value of two variables in a single statement. Its syntax is <code>swap X, Y;</code>, where <code>X</code> and <code>Y</code> represent variables. Write a transormation which transforms this to:</p>
 <pre><code>(function() { var tmp = X; X = Y; Y = tmp; })();</code></pre>
 <p>Check that our desugaring framework avoids <a href="http://en.wikipedia.org/wiki/Hygienic_macro">inadvertent name capture</a> by trying swapping a variable <code>tmp</code> with another variable.</p>
 <p><em>Quiz</em>: why do we need the <a href="http://en.wikipedia.org/wiki/Immediately-invoked_function_expression">Immediately Invoked Function Expression</a> (IIFE)?</p>
-<h5 id="test">7 Test</h5>
+<h5 id="test">2 Test</h5>
 <p>Write a desugaring for a <code>test</code> statement, similar to the <code>assert</code> desugaring above. In this case the syntax could be: <code>test Expression should be Expression;</code>. Note that <code>should</code> and <code>be</code> are two keywords! Instead of throwing an exception it evaluates both expressions, tests if they are equal, and prints out a message with expected and actual value if the test failed.</p>
 <p><em>Tip</em>: pass the two expressions as parameters to an IFFE, like so <code>(function (actual, expected) { ... })(E1, E2)</code>.</p>
-<h5 id="foreach">8 Foreach</h5>
+<h5 id="foreach">3 Foreach</h5>
 <p>Javascript has a <code>for (x in array) ...</code> statement, but its semantics are <a href="http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea">not always wat you expect</a>. In this assignment, we'll add an explicit <code>foreach</code> construct that works intuitively on arrays. The syntax is <code>foreach (X: E) S</code>, where <code>X</code> is an identifier, <code>E</code> an expression and <code>S</code> a statement. The <code>foreach</code> statement should be desugared to something like:</p>
 <pre><code>{ let array = E, i; for (i = 0; i &lt; array.length; i++) { let X = array[i]; S } }</code></pre>
 <p>Note the use of <code>let</code>; this is actually an ECMAScript 6 extension we need here. <code>let</code> works like <code>var</code>, except that the variables are block-scoped, instead of function scoped.</p>
 <p><em>Quiz</em>: why can't we use the IIFE here, but instead have to rely on ECMAScript 6 <code>let</code> to introduce a variable?</p>
 <p><em>Quiz</em>: why do we need to assign the expression <code>E</code> to a local variable (<code>array</code>) first?</p>
-<h5 id="fat-arrow-functions">9 Fat arrow functions</h5>
+<h5 id="fat-arrow-functions">4 Fat arrow functions</h5>
 <p>ECMACScript 6 introduced <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">fat arrow functions</a>. Arrow functions are a short-hand notation for anonymous functions (closures). In their simplest form the syntax is <code>X =&gt; E</code>, where <code>X</code> is an identifier and <code>E</code> some expression.</p>
 <p>At first sight the desugaring seems to be simple, just map it to <code>function(X) { return E; }</code>. Unfortunately, functions in Javascript introduce a new context for the <code>this</code> variable but arrow functions are explicitly designed not to do this; instead the value of <code>this</code> in the body expression of an arrow function is lexically determined. IOW: it is inherited from its lexically enclosing function.</p>
 <p>A solution is to introduce a special variable (e.g., <code>_this</code>) in the scope of the arrow function and replace all uses of <code>this</code> by <code>_this</code> in its body. This gives us something like:</p>
@@ -126,7 +127,37 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>In this snippet, the variable <code>E'</code> is the original <code>E</code> with all occurrences of <code>this</code> replaced by <code>_this</code>. You can use the provided helper function <code>replaceThis</code> to realize this.</p>
 <p><em>Tip</em>: see what happens if you desugar the arrow function <code>_this =&gt; _this + this.x</code>.</p>
 <p><em>Optional</em>: Add an extension for the second kind of arrow functions which accept any number of arguments enclosed in parentheses (<code>{Id &quot;,&quot;}*</code>), and where the part after the arrow is a list of statements (<code>Statement*</code>) enclosed in curly braces.</p>
-<h3 id="bonus-domain-specific-languages">Bonus: Domain-specific languages</h3>
-<p>The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete <a href="http://en.wikipedia.org/wiki/Domain-specific_language">Domain-Specific Languages</a> on top of the host language! For an elaborate example, check out the <a href="http://en.wikipedia.org/wiki/Finite-state_machine">state machine</a> language in the <code>src/demo</code> directory.</p>
+<h4 id="array-comprehensions">5 Array comprehensions</h4>
+<p><a href="http://en.wikipedia.org/wiki/List_comprehension">Comprehensions</a> are convenient short-hand notation for building collections like lists, sets, or, in Javascript, arrays. They often have the following syntax:</p>
+<pre><code>syntax Expression = &quot;[&quot; Expression &quot;|&quot; {Generator &quot;,&quot;}+ &quot;]&quot;</code></pre>
+<p>Generators come in two forms:</p>
+<ul>
+<li><p>Conditions: <code>Expression</code></p></li>
+<li><p>Enumerators: <code>Id &quot;in&quot; Expression</code></p></li>
+</ul>
+<p>Write a desugaring that transforms comprehensions to an IFFE which contains a local accumulator array. A condition generator maps to an <code>if</code>-statement, and enumerators map to <code>for</code>-loops. The sequence of generators leads to nested <code>if</code>- and <code>for</code>-statements. Only at the innermost position is an element added to the accumulator array.</p>
+<p>An example:</p>
+<pre><code>[ x | x in array, x % 2 === 0]
+===&gt;
+(function() {
+  var result = [];
+  {
+     let coll = array, i;
+     for (i = 0; i &lt; coll.length; i++) {
+       let x = coll[i];
+       if (x % 2) {
+         result.push(x);
+       }
+     }
+  }
+  return result;
+})()</code></pre>
+<p><em>Tip</em>: iterate through the generators in reverse using the <code>reverse</code> function of the Rascal standard library module <code>List</code>. Convert the syntactic sequence of generators (<code>{Generator &quot;,&quot;}+</code>) to a list as follows: <code>[ g | g &lt;- gens ]</code>. Now it's easy to start with the innermost statement, and wrap it successively with the <code>if</code>- and <code>for</code>-statements.</p>
+<p><em>Optional</em>: implement comprehensions without <code>let</code>, but only using IFFEs.</p>
+<p><em>Optional</em>: Rascal has builtin notation for reducers. For instance, to sum a list of integers, you can write:</p>
+<pre><code>( 0 | it + x | x &lt;- [1..10] )</code></pre>
+<p>Use this construct to desugar comprehensions. Think about what the &quot;zero&quot; element should be.</p>
+<h3 id="domain-specific-languages">Domain-Specific Languages</h3>
+<p>The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete <a href="http://en.wikipedia.org/wiki/Domain-specific_language">Domain-Specific Languages</a> on top of the host language! Check out the <a href="http://en.wikipedia.org/wiki/Finite-state_machine">state machine</a> language in the <code>src/demo</code> directory for an example.</p>
 </body>
 </html>
