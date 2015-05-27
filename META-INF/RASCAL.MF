@@ -1,5 +1,5 @@
 Manifest-Version: 0.0.1
 Main-Function: main
-Main-Module: javascript/Plugin
+Main-Module: javascript::Plugin
 Source: src
 

@@ -4,10 +4,12 @@ var Todo = createComponent();
 var name = "Jouke";
 
 
-var elt = %Todo %ul {
-  %li "Element 1";
-  %li "Element 2"; name; 
-  %li "Element 3";
+var elt = %html {
+  %head %title "Hello Joy of Coding!";
+  %body {
+    %h1 "Hello Joy of Coding";
+    %p {"Hello"; name; }
+  }
 };
 
 

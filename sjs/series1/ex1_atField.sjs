@@ -3,7 +3,7 @@
 
 console.log("this.x(" + @x + ") + this.y(" + @y + ") = " + (@x + @y));
 
-/* Just a little fun with the Java 'this' object */
+/* Just a little fun with the Javascript 'this' object */
 @x = 1;
 
 var myObj = {

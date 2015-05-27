@@ -5,21 +5,14 @@ import String;
 import ParseTree;
 import IO;
 
-syntax Expression
-  = hamlExp: Tag Props? Tail?
-  ;
-  
-// Unnatural encoding to circumvent prefix sharing bug in parser generator
-syntax Tail
-  = "{" Element* "}"
-  | Expression!call
-  ;
+syntax Expression = Element;
 
 syntax Element
   = hnest: Tag Props? Element 
   | hblock: "{" Element* "}"
   | hempty: Tag Props? ";"
-  | hexpr: Expression!hamlExp!call ";"
+  | hvar: Id ";"
+  | hlit: String ";"
   ;
   
 syntax Props = "(" {PropertyAssignment ","}* ")";
@@ -40,25 +33,10 @@ syntax TagName // bug: giving category here, breaks highlighting
   = "%" NoLayout Id
   ;
 
+Expression desugar((Expression)`<Element e>`) = firstExp(elt2js(e));
+
 Expression firstExp((Expression)`[<Expression e>]`) = e;
 
-Expression desugar((Expression)`<Tag t> <Props a> {<Element* es>}`) 
-  = firstExp(elt2js((Element)`<Tag t> <Props a> {<Element* es>}`));
-
-Expression desugar((Expression)`<Tag t> <Props a> <Expression e>`) 
-  = firstExp(elt2js((Element)`<Tag t> <Props a> <Expression e>;`));
-
-Expression desugar((Expression)`<Tag t> <Props a>`) 
-  = firstExp(elt2js((Element)`<Tag t> <Props a>;`));
-
-Expression desugar((Expression)`<Tag t> {<Element* es>}`) 
-  = firstExp(elt2js((Element)`<Tag t> {<Element* es>}`));
-
-Expression desugar((Expression)`<Tag t> <Expression e>`) 
-  = firstExp(elt2js((Element)`<Tag t> <Expression e>;`));
-
-Expression desugar((Expression)`<Tag t>`) 
-  = firstExp(elt2js((Element)`<Tag t>;`));
 
 
 // Blocks
@@ -72,8 +50,9 @@ Expression elt2js((Element)`{<Element e> <Element* es>}`)
     (Expression)`[<{Expression ","}* exps0>]` := elt2js(e),
     (Expression)`[<{Expression ","}* exps>]` := elt2js((Element)`{<Element* es>}`); 
 
-// Expressions and strings
-Expression elt2js((Element)`<Expression e>;`) = (Expression)`[<Expression e>]`;
+// Vars and strings
+Expression elt2js((Element)`<Id e>;`) = (Expression)`[<Id e>]`;
+Expression elt2js((Element)`<String e>;`) = (Expression)`[<Id e>]`;
 
 // Empty tags
 Expression elt2js((Element)`<Tag t>;`)  

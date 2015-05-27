@@ -1,3 +1,1 @@
-var console;
-
 debug "Hello";

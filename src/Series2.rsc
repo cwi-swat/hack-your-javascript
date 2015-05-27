@@ -99,9 +99,9 @@ Statement gen2block(Statement inner, (Generator)`<Expression cond>`)
   
 Statement gen2block(Statement inner, (Generator)`<Id x>: <Expression coll>`)
   = (Statement)`{
-               '  let coll = <Expression coll>, i; 
-               '  for (i =0; i \< x.length; i++) { 
-               '    let <Id x> = coll[i]; 
+               '  var coll = <Expression coll>; 
+               '  for (var i = 0; i \< x.length; i++) { 
+               '    var <Id x> = coll[i]; 
                '    <Statement inner>
                '  }
                '}`;
