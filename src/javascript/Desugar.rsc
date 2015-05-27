@@ -1,14 +1,8 @@
 module javascript::Desugar
 
 extend javascript::Syntax;
-extend series1::Ex1Unless;
-extend series1::Ex2Repeat;
-extend series1::Ex3Assert;
-extend series2::Ex4ArrowFuncs;
-extend series2::Ex5Swap;
-extend series2::Ex6ForEach;
-extend series2::Ex7Classes;
-extend series2::Ex9Twitter;
+extend Series1;
+extend Series2
 extend demo::HAML;
 extend demo::StateMachine;
 extend demo::SelectQuery;
