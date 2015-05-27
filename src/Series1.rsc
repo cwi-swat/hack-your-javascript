@@ -15,11 +15,20 @@ syntax Statement
   | "unless" "(" Expression ")" Statement
   | "repeat" Statement "until" "(" Expression ")" ";"
   | "assert" Expression ":" String ";"
+  | "debug" Expression ";"
   ;
   
 // Reserve the new keywords
-keyword Keywords = "todo" | "dont" | "unless" | "repeat" | "assert";
+keyword Keywords = "todo" | "dont" | "unless" | "repeat" | "assert" | "debug";
   
+/* 
+ * 0. Debug statement (Example)
+ */ 
+  
+
+Statement desugar((Statement)`debug <Expression ex>;`) 
+  = (Statement) `if (DEBUG_FLAG) console.log(<Expression ex>);`;
+
 
 /*
  * 1. At fields
