@@ -15,6 +15,23 @@ var q = select FirstName, LastName
 console.log("Query output: ");
 console.log(q);
   
+// "HAML"
+
+var names = ["Chris", "Crista", "Kevlin"];
+
+var doc = %html {
+  %head  %title "Hello Joy of Coding!";
+  %body #main {
+    %h1 "Hello Joy of Coding!";
+    
+    %ul for (var n in names) 
+      %li { "Hello "; n; "!"; }
+  }
+};
+
+console.log("DOM tree: ");
+console.log(doc);  
+  
 
 // State machines
 var doors = statemachine { 

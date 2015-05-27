@@ -13,6 +13,9 @@ syntax Element
   | hempty: Tag Props? ";"
   | hvar: Id ";"
   | hlit: String ";"
+  | hfor: "for" "(" "var" Id "in" Expression ")" Element
+  | hif: "if" "(" Expression ")" Element () !>> "else" 
+  | hifElse: "if" "(" Expression ")" Element "else" Element
   ;
   
 syntax Props = "(" {PropertyAssignment ","}* ")";
@@ -53,6 +56,31 @@ Expression elt2js((Element)`{<Element e> <Element* es>}`)
 // Vars and strings
 Expression elt2js((Element)`<Id e>;`) = (Expression)`[<Id e>]`;
 Expression elt2js((Element)`<String e>;`) = (Expression)`[<Id e>]`;
+
+// Control flow
+Expression elt2js((Element)`for (var <Id x> in <Expression e>) <Element elt>`) 
+  = (Expression)`[(function (arr) { 
+                '   var result = []; 
+                '   for (var i = 0; i \< arr.length; i++) {
+                '      var <Id x> = arr[i];
+                '      var sub = <Expression z>;
+                '      for (var j = 0; j \< sub.length; j++) {
+                '        result.push(sub[j]);
+                '      }
+                '   }
+                '   return result;
+                '})(<Expression e>)]`
+  when Expression z := elt2js(elt);
+
+Expression elt2js((Element)`if (<Expression c>) <Element elt>`) 
+  = (Expression)`[(function () { 
+                '   if (<Expression c>) {
+                '     return <Expression z>;
+                '   }
+                '   return []; 
+                '})()]`
+  when Expression z := elt2js(elt);
+
 
 // Empty tags
 Expression elt2js((Element)`<Tag t>;`)  
