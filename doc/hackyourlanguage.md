@@ -17,23 +17,6 @@ Interactive documentation on Rascal can be found online at [http://tutor.rascal-
 
 Check out the `src/demo` directory to see examples of simple and more advanced language extensions.
 
-### Getting to know Rascal
-
-To get to know Rascal a little bit (Rascal is a BIG language!), let's implement [FizzBuzz](http://www.codinghorror.com/blog/2007/02/why-cant-programmers-program.html).
-
-- Create a new Rascal module in the `src` directory of the project via `File/New...`. You may call it "FizzBuzz". 
-
-- Define a function `myFizzbuzz()` returning `void`. You may want to look [here](http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html)  for example implementations. Add `import IO;` at the top to obtain access to the `println(x)` function.
-
-- Right-click on the editor and select `Start Console`. You should see a Rascal prompt `rascal>` in the console area of Eclipse.
-
-- Import your newly created module `import FizzBuzz;`.
-
-- Type in: `myFizzbuzz()` and see the result.
-
-_Optional_: implement FizzBuzz using a different implementation strategy for instance, like listed on [the Rascal tutor](http://tutor.rascal-mpl.org/Recipes/Basic/FizzBuzz/FizzBuzz.html), and try to understand the code.
-
-
 
 ### Desugaring in Rascal
 
