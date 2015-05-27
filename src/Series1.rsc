@@ -26,9 +26,10 @@ keyword Keywords = "todo" | "dont" | "unless" | "repeat" | "assert" | "debug";
  */ 
   
 
-Statement desugar((Statement)`debug <Expression ex>;`) 
-  = (Statement) `if (DEBUG_FLAG) console.log(<Expression ex>);`;
-
+Statement desugar((Statement)`debug <Expression ex>;`) {
+  return (Statement) `if (DEBUG_FLAG) 
+                     '  console.log(<Expression ex>);`;
+}
 
 /*
  * 1. At fields

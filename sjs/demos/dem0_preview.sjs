@@ -17,7 +17,6 @@ console.log(q);
   
 
 // State machines
-
 var doors = statemachine { 
     state closed {
        console.log("Door is closed");

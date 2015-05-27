@@ -13,7 +13,8 @@ import String;
 anno rel[loc,loc,str] Tree@hyperlinks;
 
 void main() {
-    registerLanguage(lang, ext, Tree(str src, loc l) {
+    str lang = "SweeterJS";
+    registerLanguage(lang, "sjs", Tree(str src, loc l) {
       return parse(#start[Source], src, l);
     });
   
@@ -28,13 +29,14 @@ void main() {
         return pt[@messages={error("BUG: not JS", pt@\loc)}];
       }),
   
-      builder(set[Message](Tree tree) {
+      builder(set[Message](Tree pt) {
         if (start[Source] s := pt) {
           <js, xref, renaming> = desugarAndResolve(s);
           fixed = rename(js, renaming);
-          generateFiles(tree, fixed);  
+          generateFiles(pt, fixed);  
+          return {};
         }
-        return pt[@messages={error("BUG: not JS", pt@\loc)}];
+        return {error("BUG: not JS", pt@\loc)};
       }),
       
       categories(

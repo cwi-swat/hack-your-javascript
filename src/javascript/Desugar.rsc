@@ -1,6 +1,7 @@
 module javascript::Desugar
 
 extend javascript::Syntax;
+extend Series0;
 extend Series1;
 extend Series2;
 extend demo::HAML;
