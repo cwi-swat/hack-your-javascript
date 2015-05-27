@@ -8,6 +8,7 @@ import IO;
 import javascript::Desugar;
 import javascript::Resolve;
 import vis::Figure;
+import String;
 
 anno rel[loc,loc,str] Tree@hyperlinks;
 

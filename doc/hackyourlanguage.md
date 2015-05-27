@@ -37,7 +37,7 @@ _Optional_: implement FizzBuzz using a different implementation strategy for ins
 
 ### Desugaring in Rascal
 
-We're going write "desugarings", which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions ("syntactic sugar") to the base Javascript language (ECMAScript 5 + `let`). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main `desugar` function. The framework will call all of them that are in the project. 
+We're going write "desugarings", which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions ("syntactic sugar") to the base Javascript language (ECMAScript 5). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main `desugar` function. The framework will call all of them that are in the project. 
 
 The `desugar` function is extended by writing a case for the extension you want to desugar using concrete syntax matching. Let's dissect an example to see what that means:
 
@@ -183,13 +183,13 @@ _Tip_: pass the two expressions as parameters to an IFFE, like so `(function (ac
 Javascript has a `for (x in array) ...` statement, but its semantics are [not always wat you expect](http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea). In this assignment, we'll add an explicit `foreach` construct that works intuitively on arrays. The syntax is `foreach (X in E) S`, where `X` is an identifier, `E` an expression and `S` a statement. The `foreach` statement should be desugared to something like:
 
 ```
-{ let array = E, i; for (i = 0; i < array.length; i++) { let X = array[i]; S } }
+(function(array){ for (var i = 0; i < array.length; i++) { var X = array[i]; S } })(E);
 ```
-Note the use of `let`; this is actually an ECMAScript 6 extension we need here. `let` works like `var`, except that the variables are block-scoped, instead of function scoped. 
 
-_Quiz_: why can't we use the IIFE here, but instead have to rely on ECMAScript 6 `let` to introduce a variable?
+_Quiz_: why do we need to bind the expression `E` to the parameter (`array`) first?
 
-_Quiz_: why do we need to assign the expression `E` to a local variable (`array`) first?
+_Quiz_: The use of the IFFE to create a scope for `i`, `X` and `array` is, in fact, wrong: not all `foreach`-loops will desugar to correct code. Can you think of the reason? Hint: it has to do with non-local control flow.
+
 
 ##### 4 Arrow functions
 
@@ -235,9 +235,9 @@ An example:
 (function() {
   var result = [];
   {
-     let coll = array, i;
-     for (i = 0; i < coll.length; i++) {
-       let x = coll[i];
+     var coll = array;
+     for (var i = 0; i < coll.length; i++) {
+       var x = coll[i];
        if (x % 2) {
          result.push(x);
        }
@@ -247,8 +247,6 @@ An example:
 })()
 ```
 _Tip_: iterate through the generators in reverse using the `reverse` function of the Rascal standard library module `List`. Convert the syntactic sequence of generators (`{Generator ","}+`) to a list as follows: `[ g | g <- gens ]`. Now it's easy to start with the innermost statement, and wrap it successively with the `if`- and `for`-statements.
-
-_Optional_: implement comprehensions without `let`, but only using IFFEs.
 
 _Optional_: Rascal has builtin notation for reducers. For instance, to sum a list of integers, you can write:
 

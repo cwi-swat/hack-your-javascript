@@ -3,6 +3,7 @@ module demo::HAML
 extend javascript::Syntax;
 import String;
 import ParseTree;
+import IO;
 
 syntax Expression
   = hamlExp: Tag Props? Tail?
@@ -47,7 +48,7 @@ Expression desugar((Expression)`<Tag t> <Props a> {<Element* es>}`)
 Expression desugar((Expression)`<Tag t> <Props a> <Expression e>`) 
   = firstExp(elt2js((Element)`<Tag t> <Props a> <Expression e>;`));
 
-Expression desugar((Expression)`<Tag t> <Props? a>`) 
+Expression desugar((Expression)`<Tag t> <Props a>`) 
   = firstExp(elt2js((Element)`<Tag t> <Props a>;`));
 
 Expression desugar((Expression)`<Tag t> {<Element* es>}`) 
@@ -56,7 +57,7 @@ Expression desugar((Expression)`<Tag t> {<Element* es>}`)
 Expression desugar((Expression)`<Tag t> <Expression e>`) 
   = firstExp(elt2js((Element)`<Tag t> <Expression e>;`));
 
-Expression desugar((Expression)`<Tag t> <Props? a>`) 
+Expression desugar((Expression)`<Tag t>`) 
   = firstExp(elt2js((Element)`<Tag t>;`));
 
 
@@ -66,6 +67,8 @@ Expression elt2js((Element)`{}`) = (Expression)`[]`;
 Expression elt2js((Element)`{<Element e> <Element* es>}`) 
   = (Expression)`[<{Expression ","}* exps0>, <{Expression ","}* exps>]`
   when 
+    bprintln("FOO: <e>"),
+    bprintln("FOOS: <es>"),
     (Expression)`[<{Expression ","}* exps0>]` := elt2js(e),
     (Expression)`[<{Expression ","}* exps>]` := elt2js((Element)`{<Element* es>}`); 
 
@@ -84,10 +87,11 @@ Expression elt2js((Element)`<Tag t> <Element e>`)
   = elt2js((Element)`<Tag t> () <Element e>`);
   
 Expression elt2js((Element)`<Tag t> (<{PropertyAssignment ","}* props>) <Element e>`) = 
-  (Expression)`[createElement(<Expression tagExp>
-              '  , {<{PropertyAssignment ","}* props2>, <{PropertyAssignment ","}* props>} 
-              '  , <Expression args>)]`
+  (Expression)`[{tag: <Expression tagExp>,
+              '  attrs: {<{PropertyAssignment ","}* props2>, <{PropertyAssignment ","}* props>}, 
+              '  kids: <Expression args>}]`
  when
+   bprintln("E = <e>"),
    Expression args := elt2js(e),
    tagExp := tag2jsTag(t),
    (Expression)`{<{PropertyAssignment ","}* props2>}` := tag2jsProps(t);
