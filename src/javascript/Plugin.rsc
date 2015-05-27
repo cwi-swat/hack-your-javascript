@@ -1,4 +1,4 @@
-module Plugin
+module javascript::Plugin
 
 import util::IDE;
 import javascript::Syntax;
