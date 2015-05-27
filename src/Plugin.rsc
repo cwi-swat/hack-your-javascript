@@ -103,10 +103,10 @@ void generateHtmlFile(start[Source] origAst, start[Source] desugaredAst) {
 		return code;
 	}
 	
-	tuple[str, str] extractTitleAndNr(/^ex<nr:[1-9]+>[_]<name:.*>[.]sjs$/) =
+	tuple[str, str] extractTitleAndNr(/^ex<nr:[0-9]+>[_]<name:.*>[.]sjs$/) =
 		<"Excercise <nr>: <capitalize(name)>", "exercise <nr>">;
 
-	tuple[str, str] extractTitleAndNr(/^dem<nr:[1-9]+>[_]<name:.*>[.]sjs$/) =
+	tuple[str, str] extractTitleAndNr(/^dem<nr:[0-9]+>[_]<name:.*>[.]sjs$/) =
 		<"Demo <nr>: <capitalize(name)>", "demo <nr>">;
 	
 	default tuple[str, str] extractTitleAndNr(str s) = <"Unkown excersise or demo", "?">;		
