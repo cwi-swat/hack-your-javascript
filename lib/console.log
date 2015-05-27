@@ -1,3 +1,5 @@
+var DEBUG_FLAG = true;
+
 var logger = document.getElementById('log');
 
 var createElem = function(elemType, className, innerText) {
