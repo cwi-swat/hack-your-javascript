@@ -1,4 +1,4 @@
-
+// You'll need connection to the internet for this one (otherwise you won't see any tweets)
 
 // First we'll search for the tweets to @joyofcoding
 @("joyofcoding").then(showResult);

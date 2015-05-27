@@ -1,9 +1,9 @@
 function sayHello(name) {
 	unless (name === "World") {
-		console.log("Finally, something original to greet!");
+		debug "Finally, something original to greet!";
 	}
 
-	console.log("Hello " + name + "!");
+	debug "Hello " + name + "!";
 }
 
 sayHello("World");
