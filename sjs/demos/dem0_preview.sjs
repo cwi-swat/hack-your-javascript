@@ -19,13 +19,14 @@ console.log(q);
 
 var names = ["Chris", "Crista", "Kevlin"];
 
+
 var doc = %html {
   %head  %title "Hello Joy of Coding!";
   %body #main {
     %h1 "Hello Joy of Coding!";
     
     %ul for (var n in names) 
-      %li { "Hello "; n; "!"; }
+      %li { "Hello "; n; "!"; 3; }
   }
 };
 
