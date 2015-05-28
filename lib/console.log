@@ -9,7 +9,8 @@ var createElem = function(elemType, className, innerText) {
 	}
 
 	if (innerText !== undefined) {
-		elem.innerText = innerText;
+		elem.textContent = innerText;
+		elem.innerText = innerText;		
 	}
 	
 	return elem;
