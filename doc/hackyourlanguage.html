@@ -165,5 +165,17 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>Use this construct to desugar comprehensions. Think about what the &quot;zero&quot; element should be.</p>
 <h3 id="domain-specific-languages">Domain-Specific Languages</h3>
 <p>The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete <a href="http://en.wikipedia.org/wiki/Domain-specific_language">Domain-Specific Languages</a> on top of the host language! Check out the <a href="http://en.wikipedia.org/wiki/Finite-state_machine">state machine</a> language in the <code>src/demo</code> directory for an example.</p>
+<h3 id="common-problems">Common problems</h3>
+<p><strong>Problem:</strong> The syntax highlighting in my Rascal file is broken and I see weird red squiggly lines!</p>
+<p><strong>Solution:</strong> You probably have some parse error in your file. Because of this the Rascal parser is unable to parse your source file. Easies way to fix the problem is to carefully reread the code that you just added to spot the error. If this does not help you can always remove or comment the code that you just added to the point that the file parses again.</p>
+<hr />
+<p><strong>Problem:</strong> The concrete syntax that I wrote inside my desugaring has a strange light red background color.</p>
+<p><strong>Solution:</strong> This means that the concrete syntax that you wrote is not correct. Rascal parses this syntax just like it parses a Rascal file or SJS file. The light read color will disappear once the syntax is correct.</p>
+<hr />
+<p><strong>Problem:</strong> I changed the desugaring but I don't see the updates in the generated JS or HTML file.</p>
+<p><strong>Solution:</strong> You probably forgot to hit the 'Reload Language' button or update and save the SJS file. If one of these steps is forgotten you won't be able to see the effect of your changes.</p>
+<hr />
+<p><strong>Problem:</strong> I did everything described above but it still does not work. What's wrong?</p>
+<p><strong>Solution:</strong> If all else fails you could try to restart Eclipse. If it still does not work <strong>DON'T HESITATE TO ASK ONE OF US TO COME AND HELP!</strong></p>
 </body>
 </html>
