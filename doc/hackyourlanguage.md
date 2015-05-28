@@ -34,9 +34,9 @@ This Rascal function definition _matches_ on the `debug` statement using concret
 
     (Statement)`debug <Expression s>;`
 
-The first part in parentheses indicates the type of the values this pattern matches, -- in this case values of type `Statement`. The second part, enclosed in backticks (\`) is the actual pattern: first the keyword `debug` and then some `String`. The string part (enclosed in `<` and `>`) represents a typed _hole_, which will match anything of type `Expression`. If the match is successful the variable `s` is bound to the matched sub-value. 
+The first part in parentheses indicates the type of the values this pattern matches, -- in this case values of type `Statement`. The second part, enclosed in backticks (\`) is the actual pattern: first the keyword `debug` and then some `String`. The string part (enclosed in `<` and `>`) represents a typed _hole_, which will match anything of type `Expression`. If the match is successful the meta variable `s` is bound to the matched sub-value. 
 
-The pattern used in the `return` statement is not used for matching, but for _construction_. In this case, the bound value of `s` is inserted into the argument of  `console.log`. 
+The pattern used in the `return` statement is not used for matching, but for _construction_. In this case, the bound value of the meta variable `s` is inserted into the argument of  `console.log`. 
 
 
 Some notes:
@@ -94,9 +94,9 @@ After you made the change to the desugaring you should:
 2. Save the corresponding SJS file.
 
 Desugarings are automatically executed when an SJS file is saved. 
-There is one catch though; the SJS files are not marked 'dirty' automatically when changing a desugaring and saving an unchanged SJS file won't have any effect. The solution is to simply add and delete an empty space (or something similar) to the SJS file and then save it.
+There is one catch though; the SJS files are not marked 'dirty' automatically when changing a desugaring and saving an unchanged SJS file won't have any effect. The solution is to simply add and delete an space (or something similar) to the SJS file and then save it.
 
-After a save of the SJS file the corresponding JS and HTML file should be updated. To check the result of your changes open up the JS file to see the generated Javascript. The HTML file shows the SJS content, the desugared JS content and executes the desugared JS source.  
+After a save of the SJS file the corresponding JS and HTML file should be updated. To check the result of your changes open up the JS file to see the generated Javascript. The HTML file shows the SJS content, the desugared JS content and executes the desugared JS source. Note: you might have to reload the HTML. 
 
 **NB**: The JS and HTML files in the `sjs/` directory can always be deleted since they get regenerated on save.
 
@@ -104,9 +104,9 @@ After a save of the SJS file the corresponding JS and HTML file should be update
 
 ## Exercises
 
-Every exercise has a corresponding test that shows you what the desugarred JS variant should look like. To run the test you should:
+Every exercise has a corresponding test that shows you what the desugared JS variant should look like. To run the test you should:
 
-1. Start a Rascal Console by right-clicking on a Rascal file in the editor (i.e. on the opened `Series1.rsc` file) and selecting the `Start Console` from the pop-up menu.
+1. Start a Rascal Console by right-clicking on a Rascal file in the editor (i.e. on the opened `Series1.rsc` file) and selecting the `Run as -> Rascal Application` from the pop-up menu.
 2. By entering the `:test` command in the console and hitting enter all the tests in scope will be run.
 
 A successful test will light up green, a failed one will get a red squiggly line under it. Hovering over the failed test in your editor will show you the reason of failure.
@@ -141,9 +141,9 @@ You don't need to implement any of this, this is already done. Take a look corre
 
 ##### 3 Dont statement
 
-The `dont` statement can be seen as a code comment. It just means, don't execute this line.
+The `dont` statement can be seen as a code comment. It just means, don't execute this statemenet.
 
-Write a desugaring "dont" statement with syntax `dont Statement`. It should desugar to code where the argument statement is eliminated. For instance, `dont S` would rewrite to the empty statement `;`.  
+Write a desugaring for the "dont" statement with syntax `dont Statement`. It should desugar to code where the argument statement is eliminated. For instance, `dont S` would rewrite to the empty statement `;`.  
 
 ##### 4 Todo statement
 

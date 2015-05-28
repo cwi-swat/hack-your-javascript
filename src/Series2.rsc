@@ -137,7 +137,7 @@ Statement gen2block(Statement inner, (Generator)`<Expression cond>`)
 Statement gen2block(Statement inner, (Generator)`<Id x>: <Expression coll>`)
   = (Statement)`{
                '  var coll = <Expression coll>; 
-               '  for (var i = 0; i \< x.length; i++) { 
+               '  for (var i = 0; i \< coll.length; i++) { 
                '    var <Id x> = coll[i]; 
                '    <Statement inner>
                '  }

@@ -28,12 +28,12 @@ keyword Keywords = "todo" | "dont" | "unless" | "repeat" | "assert" | "debug";
 
 Statement desugar((Statement)`debug <Expression ex>;`) {
   return (Statement) `if (DEBUG_FLAG) 
-                     '  console.log(<Expression ex>);`;
+                     '  console.log("DEBUG: " + (<Expression ex>));`;
 }
 
 test bool testDebug() 
   = desugar((Statement)`debug "Hello";`) 
-  == (Statement)`if (DEBUG_FLAG) console.log("Hello");`;
+  == (Statement)`if (DEBUG_FLAG) console.log("DEBUG: " + ("Hello"));`;
 
 /*
  * 1. At fields
