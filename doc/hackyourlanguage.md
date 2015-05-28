@@ -86,27 +86,41 @@ For most assignments we provide the necessary syntax extensions up front, so tha
 
 ### Executing desugarings
 
-SJS file
+There are two things required to execute a desugaring.
+After you made the change to the desugaring you should:
 
-Save
-Hover doc
-See output in js file
-Open html file where see output + input + execution.
+1. Click on the Language Refresh button (it's the button that has a black 'recycle' icon on it)
 
-**NB**: the files should be one level below the `sjs` directory; i.e., in `sjs/somedir`.
+2. Save the corresponding SJS file.
 
-How to enable ECMAScript 6 in Eclipse Browser
+Desugarings are automatically executed when an SJS file is saved. 
+There is one catch though; the SJS files are not marked 'dirty' automatically when changing a desugaring and saving an unchanged SJS file won't have any effect. The solution is to simply add and delete an empty space (or something similar) to the SJS file and then save it.
+
+After a save of the SJS file the corresponding JS and HTML file should be updated. To check the result of your changes open up the JS file to see the generated Javascript. The HTML file shows the SJS content, the desugared JS content and executes the desugared JS source.  
+
+**NB**: The JS and HTML files in the `sjs/` directory can always be deleted since they get regenerated on save.
+
+**NB2**: For successful generation of the SJS files should be one level below the `sjs` directory; i.e., in `sjs/series1` or `sjs/your_own_dir`.
 
 ## Exercises
 
-Below we use upper-case identifiers in snippets to indicate meta-variables. Lower-case identifiers either represent keywords (e.g. `unless`) or object-language identifiers (e.g. `this`, `console`).
+Every exercise has a corresponding test that shows you what the desugarred JS variant should look like. To run the test you should:
+
+1. Start a Rascal Console by right-clicking on a Rascal file in the editor (i.e. on the opened `Series1.rsc` file) and selecting the `Start Console` from the pop-up menu.
+2. By entering the `:test` command in the console and hitting enter all the tests in scope will be run.
+
+A successful test will light up green, a failed one will get a red squiggly line under it. Hovering over the failed test in your editor will show you the reason of failure.
+
+In the exercises we use *upper-case* identifiers in snippets to indicate meta-variables. Lower-case identifiers either represent keywords (e.g. `unless`) or object-language identifiers (e.g. `this`, `console`).
 
 ### Series 1: basic desugaring
 
 ##### 1 At Fields
 
 In Ruby instance variables (fields) are prefixed with an `@`-sign. 
-Write a desugaring that transforms `@X` (where `X` can be an `Id`) to `this.X`.
+Write a desugaring that transforms `@X` (where `X` can be an `Id`) to `this.X`. 
+
+Remember; in the above description upper-case identifiers are meta-variables. For instance `@X` 'captures' the concrete SJS code `@myVar` or `@x` or `@anotherVariable`, etc. See the corresponding test for an example.
 
 ##### 2 Twitter Search
 
