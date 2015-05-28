@@ -29,11 +29,7 @@ keyword Keywords = "swap" | "test" | "foreach";
  */
   
 Statement desugar((Statement)`swap <Id x>, <Id y>;`)
-  = (Statement)`(function() { 
-               '   var tmp = <Id x>; 
-               '   <Id x> = <Id y>; 
-               '   <Id y> = tmp; 
-               '})();`;
+  = /* you should replace this */ dummyStat();
 
 test bool testSwap()
   = desugar((Statement)`swap x, y;`)
@@ -48,11 +44,7 @@ test bool testSwap()
  */
 
 Statement desugar((Statement)`test <Expression x> should be <Expression y>;`)
-  = (Statement)`(function(actual, expected) { 
-  			   '   if (actual !== expected) {
-  			   '     console.log("Test failed; expected: " + expected + "; got: " + actual);    
-  			   '   }
-  			   '})(<Expression x>, <Expression y>);`;
+  = /* you should replace this */ dummyStat();
   
 test bool testTest()
   = desugar((Statement)`test 3 * 3 should be 9;`)
@@ -68,12 +60,7 @@ test bool testTest()
  
   
 Statement desugar((Statement)`foreach (var <Id x> in <Expression e>) <Statement s>`)
-  = (Statement)`(function(arr) {
-  			   '  for (var i = 0; i \< arr.length; i++) { 
-               '    var <Id x> = arr[i]; 
-               '    <Statement s>
-               '  }
-               '})(<Expression e>);`;
+  = /* you should replace this */ dummyStat();
   
 
 test bool testForeach()
@@ -91,8 +78,7 @@ test bool testForeach()
  
 
 Expression desugar((Expression)`<Id param> =\> <Expression body>`)
-  = (Expression)`(function (_this) { return function (<Id param>) {return <Expression body2>;}; })(this)`
-  when body2 := replaceThis(body);
+  = /* you should replace this */ dummyExp();
 
 Expression replaceThis(Expression e) {
   return top-down-break visit (e) {
@@ -123,27 +109,12 @@ test bool testArrowWithThis()
  *    Generator: Expression | Id ":" Expression
  */
  
-Expression desugar((Expression)`[ <Expression r> | <{Generator ","}+ gens> ]`)
-  = (Expression)`(function(){var result = []; <Statement body> return result;})()`
-  when
-    Statement body := gens2blocks(r, gens);  
-
-Statement gens2blocks(Expression res, {Generator ","}+ gens) 
-  = ( (Statement)`result.push(<Expression res>);` | gen2block(it, gen) | gen <- rgens )
-  when rgens := reverse([ g | g <- gens]);
-
-Statement gen2block(Statement inner, (Generator)`<Expression cond>`)
-  = (Statement)`if (<Expression cond>) <Statement inner>`;
-  
-Statement gen2block(Statement inner, (Generator)`var <Id x> in <Expression coll>`)
-  = (Statement)`{
-               '  var coll = <Expression coll>; 
-               '  for (var i = 0; i \< coll.length; i++) { 
-               '    var <Id x> = coll[i]; 
-               '    <Statement inner>
-               '  }
-               '}`;
+Expression desugar((Expression)`[ <Expression r> | <{Generator ","}+ gens> ]`) {
+	return /* you should replace this */ dummyExp();
+} 
  
+Expression dummyExp() = (Expression)`NOT_YET_IMPLEMENTED`;
+Statement dummyStat() = (Statement)`NOT_YET_IMPLEMENTED;`;
 
  
 
