@@ -3,7 +3,6 @@ module demo::HAML
 extend javascript::Syntax;
 import String;
 import ParseTree;
-import IO;
 
 syntax Expression = Element;
 
@@ -12,7 +11,7 @@ syntax Element
   | hblock: "{" Element* "}"
   | hempty: Tag Props? ";"
   | hvar: Id ";"
-  | hlit: String ";"
+  | hlit: Literal ";"
   | hfor: "for" "(" "var" Id "in" Expression ")" Element
   | hif: "if" "(" Expression ")" Element () !>> "else" 
   | hifElse: "if" "(" Expression ")" Element "else" Element
@@ -41,21 +40,18 @@ Expression desugar((Expression)`<Element e>`) = firstExp(elt2js(e));
 Expression firstExp((Expression)`[<Expression e>]`) = e;
 
 
-
 // Blocks
 Expression elt2js((Element)`{}`) = (Expression)`[]`;
 
 Expression elt2js((Element)`{<Element e> <Element* es>}`) 
   = (Expression)`[<{Expression ","}* exps0>, <{Expression ","}* exps>]`
   when 
-    bprintln("FOO: <e>"),
-    bprintln("FOOS: <es>"),
     (Expression)`[<{Expression ","}* exps0>]` := elt2js(e),
     (Expression)`[<{Expression ","}* exps>]` := elt2js((Element)`{<Element* es>}`); 
 
 // Vars and strings
 Expression elt2js((Element)`<Id e>;`) = (Expression)`[<Id e>]`;
-Expression elt2js((Element)`<String e>;`) = (Expression)`[<Id e>]`;
+Expression elt2js((Element)`<Literal l>;`) = (Expression)`[<Literal l>]`;
 
 // Control flow
 Expression elt2js((Element)`for (var <Id x> in <Expression e>) <Element elt>`) 
@@ -98,7 +94,6 @@ Expression elt2js((Element)`<Tag t> (<{PropertyAssignment ","}* props>) <Element
               '  attrs: {<{PropertyAssignment ","}* props2>, <{PropertyAssignment ","}* props>}, 
               '  kids: <Expression args>}]`
  when
-   bprintln("E = <e>"),
    Expression args := elt2js(e),
    tagExp := tag2jsTag(t),
    (Expression)`{<{PropertyAssignment ","}* props2>}` := tag2jsProps(t);

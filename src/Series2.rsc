@@ -33,6 +33,14 @@ Statement desugar((Statement)`swap <Id x>, <Id y>;`)
                '   <Id x> = <Id y>; 
                '   <Id y> = tmp; 
                '})();`;
+
+test bool testSwap()
+  = desugar((Statement)`swap x, y;`)
+  == (Statement)`(function() { 
+                '   var tmp = x; 
+                '   x = y; 
+                '   y = tmp; 
+                '})();`;
   
 /*
  * 2. Test: "test" Expression "should" "be" Expression ";"
@@ -45,6 +53,13 @@ Statement desugar((Statement)`test <Expression x> should be <Expression y>;`)
   			   '   }
   			   '})(<Expression x>, <Expression y>);`;
   
+test bool testTest()
+  = desugar((Statement)`test 3 * 3 should be 9;`)
+  == (Statement)`(function(actual, expected) { 
+  			    '   if (actual !== expected) {
+  			    '     console.log("Test failed; expected: " + expected + "; got: " + actual);    
+  			    '   }
+  			    '})(3 * 3, 9);`;
 
 /*
  * 3. Foreach:  "foreach" "(" Id "in" Expression ")" Statement
@@ -52,16 +67,22 @@ Statement desugar((Statement)`test <Expression x> should be <Expression y>;`)
  
   
 Statement desugar((Statement)`foreach (<Id x> in <Expression e>) <Statement s>`)
-  = (Statement)`{
-  			   '  let l = <Expression e>, i; 
-               '  for (i = 0; i \< l.length; i++) { 
-               '    var <Id x> = l[i]; 
+  = (Statement)`(function(arr) {
+  			   '  for (var i = 0; i \< arr.length; i++) { 
+               '    var <Id x> = arr[i]; 
                '    <Statement s>
                '  }
-               '}`;
+               '})(<Expression e>);`;
   
 
- 
+test bool testForeach()
+  = desugar((Statement)`foreach (x in [1,2,3]) print(x);`)
+  == (Statement)`(function(arr) {
+  			    '  for (var i = 0; i \< arr.length; i++) { 
+                '    var x = arr[i]; 
+                '    print(x);
+                '  }
+                '})([1, 2, 3]);`;
  
 /*
  * 4. Arrow functions: Id "=\>" Expression
@@ -69,7 +90,7 @@ Statement desugar((Statement)`foreach (<Id x> in <Expression e>) <Statement s>`)
  
 
 Expression desugar((Expression)`<Id param> =\> <Expression body>`)
-  = (Expression)`(function (_this) { return (function (<Id param>) {return <Expression body2>;}); })(this)`
+  = (Expression)`(function (_this) { return function (<Id param>) {return <Expression body2>;}; })(this)`
   when body2 := replaceThis(body);
 
 Expression replaceThis(Expression e) {
@@ -78,6 +99,22 @@ Expression replaceThis(Expression e) {
     case (Expression)`this` => (Expression)`_this`
   }
 }
+
+test bool testArrowNoThis()
+  = desugar((Expression)`x =\> (x + 1)`)
+  == (Expression)`(function (_this) { 
+                 '   return function (x) { 
+                 '      return (x + 1); 
+                 '   }; 
+                 '})(this)`;
+
+test bool testArrowWithThis()
+  = desugar((Expression)`x =\> (this.x + 1)`)
+  == (Expression)`(function (_this) { 
+                 '   return function (x) { 
+                 '      return (_this.x + 1); 
+                 '   }; 
+                 '})(this)`;
 
  
 /*
