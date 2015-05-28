@@ -94,12 +94,12 @@ void generateHtmlFile(start[Source] origAst, start[Source] desugaredAst) {
 	}
 	
 	tuple[str, str] extractTitleAndNr(/^ex<nr:[0-9]+>[_]<name:.*>[.]sjs$/) =
-		<"Excercise <nr>: <capitalize(name)>", "exercise <nr>">;
+		<"Exercise <nr>: <capitalize(name)>", "exercise <nr>">;
 
 	tuple[str, str] extractTitleAndNr(/^dem<nr:[0-9]+>[_]<name:.*>[.]sjs$/) =
 		<"Demo <nr>: <capitalize(name)>", "demo <nr>">;
 	
-	default tuple[str, str] extractTitleAndNr(str s) = <"Unkown excersise or demo", "?">;		
+	default tuple[str, str] extractTitleAndNr(str s) = <"Unkown exercise or demo", "?">;		
 	
 	loc sjsFile = origAst@\loc.top;
 	loc jsFile = sjsFile[extension = "js"];
