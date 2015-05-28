@@ -38,7 +38,7 @@ test bool testDebug()
 /*
  * 1. At fields
  */ 
-Expression desugar((Expression)`@<Id x>`) = (Expression)`this.<Id x>`;
+Expression desugar((Expression)`@<Id x>`) = /* you should replace this */ dummyExp();
 
 test bool testAtField() 
   = desugar((Expression)`@name`) 
@@ -49,10 +49,10 @@ test bool testAtField()
  * 2. Twitter search expressions
  */
 Expression desugar((Expression)`@(<{Expression ","}* es>)`) 
-  = (Expression)`searchAt(<{Expression ","}* es>)`;  
+  = /* you should replace this */ dummyExp();
 
 Expression desugar((Expression)`#(<{Expression ","}* es>)`)
-  = (Expression)`searchHash(<{Expression ","}* es>)`;  
+  = /* you should replace this */ dummyExp();  
 
 test bool testTwitter()
   = desugar((Expression)`@("obama")`) 
@@ -62,7 +62,7 @@ test bool testTwitter()
  * 3. Don't statement
  */
 
-Statement desugar((Statement)`dont <Statement _>`) = (Statement)`;`;
+Statement desugar((Statement)`dont <Statement _>`) = /* you should replace this */ dummyStat();
 
 test bool testDont()
   = desugar((Statement)`dont if (x == 3) print(x);`) 
@@ -73,7 +73,7 @@ test bool testDont()
  */
 
 Statement desugar((Statement)`todo <String s>;`) 
-  = (Statement)`console.log("TODO: " + <String s>);`; 
+  = /* you should replace this */ dummyStat(); 
  
  
 test bool testTodo()
@@ -85,7 +85,7 @@ test bool testTodo()
  */
  
 Statement desugar((Statement)`unless (<Expression cond>) <Statement body>`)
-  = (Statement)`if (!(<Expression cond>)) <Statement body>`;
+  = /* you should replace this */ dummyStat();
  
 
 test bool testUnless()
@@ -97,7 +97,7 @@ test bool testUnless()
  */
 
 Statement desugar((Statement)`repeat <Statement stat> until (<Expression cond>);`)
-  = (Statement)`do <Statement stat> while (!(<Expression cond>));`;
+  = /* you should replace this */ dummyStat();
 
 test bool testRepeat()
   = desugar((Statement)`repeat {print(i); i--;} until (i == 0);`)
@@ -109,9 +109,8 @@ test bool testRepeat()
 
 
 Statement desugar((Statement)`assert <Expression e>: <String msg>;`) {
-  esrc = jsString(e);
-  return (Statement)`if (!(<Expression e>)) 
-                    '  throw "Assertion " + <String esrc> + " failed: " + <String msg>;`;
+  // don't forget to convert the expression to a string!
+  return /* you should replace this */ dummyStat();
 }
 
 
@@ -123,8 +122,6 @@ test bool testAssert()
 String jsString(Expression e) = parse(#String, "\"<unparse(e)>\""); 
 
 
- 
-
 Expression dummyExp() = (Expression)`NOT_YET_IMPLEMENTED`;
-Expression dummyStat() = (Statement)`NOT_YET_IMPLEMENTED;`;
+Statement dummyStat() = (Statement)`NOT_YET_IMPLEMENTED;`;
 
