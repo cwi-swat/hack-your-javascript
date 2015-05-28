@@ -20,7 +20,7 @@ Check out the `src/demo` directory to see examples of simple and more advanced l
 
 ### Desugaring in Rascal
 
-We're going write "desugarings", which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions ("syntactic sugar") to the base Javascript language (ECMAScript 5). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main `desugar` function. The framework will call all of them that are in the project. 
+We're going write "desugarings", which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions ("syntactic sugar") to the base Javascript language (ECMAScript 5). We call the extended language _SweeterJS_ (SJS). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to define extensions of the main `desugar` function. The framework will call all of them that are in the project. 
 
 The `desugar` function is extended by writing a case for the extension you want to desugar using concrete syntax matching. Let's dissect an example to see what that means:
 
@@ -57,7 +57,7 @@ Statement desugar((Statement)`debug <Expression s>;`)
 
 - Patterns should comply to the grammar. If you make a mistake, you'll get a parse error in your Rascal program!
 
-- If you need to use literal `<`, `>` or \` in patterns, escape them using `\` (backslash). 
+- If you need to use literal `<`, `>`, `'`, or \` in patterns, escape them using `\` (backslash). 
 
 - If you need multiple lines start every line except the first with `'` (single quote). For instance, as follows:
 
@@ -111,6 +111,12 @@ Every exercise has a corresponding test that shows you what the desugared JS var
 
 A successful test will light up green, a failed one will get a red squiggly line under it. Hovering over the failed test in your editor will show you the reason of failure.
 
+_NB_: you can also directly invoke desugarings in the console. For instance, try evaluating
+
+```
+desugar((Statement)`debug "hello";`);
+```
+
 Next to the test every exercise has a corresponding `SJS` file. These can be found in the `sjs/` directory. The name of the SJS file corresponds with the exercise you are working on. For instance, the SJS file needed for exercise 1 is `sjs/series1/ex1_atField.sjs`.
 
 In the exercises we use *upper-case* identifiers in snippets to indicate _meta-variables_. Lower-case identifiers either represent keywords (e.g. `unless`) or object-language identifiers (e.g. `this`, `console`).
@@ -126,22 +132,21 @@ Write a desugaring that transforms `@X` (where `X` can be an `Id`) to `this.X`.
 
 ##### 2 Twitter Search
 
-In this exercise we will implement a very simple Twitter DSL which lets you search for tweets **@somebody** or **#someHashTag**. 
-In SJS Twitter searches are first-class citizens. You can write `@(Expression)` or `@(Expression1, Expression2)` to search for tweets to certain persons or `#(Expression)` or `#(Expression1, Expression2)` to search for tweets containing certain hashtags.
+In this exercise we will implement a very simple Twitter DSL which lets you search for tweets _@somebody_ or _#someHashTag_. 
+In SJS Twitter searches are first-class citizens. You can write `@(Expression)` or `@(Expression1, Expression2, ...)` to search for tweets to certain persons or `#(Expression)` or `#(Expression1, Expression2, ...)` to search for tweets containing certain hashtags.
 
-This 'DSL' desugars to a simple JS library. 
-`@("somebody")` desugars to `searchAt("somebody")`, or using meta variables, `@({Expression ","} *)` desugars to `searchAt({Expression ","}*)`.
-Similar; `#("someHastag")` desugars to `searchHash("someHashtag")`, or again using meta variables, `#({Expression ","}*)` debuggers to `searchHash({Expression ","}*)`.
-`searchAt(..)` and `searchHash(..)` are JS functions that are already defined in our small Twitter JS client.
+This 'DSL' desugars to a simple JS library. For instance, `@("somebody")` desugars to `searchAt("somebody")`.
+and `#("someHastag", "another")` desugars to `searchHash("someHashtag", "another")`.
+`searchAt(...)` and `searchHash(...)` are JS functions that are already defined in our small Twitter JS client.
 
-With the `{Expression ","}*` syntax you capture zero or more `Expressions` which are separated by a `,`.
+With the `<{Expression ","}* es>` syntax you can match zero or more `Expressions` separated by a `,`.
 
-Since searching Twitter is an asynchronous action the JS methods `searchAt()` and `searchHash()` return _Promises_. This makes it easy to display the result once the search finishes. 
-You don't need to implement any of this, this is already done. Take a look corresponding SJS file (`sjs/series1/ex2_twitter.sjs`). Once your desugarring is correct this SJS will be transformed to JS that can be executed. Opening the generated HTML file should show you the result of live Twitter searches!
+Since searching Twitter is an asynchronous action the functions `searchAt()` and `searchHash()` return _promises_. This makes it easy to display the result once the search finishes. 
+You don't need to implement any of this, this is already done. Take a look corresponding SJS file (`sjs/series1/ex2_twitter.sjs`). Once your desugaring is correct this SJS will be transformed to JS that can be executed. Opening the generated HTML file should show you the result of live Twitter searches!
 
 ##### 3 Dont statement
 
-The `dont` statement can be seen as a code comment. It just means, don't execute this statemenet.
+The `dont` statement can be seen as a code comment. It just means, don't execute this statement.
 
 Write a desugaring for the "dont" statement with syntax `dont Statement`. It should desugar to code where the argument statement is eliminated. For instance, `dont S` would rewrite to the empty statement `;`.  
 
@@ -154,7 +159,7 @@ Comments are often used to mark todo items in code. But why not use an explicit 
 
 Some languages include a statement for negated conditional. For instance, Ruby has `unless`. In this assignment we're adding such a statement to Javascript. The syntax is `unless "(" Cond ")" Body` (where `Cond` is an `Expression` and `Body` a `Statement`), and it should rewrite to `if (!(Cond)) Body`.
 
-_Quiz_: why are the extra parentheses around `cond` needed?
+_Quiz_: why are the extra parentheses around `Cond` needed?
 
 ##### 6 Repeat-until
 
@@ -162,9 +167,9 @@ Write a desugaring for `repeat Body until "(" Cond ")"` which transforms to a `d
 
 ##### 7 Assert statement
 
-Assert statements are used to document your assumptions. If an assertion fails you get an exception listing showing the expression that failed and (optionally) a textual message. The `assert` we're defining here has the following syntax: `assert Expression: Message;` (where `Message` is a `String`). It should be translated to code that throws an exception if the expression evaluates to a falsy value. For instance, `assert E: S` desugars to: `if (!(E)) throw new Error("Assertion failed: " + msg);`
+Assert statements are used to document your assumptions. If an assertion fails you get an exception listing showing the expression that failed and (optionally) a textual message. The `assert` we're defining here has the following syntax: `assert Expression: Message;` (where `Message` is a `String`). It should be translated to code that throws an exception if the expression evaluates to a falsy value. For instance, `assert E: S;` desugars to: `if (!(E)) throw new Error("Assertion failed: " + msg);`
 
-Use Rascal string interpolation (using `<` and `>`) to _unparse_ the argument expression into a Rascal string, and then parse it as a Javascript string literal (`String`) as follows: `msg = parse(#String, "\"<e>\"")` (assuming `e` is the expression). Now you can use `msg` in the constructed pattern. 
+Use the provided function `String jsString(Expression e)` to convert the `Expression` to a JS `String`. 
 
 
 ### Series 2: introducing bindings
@@ -186,7 +191,7 @@ _Quiz_: why do we need the [Immediately Invoked Function Expression](http://en.w
 
 ##### 2 Test
 
-Write a desugaring for a `test` statement, similar to the `assert` desugaring above. In this case the syntax could be: `test Expression should be Expression;`. Note that `should` and `be` are two keywords!
+Write a desugaring for a `test` statement, similar to the `assert` desugaring above. In this case the syntax could be: `test E1 should be E2;`. Note that `should` and `be` are two keywords!
 Instead of throwing an exception it evaluates both expressions, tests if they are equal, and prints out a message with expected and actual value if the test failed.
 
 _Tip_: pass the two expressions as parameters to an IFFE, like so `(function (actual, expected) { ... })(E1, E2)`.
@@ -194,10 +199,15 @@ _Tip_: pass the two expressions as parameters to an IFFE, like so `(function (ac
 
 ##### 3 Foreach
 
-Javascript has a `for (x in array) ...` statement, but its semantics are [not always wat you expect](http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea). In this assignment, we'll add an explicit `foreach` construct that works intuitively on arrays. The syntax is `foreach (X in E) S`, where `X` is an identifier, `E` an expression and `S` a statement. The `foreach` statement should be desugared to something like:
+Javascript has a `for (x in array) ...` statement, but its semantics are [not always wat you expect](http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea). In this assignment, we'll add an explicit `foreach` construct that works intuitively on arrays. The syntax is `foreach (var X in E) S`, where `X` is an identifier, `E` an expression and `S` a statement. The `foreach` statement should be desugared to something like:
 
 ```
-(function(array){ for (var i = 0; i < array.length; i++) { var X = array[i]; S } })(E);
+(function(array){ 
+  for (var i = 0; i < array.length; i++) { 
+    var X = array[i]; 
+    S 
+  }
+})(E);
 ```
 
 _Quiz_: why do we need to bind the expression `E` to the parameter (`array`) first?
@@ -217,7 +227,7 @@ A solution is to introduce a special variable (e.g., `_this`) in the scope of th
 (function (_this) { return function (X) { return E'; }; })(this)
 ```
 
-In this snippet, the variable `E'` is the original `E` with all occurrences of `this` replaced by `_this`. You can use the provided helper function `replaceThis` to realize this. 
+In this snippet, the meta variable `E'` contains the original `E` with all occurrences of `this` replaced by `_this`. You can use the provided helper function `replaceThis` to realize this. 
 
 
 _Tip_: see what happens if you desugar the arrow function `_this => _this + this.x`. 
@@ -237,9 +247,9 @@ Generators come in two forms:
 
 - Conditions: `Expression`
 
-- Enumerators: `Id "in" Expression`
+- Enumerators: `var Id in Expression`
 
-Write a desugaring that transforms comprehensions to an IFFE which contains a local accumulator array. A condition generator maps to an `if`-statement, and enumerators map to `for`-loops. The sequence of generators leads to nested `if`- and `for`-statements. Only at the innermost position is an element added to the accumulator array.
+Write a desugaring that transforms comprehensions to an IFFE which contains a local accumulator array. A condition generator maps to an `if`-statement, and enumerators map to `for`-loops. The sequence of generators leads to nested `if`- and `for`-statements. An element is only added to the accumulator array  at the innermost position.
 
 An example:
 
@@ -282,7 +292,7 @@ The above language extensions involved small additions to the Javascript languag
 The syntax highlighting in my Rascal file is broken and I see weird red squiggly lines!
 
 **Solution:**
-You probably have some parse error in your file. Because of this the Rascal parser is unable to parse your source file. Easies way to fix the problem is to carefully reread the code that you just added to spot the error. If this does not help you can always remove or comment the code that you just added to the point that the file parses again.
+You probably have some parse error in your file. Because of this the Rascal parser is unable to parse your source file. The easiest way to fix the problem is to carefully reread the code that you just added to spot the error. If this does not help you can always remove or comment the code that you just added to the point that the file parses again.
 
 ------
 

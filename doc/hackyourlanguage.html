@@ -33,7 +33,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>Interactive documentation on Rascal can be found online at <a href="http://tutor.rascal-mpl.org" class="uri">http://tutor.rascal-mpl.org</a>. This can also be started from within Eclipse from the Rascal menu under &quot;Show Tutor&quot;.</p>
 <p>Check out the <code>src/demo</code> directory to see examples of simple and more advanced language extensions.</p>
 <h3 id="desugaring-in-rascal">Desugaring in Rascal</h3>
-<p>We're going write &quot;desugarings&quot;, which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions (&quot;syntactic sugar&quot;) to the base Javascript language (ECMAScript 5). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to extensions of the main <code>desugar</code> function. The framework will call all of them that are in the project.</p>
+<p>We're going write &quot;desugarings&quot;, which are source-to-source transformations that compile/transpile/rewrite Javascript language extensions (&quot;syntactic sugar&quot;) to the base Javascript language (ECMAScript 5). We call the extended language <em>SweeterJS</em> (SJS). The project mentioned above contains the basic desugaring infrastructure. The only thing you have to do is to define extensions of the main <code>desugar</code> function. The framework will call all of them that are in the project.</p>
 <p>The <code>desugar</code> function is extended by writing a case for the extension you want to desugar using concrete syntax matching. Let's dissect an example to see what that means:</p>
 <pre><code>Statement desugar((Statement)`debug &lt;Expression s&gt;;`) {
   return (Statement)`if (DEBUG_FLAG) console.log(&lt;Expression s&gt;);`;
@@ -53,7 +53,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><p>Concrete syntax matching works &quot;modulo layout&quot;. This means that the patterns will match source terms regardless of the whitespace and/or comments used in either the pattern or the source term. For instance, the desugaring above will match statements like <code>debug /* a comment */ &quot;debug!&quot;</code>, or statements with newlines or extra spacing in them.</p></li>
 <li><p>As of yet, holes used in construction patterns (e.g., the returned value of the <code>debug</code> desugaring) only admit interpolation of variables. If you want to put in complex expressions, first make a variable and assign the complex expression to it.</p></li>
 <li><p>Patterns should comply to the grammar. If you make a mistake, you'll get a parse error in your Rascal program!</p></li>
-<li><p>If you need to use literal <code>&lt;</code>, <code>&gt;</code> or ` in patterns, escape them using <code>\</code> (backslash).</p></li>
+<li><p>If you need to use literal <code>&lt;</code>, <code>&gt;</code>, <code>'</code>, or ` in patterns, escape them using <code>\</code> (backslash).</p></li>
 <li><p>If you need multiple lines start every line except the first with <code>'</code> (single quote). For instance, as follows:</p></li>
 </ul>
 <pre><code>Statement desugar((Statement)`debug &lt;Expression s&gt;;`) 
@@ -87,6 +87,8 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li>By entering the <code>:test</code> command in the console and hitting enter all the tests in scope will be run.</li>
 </ol>
 <p>A successful test will light up green, a failed one will get a red squiggly line under it. Hovering over the failed test in your editor will show you the reason of failure.</p>
+<p><em>NB</em>: you can also directly invoke desugarings in the console. For instance, try evaluating</p>
+<pre><code>desugar((Statement)`debug &quot;hello&quot;;`);</code></pre>
 <p>Next to the test every exercise has a corresponding <code>SJS</code> file. These can be found in the <code>sjs/</code> directory. The name of the SJS file corresponds with the exercise you are working on. For instance, the SJS file needed for exercise 1 is <code>sjs/series1/ex1_atField.sjs</code>.</p>
 <p>In the exercises we use <em>upper-case</em> identifiers in snippets to indicate <em>meta-variables</em>. Lower-case identifiers either represent keywords (e.g. <code>unless</code>) or object-language identifiers (e.g. <code>this</code>, <code>console</code>).</p>
 <h3 id="series-1-basic-desugaring">Series 1: basic desugaring</h3>
@@ -94,23 +96,23 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>In Ruby instance variables (fields) are prefixed with an <code>@</code>-sign. Write a desugaring that transforms <code>@X</code> (where <code>X</code> can be an <code>Id</code>) to <code>this.X</code>.</p>
 <p><strong>Remember</strong>: in the above description upper-case identifiers are <em>meta-variables</em>. For instance <code>@X</code> 'captures' the concrete SJS code <code>@myVar</code> or <code>@x</code> or <code>@anotherVariable</code>, etc. See the corresponding test for an example.</p>
 <h5 id="twitter-search">2 Twitter Search</h5>
-<p>In this exercise we will implement a very simple Twitter DSL which lets you search for tweets <strong><span class="citation">@somebody</span></strong> or <strong>#someHashTag</strong>. In SJS Twitter searches are first-class citizens. You can write <code>@(Expression)</code> or <code>@(Expression1, Expression2)</code> to search for tweets to certain persons or <code>#(Expression)</code> or <code>#(Expression1, Expression2)</code> to search for tweets containing certain hashtags.</p>
-<p>This 'DSL' desugars to a simple JS library. <code>@(&quot;somebody&quot;)</code> desugars to <code>searchAt(&quot;somebody&quot;)</code>, or using meta variables, <code>@({Expression &quot;,&quot;} *)</code> desugars to <code>searchAt({Expression &quot;,&quot;}*)</code>. Similar; <code>#(&quot;someHastag&quot;)</code> desugars to <code>searchHash(&quot;someHashtag&quot;)</code>, or again using meta variables, <code>#({Expression &quot;,&quot;}*)</code> debuggers to <code>searchHash({Expression &quot;,&quot;}*)</code>. <code>searchAt(..)</code> and <code>searchHash(..)</code> are JS functions that are already defined in our small Twitter JS client.</p>
-<p>With the <code>{Expression &quot;,&quot;}*</code> syntax you capture zero or more <code>Expressions</code> which are separated by a <code>,</code>.</p>
-<p>Since searching Twitter is an asynchronous action the JS methods <code>searchAt()</code> and <code>searchHash()</code> return <em>Promises</em>. This makes it easy to display the result once the search finishes. You don't need to implement any of this, this is already done. Take a look corresponding SJS file (<code>sjs/series1/ex2_twitter.sjs</code>). Once your desugarring is correct this SJS will be transformed to JS that can be executed. Opening the generated HTML file should show you the result of live Twitter searches!</p>
+<p>In this exercise we will implement a very simple Twitter DSL which lets you search for tweets <em><span class="citation">@somebody_</span> or </em>#someHashTag_. In SJS Twitter searches are first-class citizens. You can write <code>@(Expression)</code> or <code>@(Expression1, Expression2, ...)</code> to search for tweets to certain persons or <code>#(Expression)</code> or <code>#(Expression1, Expression2, ...)</code> to search for tweets containing certain hashtags.</p>
+<p>This 'DSL' desugars to a simple JS library. For instance, <code>@(&quot;somebody&quot;)</code> desugars to <code>searchAt(&quot;somebody&quot;)</code>. and <code>#(&quot;someHastag&quot;, &quot;another&quot;)</code> desugars to <code>searchHash(&quot;someHashtag&quot;, &quot;another&quot;)</code>. <code>searchAt(...)</code> and <code>searchHash(...)</code> are JS functions that are already defined in our small Twitter JS client.</p>
+<p>With the <code>&lt;{Expression &quot;,&quot;}* es&gt;</code> syntax you can match zero or more <code>Expressions</code> separated by a <code>,</code>.</p>
+<p>Since searching Twitter is an asynchronous action the functions <code>searchAt()</code> and <code>searchHash()</code> return <em>promises</em>. This makes it easy to display the result once the search finishes. You don't need to implement any of this, this is already done. Take a look corresponding SJS file (<code>sjs/series1/ex2_twitter.sjs</code>). Once your desugaring is correct this SJS will be transformed to JS that can be executed. Opening the generated HTML file should show you the result of live Twitter searches!</p>
 <h5 id="dont-statement">3 Dont statement</h5>
-<p>The <code>dont</code> statement can be seen as a code comment. It just means, don't execute this statemenet.</p>
+<p>The <code>dont</code> statement can be seen as a code comment. It just means, don't execute this statement.</p>
 <p>Write a desugaring for the &quot;dont&quot; statement with syntax <code>dont Statement</code>. It should desugar to code where the argument statement is eliminated. For instance, <code>dont S</code> would rewrite to the empty statement <code>;</code>.</p>
 <h5 id="todo-statement">4 Todo statement</h5>
 <p>Comments are often used to mark todo items in code. But why not use an explicit statement that nags your by writing the todo item to the <code>console</code>? In this case the desugaring transforms <code>todo X;</code> (where X represents a <code>String</code>) to <code>console.log(&quot;TODO: &quot; + X);</code>.</p>
 <h5 id="unless-statement">5 Unless statement</h5>
 <p>Some languages include a statement for negated conditional. For instance, Ruby has <code>unless</code>. In this assignment we're adding such a statement to Javascript. The syntax is <code>unless &quot;(&quot; Cond &quot;)&quot; Body</code> (where <code>Cond</code> is an <code>Expression</code> and <code>Body</code> a <code>Statement</code>), and it should rewrite to <code>if (!(Cond)) Body</code>.</p>
-<p><em>Quiz</em>: why are the extra parentheses around <code>cond</code> needed?</p>
+<p><em>Quiz</em>: why are the extra parentheses around <code>Cond</code> needed?</p>
 <h5 id="repeat-until">6 Repeat-until</h5>
 <p>Write a desugaring for <code>repeat Body until &quot;(&quot; Cond &quot;)&quot;</code> which transforms to a <code>do-while</code> loop.</p>
 <h5 id="assert-statement">7 Assert statement</h5>
-<p>Assert statements are used to document your assumptions. If an assertion fails you get an exception listing showing the expression that failed and (optionally) a textual message. The <code>assert</code> we're defining here has the following syntax: <code>assert Expression: Message;</code> (where <code>Message</code> is a <code>String</code>). It should be translated to code that throws an exception if the expression evaluates to a falsy value. For instance, <code>assert E: S</code> desugars to: <code>if (!(E)) throw new Error(&quot;Assertion failed: &quot; + msg);</code></p>
-<p>Use Rascal string interpolation (using <code>&lt;</code> and <code>&gt;</code>) to <em>unparse</em> the argument expression into a Rascal string, and then parse it as a Javascript string literal (<code>String</code>) as follows: <code>msg = parse(#String, &quot;\&quot;&lt;e&gt;\&quot;&quot;)</code> (assuming <code>e</code> is the expression). Now you can use <code>msg</code> in the constructed pattern.</p>
+<p>Assert statements are used to document your assumptions. If an assertion fails you get an exception listing showing the expression that failed and (optionally) a textual message. The <code>assert</code> we're defining here has the following syntax: <code>assert Expression: Message;</code> (where <code>Message</code> is a <code>String</code>). It should be translated to code that throws an exception if the expression evaluates to a falsy value. For instance, <code>assert E: S;</code> desugars to: <code>if (!(E)) throw new Error(&quot;Assertion failed: &quot; + msg);</code></p>
+<p>Use the provided function <code>String jsString(Expression e)</code> to convert the <code>Expression</code> to a JS <code>String</code>.</p>
 <h3 id="series-2-introducing-bindings">Series 2: introducing bindings</h3>
 <p>Names are an important language feature. They allow us to create abstractions, store intermediate values for reuse, and create sharing in values. In this series, we'll define language extensions that require the introduction of name bindings.</p>
 <h5 id="swap">1 Swap</h5>
@@ -119,11 +121,16 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>Check that our desugaring framework avoids <a href="http://en.wikipedia.org/wiki/Hygienic_macro">inadvertent name capture</a> by trying swapping a variable <code>tmp</code> with another variable.</p>
 <p><em>Quiz</em>: why do we need the <a href="http://en.wikipedia.org/wiki/Immediately-invoked_function_expression">Immediately Invoked Function Expression</a> (IIFE)?</p>
 <h5 id="test">2 Test</h5>
-<p>Write a desugaring for a <code>test</code> statement, similar to the <code>assert</code> desugaring above. In this case the syntax could be: <code>test Expression should be Expression;</code>. Note that <code>should</code> and <code>be</code> are two keywords! Instead of throwing an exception it evaluates both expressions, tests if they are equal, and prints out a message with expected and actual value if the test failed.</p>
+<p>Write a desugaring for a <code>test</code> statement, similar to the <code>assert</code> desugaring above. In this case the syntax could be: <code>test E1 should be E2;</code>. Note that <code>should</code> and <code>be</code> are two keywords! Instead of throwing an exception it evaluates both expressions, tests if they are equal, and prints out a message with expected and actual value if the test failed.</p>
 <p><em>Tip</em>: pass the two expressions as parameters to an IFFE, like so <code>(function (actual, expected) { ... })(E1, E2)</code>.</p>
 <h5 id="foreach">3 Foreach</h5>
-<p>Javascript has a <code>for (x in array) ...</code> statement, but its semantics are <a href="http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea">not always wat you expect</a>. In this assignment, we'll add an explicit <code>foreach</code> construct that works intuitively on arrays. The syntax is <code>foreach (X in E) S</code>, where <code>X</code> is an identifier, <code>E</code> an expression and <code>S</code> a statement. The <code>foreach</code> statement should be desugared to something like:</p>
-<pre><code>(function(array){ for (var i = 0; i &lt; array.length; i++) { var X = array[i]; S } })(E);</code></pre>
+<p>Javascript has a <code>for (x in array) ...</code> statement, but its semantics are <a href="http://stackoverflow.com/questions/500504/why-is-using-for-in-with-array-iteration-such-a-bad-idea">not always wat you expect</a>. In this assignment, we'll add an explicit <code>foreach</code> construct that works intuitively on arrays. The syntax is <code>foreach (var X in E) S</code>, where <code>X</code> is an identifier, <code>E</code> an expression and <code>S</code> a statement. The <code>foreach</code> statement should be desugared to something like:</p>
+<pre><code>(function(array){ 
+  for (var i = 0; i &lt; array.length; i++) { 
+    var X = array[i]; 
+    S 
+  }
+})(E);</code></pre>
 <p><em>Quiz</em>: why do we need to bind the expression <code>E</code> to the parameter (<code>array</code>) first?</p>
 <p><em>Quiz</em>: The use of the IFFE to create a scope for <code>i</code>, <code>X</code> and <code>array</code> is, in fact, wrong: not all <code>foreach</code>-loops will desugar to correct code. Can you think of the reason? Hint: it has to do with non-local control flow.</p>
 <h5 id="arrow-functions">4 Arrow functions</h5>
@@ -131,7 +138,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>At first sight the desugaring seems to be simple, just map it to <code>function(X) { return E; }</code>. Unfortunately, functions in Javascript introduce a new context for the <code>this</code> variable but arrow functions are explicitly designed not to do this; instead the value of <code>this</code> in the body expression of an arrow function is lexically determined. IOW: it is inherited from its lexically enclosing function.</p>
 <p>A solution is to introduce a special variable (e.g., <code>_this</code>) in the scope of the arrow function and replace all uses of <code>this</code> by <code>_this</code> in its body. This gives us something like:</p>
 <pre><code>(function (_this) { return function (X) { return E&#39;; }; })(this)</code></pre>
-<p>In this snippet, the variable <code>E'</code> is the original <code>E</code> with all occurrences of <code>this</code> replaced by <code>_this</code>. You can use the provided helper function <code>replaceThis</code> to realize this.</p>
+<p>In this snippet, the meta variable <code>E'</code> contains the original <code>E</code> with all occurrences of <code>this</code> replaced by <code>_this</code>. You can use the provided helper function <code>replaceThis</code> to realize this.</p>
 <p><em>Tip</em>: see what happens if you desugar the arrow function <code>_this =&gt; _this + this.x</code>.</p>
 <p><em>Optional</em>: Add an extension for the second kind of arrow functions which accept any number of arguments enclosed in parentheses (<code>{Id &quot;,&quot;}*</code>), and where the part after the arrow is a list of statements (<code>Statement*</code>) enclosed in curly braces.</p>
 <h4 id="array-comprehensions">5 Array comprehensions</h4>
@@ -140,9 +147,9 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>Generators come in two forms:</p>
 <ul>
 <li><p>Conditions: <code>Expression</code></p></li>
-<li><p>Enumerators: <code>Id &quot;in&quot; Expression</code></p></li>
+<li><p>Enumerators: <code>var Id in Expression</code></p></li>
 </ul>
-<p>Write a desugaring that transforms comprehensions to an IFFE which contains a local accumulator array. A condition generator maps to an <code>if</code>-statement, and enumerators map to <code>for</code>-loops. The sequence of generators leads to nested <code>if</code>- and <code>for</code>-statements. Only at the innermost position is an element added to the accumulator array.</p>
+<p>Write a desugaring that transforms comprehensions to an IFFE which contains a local accumulator array. A condition generator maps to an <code>if</code>-statement, and enumerators map to <code>for</code>-loops. The sequence of generators leads to nested <code>if</code>- and <code>for</code>-statements. An element is only added to the accumulator array at the innermost position.</p>
 <p>An example:</p>
 <pre><code>[ x | x in array, x % 2 === 0]
 ===&gt;
@@ -167,7 +174,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <p>The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete <a href="http://en.wikipedia.org/wiki/Domain-specific_language">Domain-Specific Languages</a> on top of the host language! Check out the <a href="http://en.wikipedia.org/wiki/Finite-state_machine">state machine</a> language in the <code>src/demo</code> directory for an example.</p>
 <h3 id="common-problems">Common problems</h3>
 <p><strong>Problem:</strong> The syntax highlighting in my Rascal file is broken and I see weird red squiggly lines!</p>
-<p><strong>Solution:</strong> You probably have some parse error in your file. Because of this the Rascal parser is unable to parse your source file. Easies way to fix the problem is to carefully reread the code that you just added to spot the error. If this does not help you can always remove or comment the code that you just added to the point that the file parses again.</p>
+<p><strong>Solution:</strong> You probably have some parse error in your file. Because of this the Rascal parser is unable to parse your source file. The easiest way to fix the problem is to carefully reread the code that you just added to spot the error. If this does not help you can always remove or comment the code that you just added to the point that the file parses again.</p>
 <hr />
 <p><strong>Problem:</strong> The concrete syntax that I wrote inside my desugaring has a strange light red background color.</p>
 <p><strong>Solution:</strong> This means that the concrete syntax that you wrote is not correct. Rascal parses this syntax just like it parses a Rascal file or SJS file. The light read color will disappear once the syntax is correct.</p>

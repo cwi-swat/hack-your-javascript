@@ -6,7 +6,7 @@ import List;
 syntax Statement
   = "swap" Id "," Id ";"
   | "test" Expression "should" "be" Expression ";"
-  | "foreach" "(" Id "in" Expression ")" Statement
+  | "foreach" "(" "var" Id "in" Expression ")" Statement
   ;
 
 syntax Expression
@@ -18,9 +18,10 @@ syntax Expression = "[" Expression result "|" {Generator ","}+ "]";
   
 syntax Generator
   = Expression
-  | Id ":" Expression
+  | "var" Id "in" Expression
   ;
 
+keyword Keywords = "swap" | "test" | "foreach";
 
 
 /*
@@ -66,7 +67,7 @@ test bool testTest()
  */
  
   
-Statement desugar((Statement)`foreach (<Id x> in <Expression e>) <Statement s>`)
+Statement desugar((Statement)`foreach (var <Id x> in <Expression e>) <Statement s>`)
   = (Statement)`(function(arr) {
   			   '  for (var i = 0; i \< arr.length; i++) { 
                '    var <Id x> = arr[i]; 
@@ -76,7 +77,7 @@ Statement desugar((Statement)`foreach (<Id x> in <Expression e>) <Statement s>`)
   
 
 test bool testForeach()
-  = desugar((Statement)`foreach (x in [1,2,3]) print(x);`)
+  = desugar((Statement)`foreach (var x in [1,2,3]) print(x);`)
   == (Statement)`(function(arr) {
   			    '  for (var i = 0; i \< arr.length; i++) { 
                 '    var x = arr[i]; 
@@ -134,7 +135,7 @@ Statement gens2blocks(Expression res, {Generator ","}+ gens)
 Statement gen2block(Statement inner, (Generator)`<Expression cond>`)
   = (Statement)`if (<Expression cond>) <Statement inner>`;
   
-Statement gen2block(Statement inner, (Generator)`<Id x>: <Expression coll>`)
+Statement gen2block(Statement inner, (Generator)`var <Id x> in <Expression coll>`)
   = (Statement)`{
                '  var coll = <Expression coll>; 
                '  for (var i = 0; i \< coll.length; i++) { 

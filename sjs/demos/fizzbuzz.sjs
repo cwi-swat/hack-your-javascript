@@ -29,7 +29,8 @@ function fizzBuzz(n) {
     assert false: "Cannot happen";
   }
   
-  foreach (x in [ fb(j) | j : nums ]) {
+  
+  foreach (var x in [ fb(j) | var j in nums ]) {
     console.log(x);
   }
   
