@@ -276,6 +276,38 @@ Use this construct to desugar comprehensions. Think about what the "zero" elemen
 
 The above language extensions involved small additions to the Javascript language. Language extensions, however, do not have to be limited to this small scope. In fact, it is very well possible to embed complete [Domain-Specific Languages](http://en.wikipedia.org/wiki/Domain-specific_language) on top of the host language! Check out the [state machine](http://en.wikipedia.org/wiki/Finite-state_machine) language in the `src/demo` directory for an example. 
 
+### Common problems
+
+**Problem:**
+The syntax highlighting in my Rascal file is broken and I see weird red squiggly lines!
+
+**Solution:**
+You probably have some parse error in your file. Because of this the Rascal parser is unable to parse your source file. Easies way to fix the problem is to carefully reread the code that you just added to spot the error. If this does not help you can always remove or comment the code that you just added to the point that the file parses again.
+
+------
+
+**Problem:**
+The concrete syntax that I wrote inside my desugaring has a strange light red background color.
+
+**Solution:**
+This means that the concrete syntax that you wrote is not correct. Rascal parses this syntax just like it parses a Rascal file or SJS file. The light read color will disappear once the syntax is correct.
+
+------
+
+**Problem:**
+I changed the desugaring but I don't see the updates in the generated JS or HTML file.
+
+**Solution:**
+You probably forgot to hit the 'Reload Language' button or update and save the SJS file. If one of these steps is forgotten you won't be able to see the effect of your changes.
+
+------
+**Problem:**
+I did everything described above but it still does not work. What's wrong?
+
+**Solution:**
+If all else fails you could try to restart Eclipse. If it still does not work **DON'T HESITATE TO ASK ONE OF US TO COME AND HELP!**
+
+
 
 
 
