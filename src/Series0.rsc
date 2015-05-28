@@ -12,3 +12,6 @@ syntax Expression
   ;
 
   
+Expression desugar((Expression)`<Expression l> ** <Expression r>`) 
+  = (Expression)`Math.pow(<Expression l>, <Expression r>)`;
+  
