@@ -14,7 +14,6 @@ function fizzBuzz(n) {
     i++;
   } until (i == n);
   
-  
   function fb(x) {
     debug "x = " + x;
 
@@ -29,11 +28,9 @@ function fizzBuzz(n) {
     assert false: "Cannot happen";
   }
   
-  
   foreach (var x in [ fb(j) | var j in nums ]) {
     console.log(x);
   }
-  
 }
 
 

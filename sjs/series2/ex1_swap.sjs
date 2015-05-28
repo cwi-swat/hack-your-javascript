@@ -7,6 +7,7 @@ swap x, y;
 
 debug 'Swapped: x = ' + x + ' & y = ' + y;
 
+
 // What if we already have a variable called 'tmp'?
 var tmp = 3;
 swap x, tmp;

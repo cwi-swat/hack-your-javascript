@@ -13,7 +13,7 @@ The Github repo we'll use during this hands-on workshop is:
 
 Instructions on how to setup Eclipse and Rascal can be found in the repository in `doc/joc-prerequisites.pdf`.
 
-Interactive documentation on Rascal can be found online at [http://tutor.rascal-mpl.org](http://tutor.rascal-mpl.org). This can also be started from within Eclipse from the Rascal menu under "Show Tutor".
+Online documentation on Rascal can be found at [http://tutor.rascal-mpl.org](http://tutor.rascal-mpl.org). This can also be started from within Eclipse from the Rascal menu under "Show Tutor".
 
 Check out the `src/demo` directory to see examples of simple and more advanced language extensions.
 
