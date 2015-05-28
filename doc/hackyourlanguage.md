@@ -111,7 +111,9 @@ Every exercise has a corresponding test that shows you what the desugarred JS va
 
 A successful test will light up green, a failed one will get a red squiggly line under it. Hovering over the failed test in your editor will show you the reason of failure.
 
-In the exercises we use *upper-case* identifiers in snippets to indicate meta-variables. Lower-case identifiers either represent keywords (e.g. `unless`) or object-language identifiers (e.g. `this`, `console`).
+Next to the test every exercise has a corresponding `SJS` file. These can be found in the `sjs/` directory. The name of the SJS file corresponds with the exercise you are working on. For instance, the SJS file needed for exercise 1 is `sjs/series1/ex1_atField.sjs`.
+
+In the exercises we use *upper-case* identifiers in snippets to indicate _meta-variables_. Lower-case identifiers either represent keywords (e.g. `unless`) or object-language identifiers (e.g. `this`, `console`).
 
 ### Series 1: basic desugaring
 
@@ -120,11 +122,26 @@ In the exercises we use *upper-case* identifiers in snippets to indicate meta-va
 In Ruby instance variables (fields) are prefixed with an `@`-sign. 
 Write a desugaring that transforms `@X` (where `X` can be an `Id`) to `this.X`. 
 
-Remember; in the above description upper-case identifiers are meta-variables. For instance `@X` 'captures' the concrete SJS code `@myVar` or `@x` or `@anotherVariable`, etc. See the corresponding test for an example.
+**Remember**: in the above description upper-case identifiers are _meta-variables_. For instance `@X` 'captures' the concrete SJS code `@myVar` or `@x` or `@anotherVariable`, etc. See the corresponding test for an example.
 
 ##### 2 Twitter Search
 
+In this exercise we will implement a very simple Twitter DSL which lets you search for tweets **@somebody** or **#someHashTag**. 
+In SJS Twitter searches are first-class citizens. You can write `@(Expression)` or `@(Expression1, Expression2)` to search for tweets to certain persons or `#(Expression)` or `#(Expression1, Expression2)` to search for tweets containing certain hashtags.
+
+This 'DSL' desugars to a simple JS library. 
+`@("somebody")` desugars to `searchAt("somebody")`, or using meta variables, `@({Expression ","} *)` desugars to `searchAt({Expression ","}*)`.
+Similar; `#("someHastag")` desugars to `searchHash("someHashtag")`, or again using meta variables, `#({Expression ","}*)` debuggers to `searchHash({Expression ","}*)`.
+`searchAt(..)` and `searchHash(..)` are JS functions that are already defined in our small Twitter JS client.
+
+With the `{Expression ","}*` syntax you capture zero or more `Expressions` which are separated by a `,`.
+
+Since searching Twitter is an asynchronous action the JS methods `searchAt()` and `searchHash()` return _Promises_. This makes it easy to display the result once the search finishes. 
+You don't need to implement any of this, this is already done. Take a look corresponding SJS file (`sjs/series1/ex2_twitter.sjs`). Once your desugarring is correct this SJS will be transformed to JS that can be executed. Opening the generated HTML file should show you the result of live Twitter searches!
+
 ##### 3 Dont statement
+
+The `dont` statement can be seen as a code comment. It just means, don't execute this line.
 
 Write a desugaring "dont" statement with syntax `dont Statement`. It should desugar to code where the argument statement is eliminated. For instance, `dont S` would rewrite to the empty statement `;`.  
 
