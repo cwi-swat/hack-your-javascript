@@ -11,15 +11,4 @@ syntax Expression
   )
   ;
 
-syntax Statement
-  = "printIf" Expression ";"
-  ;
   
-  
-Expression desugar((Expression)`<Expression l> ** <Expression r>`) 
-  = (Expression)`Math.pow(<Expression l>, <Expression r>)`;
-  
-Statement desugar((Statement)`printIf <Expression e>;`)
-  = (Statement)`(function (e) { 
-               '   if (e) console.log(e); 
-               '})(<Expression e>);`;
