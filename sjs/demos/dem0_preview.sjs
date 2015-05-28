@@ -19,7 +19,6 @@ console.log(q);
 
 var names = ["Chris", "Crista", "Kevlin"];
 
-
 var doc = %html {
   %head  %title "Hello Joy of Coding!";
   %body #main {

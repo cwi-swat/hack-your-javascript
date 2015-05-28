@@ -139,7 +139,7 @@ Expression classesAndIds(list[Modifier] mods) {
      
    classes = toString([ "<c>" | (Modifier)`.<Id c>` <- mods ]);
    ids  = toString([ "<c>" | (Modifier)`#<Id c>` <- mods ]);
-   return (Expression)`{class: <String classes>, id: <String ids>}`;
+   return (Expression)`{"class": <String classes>, id: <String ids>}`;
 } 
 
 bool isCapitalized(str s) = capitalize(s) == s;

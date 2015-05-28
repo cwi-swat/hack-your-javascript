@@ -373,7 +373,7 @@ keyword Reserved =
     "boolean" |
     "byte" |
     "char" |
-  //  "class" |
+    "class" |
     "const" |
     "double" |
     "enum" |
