@@ -73,7 +73,7 @@ test bool testDont()
  */
 
 Statement desugar((Statement)`todo <String s>;`) 
-  = /* you should replace this */ dummyStat(); 
+	= (Statement)`console.log("TODO: " + <String s>);`; 
  
  
 test bool testTodo()
@@ -85,7 +85,7 @@ test bool testTodo()
  */
  
 Statement desugar((Statement)`unless (<Expression cond>) <Statement body>`)
-  = /* you should replace this */ dummyStat();
+  = (Statement)`if (!(<Expression cond>)) <Statement body>`;
  
 
 test bool testUnless()
@@ -97,7 +97,7 @@ test bool testUnless()
  */
 
 Statement desugar((Statement)`repeat <Statement stat> until (<Expression cond>);`)
-  = /* you should replace this */ dummyStat();
+  = (Statement)`do <Statement stat> while (!(<Expression cond>));`;
 
 test bool testRepeat()
   = desugar((Statement)`repeat {print(i); i--;} until (i == 0);`)
@@ -110,7 +110,9 @@ test bool testRepeat()
 
 Statement desugar((Statement)`assert <Expression e>: <String msg>;`) {
   // don't forget to convert the expression to a string!
-  return /* you should replace this */ dummyStat();
+  String s = jsString(e);
+  return (Statement)`if (!(<Expression e>))
+  					' throw "Assertion " + <String s> + " failed: " + <String msg>;`;
 }
 
 
