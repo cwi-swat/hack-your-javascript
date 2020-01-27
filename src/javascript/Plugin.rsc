@@ -10,7 +10,7 @@ import javascript::Resolve;
 import vis::Figure;
 import String;
 
-anno rel[loc,loc,str] Tree@hyperlinks;
+//anno rel[loc,loc,str] Tree@hyperlinks;
 
 void main() {
     str lang = "SweeterJS";
@@ -23,7 +23,7 @@ void main() {
         if (start[Source] s := pt) {
           <js, xref, renaming> = desugarAndResolve(s);
           s = addHoverDocs(s, renaming);
-          xref2 = { <u, d, x> | <u, d, x> <- xref, u.path == pt@\loc.path, d.path == pt@\loc.path }; 
+          xref2 = { <u, d> | <u, d, x> <- xref, u.path == pt@\loc.path, d.path == pt@\loc.path }; 
           return s[@hyperlinks=xref2];
         }
         return pt[@messages={error("BUG: not JS", pt@\loc)}];

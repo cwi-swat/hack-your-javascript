@@ -3,6 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-Name: HackYourJavascript
 Bundle-SymbolicName: HackYourJavascript
 Bundle-Version: 1.0.0
-Require-Bundle: org.eclipse.imp.pdb.values,
- rascal
+Require-Bundle: rascal_eclipse;bundle-version="0.12.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
