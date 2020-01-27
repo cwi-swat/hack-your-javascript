@@ -1,0 +1,5 @@
+
+
+arr = [ [i, j * 2] | var i in arr, var j in arr, j == i];
+
+

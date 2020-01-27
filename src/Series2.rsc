@@ -67,7 +67,8 @@ test bool testTest()
  */
  
   
-Statement desugar((Statement)`foreach (var <Id x> in <Expression e>) <Statement s>`)
+Statement desugar((Statement)
+    `foreach (var <Id x> in <Expression e>) <Statement s>`)
   = (Statement)`(function(arr) {
   			   '  for (var i = 0; i \< arr.length; i++) { 
                '    var <Id x> = arr[i]; 

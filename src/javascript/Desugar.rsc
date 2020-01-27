@@ -4,6 +4,7 @@ extend javascript::Syntax;
 extend Series0;
 extend Series1;
 extend Series2;
+extend WGLD;
 extend demo::HAML;
 extend demo::StateMachine;
 extend demo::SelectQuery;

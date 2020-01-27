@@ -7,6 +7,7 @@ var myList = [{FirstName:"Chris",LastName:"Pearson"},
               {FirstName:"John",LastName:"Ronald"},
               {FirstName:"Steve",LastName:"Pinkerton"}];
   
+ 
   
 var q = select FirstName, LastName 
         from myList 

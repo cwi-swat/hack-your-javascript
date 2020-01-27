@@ -1,0 +1,15 @@
+
+
+
+
+function bla() {
+
+  foreach (var arr in [1,2,3]) {
+    foreach (var i in [4,5,6]) {
+       console.log(arr + " " + i);
+    }
+  }
+ 
+}
+
+bla();

@@ -3,12 +3,6 @@ module Series1
 extend javascript::Syntax;
 import ParseTree;
 
-syntax Expression
-  = "@" Id
-  | @category="TwitterConstant" "@(" {Expression ","}* ")"
-  | @category="TwitterConstant" "#(" {Expression ","}* ")"
-  ;
-  
 syntax Statement
   = "dont" Statement
   | "todo" String ";"
@@ -16,10 +10,19 @@ syntax Statement
   | "repeat" Statement "until" "(" Expression ")" ";"
   | "assert" Expression ":" String ";"
   | "debug" Expression ";"
+  | "foo!" ";"
+  | "bar" Id  ";"
   ;
   
 // Reserve the new keywords
-keyword Keywords = "todo" | "dont" | "unless" | "repeat" | "assert" | "debug";
+keyword Keywords = "todo" | "dont" | "unless" | "repeat" | "assert" | "debug"
+  | "bar";
+  
+  
+Statement desugar((Statement)`foo! ;`) = desugar((Statement)`function () {var x; <Statement s>}`)
+  when s := desugar((Statement)`bar x;`);
+    
+Statement desugar((Statement)`bar <Id x>;`) = (Statement)`function () {var x; <Id x>;}`;  
   
 /* 
  * 0. Debug statement (Example)
@@ -35,28 +38,6 @@ test bool testDebug()
   = desugar((Statement)`debug "Hello";`) 
   == (Statement)`if (DEBUG_FLAG) console.log("DEBUG: " + ("Hello"));`;
 
-/*
- * 1. At fields
- */ 
-Expression desugar((Expression)`@<Id x>`) = (Expression)`this.<Id x>`;
-
-test bool testAtField() 
-  = desugar((Expression)`@name`) 
-  == (Expression)`this.name`;
-
-
-/*
- * 2. Twitter search expressions
- */
-Expression desugar((Expression)`@(<{Expression ","}* es>)`) 
-  = (Expression)`searchAt(<{Expression ","}* es>)`;  
-
-Expression desugar((Expression)`#(<{Expression ","}* es>)`)
-  = (Expression)`searchHash(<{Expression ","}* es>)`;  
-
-test bool testTwitter()
-  = desugar((Expression)`@("obama")`) 
-  == (Expression)`searchAt("obama")`;
 
 /*
  * 3. Don't statement

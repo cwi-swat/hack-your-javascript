@@ -11,3 +11,13 @@ syntax Expression
   )
   ;
 
+// a ** b ** c = a ** (b ** c) 
+
+Expression desugar((Expression)`<Expression lhs> ** <Expression rhs>`) 
+  = (Expression)`Math.pow(<Expression lhs>, <Expression rhs>)`;
+
+Expression desugar((Expression)`<Expression lhs> ** <Expression rhs>`) { 
+  return (Expression)`Math.pow(<Expression lhs>, <Expression rhs>)`;
+}
+
+  

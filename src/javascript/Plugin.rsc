@@ -13,8 +13,8 @@ import String;
 anno rel[loc,loc] Tree@hyperlinks;
 
 void main() {
-    str lang = "SweeterJS";
-    registerLanguage(lang, "sjs", Tree(str src, loc l) {
+    str lang = "SweeterJS Solved";
+    registerLanguage(lang, "sjs2", Tree(str src, loc l) {
       return parse(#start[Source], src, l);
     });
   

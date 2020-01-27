@@ -14,7 +14,8 @@ alias Lookup = set[loc](str, loc, Scope);
 alias GetRenaming = map[loc,str](Refs refs);
 
 // need compare of extensions, rascal files are not rascal:// anymore.
-bool isCapture(loc u, loc d) = u.extension != d.extension;
+bool isCapture(loc u, loc d) = !sameOrigin(u, d);
+bool sameOrigin(loc u, loc d) = u.extension == d.extension;
 
 tuple[Lookup, GetRenaming] makeResolver() {
   map[loc, str] toRename = ();
@@ -23,27 +24,26 @@ tuple[Lookup, GetRenaming] makeResolver() {
     for (env <- sc, name in env) {
       def = env[name];
       
-      if (!isCapture(use, def)) {
+      if (!isCapture(use, def)) 
         return {def};
-      }
-      
-      // captures are renamed until a non-capturing decl is found
-      toRename[def] = name;
+       
+      toRename[def] = name;       
     }
     
-    // not found
-    return {};
+    return {}; // not found
   }
   
   map[loc,str] getRenaming(Refs refs) {
     ren = ();
     allNames = refs<2>;
+
     for (d <- toRename) {
       n = gensym(allNames, toRename[d]);
       allNames += {n};
       ren[d] = n;
       ren += ( u: n | <u, d, _> <- refs ); 
     }
+
     return ren;
   }
   
@@ -51,7 +51,7 @@ tuple[Lookup, GetRenaming] makeResolver() {
 }
 
 
-str gensym(set[str] ns, str base) = gensym(ns, base + "$", 0);
+str gensym(set[str] ns, str base) = gensym(ns, base, 0);
 
 str gensym(set[str] ns, str base, int i) {
   n = "<base><i>";
